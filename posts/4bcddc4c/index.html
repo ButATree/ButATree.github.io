@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="ButATree">
+  <meta name="keywords" content="">
+  <title>Shell练习 - ButATree&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>ButATree</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4l2p20.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Shell练习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      ButATree
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-09 19:50" pubdate>
+        2021年3月9日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Shell练习</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年3月9日 晚上
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h5>1. 创建 .sh 结尾文件时，自动添加注释信息</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@a ~]# cat .vimrc <br>set ignorecase<br>set nu<br>set autoindent<br>autocmd BufNewFile *.sh exec &quot;:call SetTitle()&quot;<br>func SetTitle()<br>if expand(&quot;%:e&quot;) == &#x27;sh&#x27;<br>call setline(1,&quot;#!/bin/bash&quot;)<br>call setline(2,&quot;#Author: &quot;)<br>call setline(3,&quot;#Date： &quot;.strftime(&quot;%Y-%m-%d&quot;))<br>call setline(4,&quot;#FileName： &quot;.expand(&quot;%&quot;))<br>call setline(5,&quot;#Description： &quot;)<br>call setline(6,&quot;&quot;)<br>endif<br>endfunc<br>autocmd BufNewFile * normal G<br></code></pre></td></tr></table></figure>
+
+<h5>2. 通过位置传参方式, 创建 Linux 系统账户及密码，执行 var1.sh username password，控制最多传递两个参数</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">!/bin/bash</span><br>if [ $# -ne 2 ];then<br>	echo &quot;USAGE: $0 请传递两个参数: [username | password] &quot;<br>exit<br>fi<br><br>useradd $1<br>echo &quot;$2&quot; | passwd --stdin &quot;$1&quot;<br></code></pre></td></tr></table></figure>
+
+<h5>3. 使用 read 模拟 Linux 登录页面</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">!/bin/bash</span><br>echo $(hostnamectl |awk -F &quot;: &quot; &#x27;/Operating/ &#123;print $2&#125;&#x27;)<br><br>echo &quot;kernel $(uname -r) on an $(uname -m)&quot;<br><br>read -p &quot;$(hostname) login:&quot; user<br>read -s -t3 -p &quot;Password:&quot; pw<br><br>echo &quot;你输入的用户名为:$user   密码为：$pw&quot;<br></code></pre></td></tr></table></figure>
+
+<h5>4. 使用 read编写一个备份脚本，需要用户传递2个参数，源和目标。</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">read -p &quot;请输入你要备份的源文件或目录：&quot; Dest<br>read -p &quot;请输入你要备份的目标位置：&quot; Path<br><br>echo &quot;你要备份的源文件为: $Dest&quot;<br>echo &quot;你要备份的目标位置为：$Path&quot;<br><br>read -p &quot;你确定要备份吗？ [yes | no ]&quot; Action<br>if [ $Action == &quot;yes&quot; ];then<br>	cp -rpv $Dest $Path<br>fi<br></code></pre></td></tr></table></figure>
+
+<h5>5. 使用read编写一个探测主机存活脚本，需要用户传递测试的IP地址。</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">read -p &quot;请输入探测主机的ip地址：&quot; ip<br><br>ping -W1 -c1 $ip &amp;&gt; /dev/null<br><br>if [ $? -eq 0 ];then<br>	echo &quot;$ip is ok&quot;<br>else<br>	echo &quot;$ip is error&quot;<br>fi<br></code></pre></td></tr></table></figure>
+
+<h5>6. 使用read编写一个修改系统主机名称脚本。</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs shell">    1.打印当前的主机名称<br>	2.提示用户输入新的主机名称<br>	3.询问用户是否修改?<br>	4.确定修改,执行修改命令<br>	5.不确定修改,退出脚本<br>echo &quot;当前的主机名为: $(hostname)&quot;<br><br>read -p &quot;请输入新的主机名：&quot; new_host<br>read -p &quot;是否将$(hostname) 修改为$&#123;new_host&#125; [yes | no ]&quot; Action<br><br>if [ $Action == &quot;yes&quot; ];then<br>	hostname $new_host<br>	hostnamectl set-hostname $new_host<br>	echo &quot;你的主机名称已修改为  $&#123;new_host&#125; &quot;<br>	<br>fi<br></code></pre></td></tr></table></figure>
+
+<h5>7. 如何替换 $PATH 中的/bin/替换为/BIN/</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$&#123;PATH//bin/BIN&#125;</span></span><br>/usr/local/sBIN:/usr/local/BIN:/usr/sBIN:/usr/BIN:/root/BIN<br></code></pre></td></tr></table></figure>
+
+<h5>8. 变量string=“Bigdata process is Hadoop, Hadoop is open source project”，执行脚本后，打印输出string变量，并给出用户以下选项</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs shell">1)、打印string长度<br>2)、删除字符串中所有的Hadoop<br>3)、替换第一个Hadoop为Linux<br>4)、替换全部Hadoop为Linux<br>用户输入数字1|2|3|4，可以执行对应项的功能<br><br>string=&quot;Bigdata process is Hadoop, Hadoop is open source project&quot;<br><br>echo &quot;1)、打印string长度&quot;<br>echo &quot;2)、删除字符串中所有的Hadoop&quot;<br>echo &quot;3)、替换第一个Hadoop为Linux&quot;<br>echo &quot;4)、替换全部Hadoop为Linux&quot;<br>until [ $Action == q  ] 2&gt; /dev/null<br><br>do read -p &quot;请输入对应的选项：[ 1| 2| 3| 4| ]&quot; Action<br><br>if [ $Action == &quot;1&quot; ];then<br>	echo &quot;$&#123;#string&#125;&quot;<br><br>elif [ $Action == &quot;2&quot; ]; then<br>	echo &quot;$&#123;string//Hadoop/&#125;&quot;<br><br>elif [ $Action == &quot;3&quot; ]; then<br>	echo &quot;$&#123;string/Hadoop/Linux&#125;&quot;<br><br>elif [ $Action == &quot;4&quot; ]; then<br>	echo &quot;$&#123;string//Hadoop/Linux&#125;&quot;<br>fi<br>done<br></code></pre></td></tr></table></figure>
+
+<h5>9. 查看内存/当前使用状态，如果使用率超过80%则报警发邮件，思路如下:</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">1.当前内存使用百分比是多少<br>	2.进行判断比对  <br>		如果大于80%  则触发邮件<br>		否则,over<br>		已使用的内存  /  总内存  * 100 = 使用的百分比<br>used=$(free -m |awk &#x27;/Mem/ &#123;print $3/$2*100&#125;&#x27;)<br><br>if [ $&#123;used%.*&#125; -ge 10 ];then<br>	echo &quot;你的内存超过了80%，目前内存的使用率为：$used&quot;<br>fi<br></code></pre></td></tr></table></figure>
+
+<h5>10. 根据系统时间，打印今年和明年时间</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">echo &quot;今年的时间为：$(date +%Y)&quot;<br>echo &quot;明年的时间为: $(($(date +%Y)+1))&quot;<br></code></pre></td></tr></table></figure>
+
+<h5>11. 根据系统时间获取今年还剩下多少星期，已经过了多少星期。思路如下:</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">	[date +%j  已经过了多少天]()<br><br>一年有365天   已经过了 301 = 还剩下   365-301 = 64  / 7 = 还剩下多少周<br>			 已经过了 301 天 / 7 = 已经过了多少周<br>echo &quot;今年已经过了$(date +%j) 天&quot;<br>echo &quot;今年已经过了$[$(date +%j)/7] 周&quot;<br>echo &quot;今年还剩下$[365-$(date +%j)/7] 周&quot;<br>echo &quot;从现在距离下一年还剩下$[365-$(date +%j)] 天&quot;<br></code></pre></td></tr></table></figure>
+
+<h5>12. 查看系统当前有几个登陆的用户</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">List=w |awk <span class="hljs-string">&#x27;/up/ &#123;print $4&#125;&#x27;</span></span><br>echo &quot;当前系统登录了$(w |awk &#x27;/up/ &#123;print $4&#125;&#x27;) 个用户 &quot;<br></code></pre></td></tr></table></figure>
+
+<h5>13. 筛选出当前系统存在的僵尸进程</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">Zombie=$(ps aux |grep &#x27;Z&#x27;|egrep -v &#x27;VSZ|grep&#x27;)<br>echo &quot;僵尸进程的个数为:$(ps aux |grep &#x27;Z&#x27;|egrep -v &#x27;VSZ|grep&#x27; |wc -l)个&quot;<br>echo &quot;当前系统的僵尸进程为：<br><span class="hljs-meta">$</span><span class="bash">Zombie<span class="hljs-string">&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<h5>14. 查看当前系统已使用磁盘的百分比</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">df -h | awk &#x27;/40G/ &#123;print $(NF-1)&#125;&#x27;<br></code></pre></td></tr></table></figure>
+
+<h5>15. 统计Nginx日志中每个IP的访问量有多少,日志如下:</h5>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">192.168.56.1 - - [21/May/2018:20:44:06 -0400] &quot;GET /index.html HTTP/1.0&quot; 404 169 &quot;-&quot; &quot;ApacheBench/2.3&quot; &quot;-&quot;/code/index.html`<br><br>awk &#x27;&#123;print $1&#125;&#x27; access.log |sort  |uniq -c|sort -nr<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Shell/">Shell</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Shell/">Shell</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/66e23140/">
+                        <span class="hidden-mobile">Linux网络IO流程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "Mwdu7VOQpQQD3cKW6SsRSt4f-gzGzoHsz",
+          app_key: "XAg4RThXdR3JX0BNAF0axveE",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "monsterid",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: false,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
