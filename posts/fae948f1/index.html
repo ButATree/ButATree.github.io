@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.1k 字
+      6.2k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      76
+      77
        分钟
     </span>
   
@@ -253,7 +253,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月12日 下午
+                  本文最后更新于：2021年3月12日 晚上
                 
               </p>
             
@@ -440,6 +440,21 @@
 
 <p><strong>扩展各种模块</strong><br><code>-m multiport</code> ：表示启用多端口扩展 之后我们就可以启用比如 </p>
 <p><code>--dports 21,23,80</code></p>
+<blockquote>
+<p><strong>限制收发包的状态</strong></p>
+<p><code>--state</code> ：<code>INVALID</code>, <code>ESTABLISHED</code>, <code>NEW</code>, <code>RELATED or UNTRACKED</code>。</p>
+<p>​        <code>NEW</code> ：新连接请求；</p>
+<p>​        <code>ESTABLISHED</code> ：已建立的连接；</p>
+<p>​        <code>INVALID</code> ：无法识别的连接；</p>
+<p>​        <code>RELATED</code> ：相关联的连接，当前连接是一个新请求，但附属于某个已存在的连接；</p>
+<p>​        <code>UNTRACKED</code> ：未追踪的连接；</p>
+<p><strong>state扩展：</strong></p>
+<p>内核模块装载：<br>　　<code>nf_conntrack</code><br>　　<code>nf_conntrack_ipv4</code></p>
+<p>手动装载：<br>　　<code>nf_conntrack_ftp</code></p>
+<p>追踪到的连接：<br>　　<code>/proc/net/nf_conntrack</code></p>
+<p>调整可记录的连接数量最大值：<br>　　<code>/proc/sys/net/nf_conntrack_max</code></p>
+<p>超时时长：<br>　　<code>/proc/sys/net/netfilter/*timeout*</code></p>
+</blockquote>
 <h3 id="二、IPTABLES-规则-Rules"><a href="#二、IPTABLES-规则-Rules" class="headerlink" title="二、IPTABLES 规则(Rules)"></a>二、IPTABLES 规则(Rules)</h3><p>牢记以下三点式理解 <code>iptables</code> 规则的关键：</p>
 <ul>
 <li><code>Rules</code>包括一个条件和一个目标(<code>target</code>) </li>
