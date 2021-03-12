@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Shell-2-练习</title>
+    <link href="/posts/3b79c98c/"/>
+    <url>/posts/3b79c98c/</url>
+    
+    <content type="html"><![CDATA[<h6>1. 判断一个机器是否存活，能 ping 通就算存活</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">!/bin/bash</span><br>read -p &quot;HostIP:&quot; hp<br>ping -c 2 $hp &amp;&gt;/dev/null<br>if [ $? -eq 0 ]; then<br>       echo &quot;$hp 是否存活: 是&quot;<br>   else<br>       echo &quot;$hp 是否存活: 否 &quot;<br>fi<br></code></pre></td></tr></table></figure><h6>2. 判断服务器上的某个服务是否开启</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">!/bin/bash</span><br><span class="hljs-meta">#</span><span class="bash">检查服务状态，是否安装</span><br>read -p &quot;请输入要检测的服务：&quot; SERVICE<br>netstat -anp | grep $SERVICE &amp;&gt; /dev/null<br>if [ $? -eq 0 ]; then<br>  echo &quot;$SERVICE服务已经启动！&quot;<br>else<br>  rpm -q $SERVICE &amp;&gt; /dev/null<br> <br>  if [ $? -eq 0 ]<br>  then<br>echo &quot;$SERVICE服务已安装，正在启动....&quot;<br>      service  $SERVICE  start<br>  else<br>echo &quot;该服务未安装！&quot;<br> fi<br>fi<br></code></pre></td></tr></table></figure><h6>3. 写一个Nginx安装脚本，加入判断，当上一步执行成功在执行下一步，否则退出脚本</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">!/bin/bash</span><br>ping -W1 -c1 www.baidu.com &amp;&gt;/dev/null<br>if [ $? -ne 0 ];then<br>echo &quot;网络存在故障....&quot;<br>exit 1<br>fi<br><br><span class="hljs-meta">#</span><span class="bash">2.源  记得要判断系统</span><br>if [ -f /etc/yum.repos.d/epel.repo ];then<br>if [ -s /etc/yum.repos.d/epel.repo ];then<br>echo &quot;yum repos skip ....&quot;<br>else<br>echo &quot;epel 为空  wget ...&quot;<br><span class="hljs-meta">#</span><span class="bash">wget ....</span> <br>fi<br>else<br>echo &quot;epel文件不存在&quot;<br><span class="hljs-meta">#</span><span class="bash">wget .......</span><br>fi<br><br><span class="hljs-meta">#</span><span class="bash">3.安装</span><br>rpm -q nginx &amp;&gt;/dev/null<br>rc=$?<br><br>if [ $rc -eq 0 ];then<br>echo &quot;nginx已安装&quot;<br>else<br>yum install nginx -y <br>fi<br></code></pre></td></tr></table></figure><h6>4. for 死循环 使用((;;))条件可以实现</h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-keyword">for</span> ((;;))<br>    <span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello&quot;</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure><h6>5. 脚本休眠N秒</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain"><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Shell</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+      <tag>Shell</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux-VSFTP部署</title>
     <link href="/posts/4801bbb8/"/>
     <url>/posts/4801bbb8/</url>
@@ -31,7 +58,7 @@
   
   
   <entry>
-    <title>Shell练习</title>
+    <title>Shell-1-练习</title>
     <link href="/posts/4bcddc4c/"/>
     <url>/posts/4bcddc4c/</url>
     
