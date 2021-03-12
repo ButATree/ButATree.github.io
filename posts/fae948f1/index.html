@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.2k 字
+      6.1k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      53
+      76
        分钟
     </span>
   
@@ -253,34 +253,43 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月8日 晚上
+                  本文最后更新于：2021年3月12日 下午
                 
               </p>
             
             <div class="markdown-body">
-              <h1 id="iptables概念"><a href="#iptables概念" class="headerlink" title="iptables概念"></a>iptables概念</h1><p>从逻辑上讲。防火墙可以大体分为主机防火墙和网络防火墙<br>主机防火墙：针对于单个主机进行防护。网络防火墙：往往处于网络入口或边缘，针对于网络入口进行防护，服务于防火墙背后的本地局域网。<br>网络防火墙和主机防火墙并不冲突，可以理解为，网络防火墙主外（集体）， 主机防火墙主内（个人）。</p>
+              <h1 id="iptables-概念"><a href="#iptables-概念" class="headerlink" title="iptables 概念"></a><code>iptables</code> 概念</h1><p>从逻辑上讲。防火墙可以大体分为主机防火墙和网络防火墙<br>主机防火墙：针对于单个主机进行防护。网络防火墙：往往处于网络入口或边缘，针对于网络入口进行防护，服务于防火墙背后的本地局域网。<br>网络防火墙和主机防火墙并不冲突，可以理解为，网络防火墙主外（集体）， 主机防火墙主内（个人）。</p>
 <p>从物理上讲，防火墙可以分为硬件防火墙和软件防火墙。<br>硬件防火墙：在硬件级别实现部分防火墙功能，另一部分功能基于软件实现，性能高，成本高。软件防火墙：应用软件处理逻辑运行于通用硬件平台之上的防火墙，性能低，成本低。</p>
-<h2 id="iptables-用户→程序→内核→硬件"><a href="#iptables-用户→程序→内核→硬件" class="headerlink" title="iptables   (用户→程序→内核→硬件)"></a>iptables   (用户→程序→内核→硬件)</h2><p><code>iptables</code> 其实不是真正的防火墙，我们可以把它理解成一个客户端代理，用户通过 <code>iptables</code> 这个代理，将用户的安全设定执行到对应的”安全框架”中，这个”安全框架”才是真正的防火墙，这个框架的名字叫 <code>netfilter</code> 。</p>
+<h2 id="iptables-用户→程序→内核→硬件"><a href="#iptables-用户→程序→内核→硬件" class="headerlink" title="iptables  (用户→程序→内核→硬件)"></a><code>iptables</code>  (用户→程序→内核→硬件)</h2><p><code>iptables</code> 其实不是真正的防火墙，我们可以把它理解成一个客户端代理，用户通过 <code>iptables</code> 这个代理，将用户的安全设定执行到对应的”安全框架”中，这个”安全框架”才是真正的防火墙，这个框架的名字叫 <code>netfilter</code> 。</p>
 <p><code>netfilter</code> 才是防火墙真正的安全框架（<code>framework</code>），<code>netfilter</code> 位于内核空间。<code>iptables</code> 其实是一个命令行工具，位于用户空间，我们用这个工具操作真正的框架。<code>netfilter/iptables</code>（下文中简称为<code>iptables</code>）组成 <code>Linux</code> 平台下的包过滤防火墙，与大多数的 <code>Linux</code> 软件一样，这个包过滤防火墙是免费的，它可以代替昂贵的商业防火墙解决方案，完成封包过滤、封包重定向和网络地址转换（<code>NAT</code>）等功能。<code>Netfilter</code> 是 <code>Linux</code> 操作系统核心层内部的一个数据包处理模块，它具有如下功能：<br>网络地址转换(<code>Network Address Translate</code>)<br>数据包内容修改<br>以及数据包过滤的防火墙功能</p>
 <p><code>iptables</code> 并没有一个守护进程，不能算是真正意义上的服务，而应该算是内核提供的功能。</p>
-<h1 id="iptables基础"><a href="#iptables基础" class="headerlink" title="iptables基础"></a>iptables基础</h1><h2 id="iptables防火墙简介"><a href="#iptables防火墙简介" class="headerlink" title="iptables防火墙简介"></a>iptables防火墙简介</h2><p><code>Netfilter/iptables</code> (以下简称iptables)是<code>Unix/linux</code> 系统自带的优秀且完全免费的基于包过滤的防火墙工具、它的功能十分强大、使用非常灵活、可以对流入、流出及流经服务器的数据包进行精细的控制。特别是它可以在一台非常低配置下跑的非常好。提供400台机器的办公上网共享服务丝毫不逊色数万RMB企业级专业路由器防火墙</p>
+<h1 id="iptables-基础"><a href="#iptables-基础" class="headerlink" title="iptables 基础"></a><code>iptables</code> 基础</h1><h2 id="iptables-防火墙简介"><a href="#iptables-防火墙简介" class="headerlink" title="iptables 防火墙简介"></a><code>iptables</code> 防火墙简介</h2><p><code>Netfilter/iptables</code> (以下简称iptables)是<code>Unix/linux</code> 系统自带的优秀且完全免费的基于包过滤的防火墙工具、它的功能十分强大、使用非常灵活、可以对流入、流出及流经服务器的数据包进行精细的控制。特别是它可以在一台非常低配置下跑的非常好。提供400台机器的办公上网共享服务丝毫不逊色数万RMB企业级专业路由器防火墙</p>
 <p><code>Iptables</code> 是 <code>linux 2.4</code>及<code>2.6</code>内核中集成的服务、其功能与安全性比老一辈<code>ipvfwadm</code> 、<code>ipchanins</code> 强大的多、一般认为 <code>iptables</code> 工作在OSI七层的、二、三层、四层。</p>
 <p>首先介绍 <code>iptables</code> 的结构：<code>iptables</code>  → <code>Tables</code> → <code>Chains</code> → <code>Rules</code>. 简单地讲，<code>tables</code> 由 <code>chains</code> 组成，而 <code>chains</code> 又由 <code>rules</code> 组成。如下图所示。</p>
 <p><img src="/img/blog_image/Linux_iptables_contentImage/tables_chain_rules.png"></p>
-<h3 id="一、iptables的表与链"><a href="#一、iptables的表与链" class="headerlink" title="一、iptables的表与链"></a>一、iptables的表与链</h3><p><code>iptables</code> 具有 <code>Filter</code>、<code>NAT</code>、<code>Mangle</code>、<code>Raw</code> 四种内建表：</p>
-<h4 id="1-filter表"><a href="#1-filter表" class="headerlink" title="1. filter表"></a>1. filter表</h4><p><code>Filter</code> 表示 <code>iptables</code> 的默认表，因此如果你没有自定义表，那么就默认使用filter表，它具有以下三种内建链：</p>
+<h3 id="一、iptables-的表与链"><a href="#一、iptables-的表与链" class="headerlink" title="一、iptables 的表与链"></a>一、<code>iptables</code> 的表与链</h3><p><code>iptables</code> 具有 <code>Filter</code>、<code>NAT</code>、<code>Mangle</code>、<code>Raw</code> 四种内建表：</p>
+<blockquote>
+<p>4 个表的优先级由高到底：<code>Raw</code> &gt; <code>Mangle</code> &gt; <code>Nat</code> &gt; <code>Filter</code></p>
+<ul>
+<li><code>RAW</code> 表只使用在 <code>PREROUTING</code> 链和 <code>OUTPUT</code> 链上,因为优先级最高，从而可以对收到的数据包在连接跟踪前进行处理。一但用户使用了 <code>RAW</code> 表,在某个链上，<code>RAW</code> 表处理完后,将跳过 <code>NAT</code> 表和 <code>ip_conntrack</code> 处理,即不再做地址转换和数据包的链接跟踪处理了。</li>
+<li><code>filter</code> 表是预设规则表，拥有 <code>INPUT</code>、<code>FORWARD</code> 和 <code>OUTPUT</code> 三个规则链，这个规则表顾名思义是用来进行封包过滤的理动作。</li>
+<li><code>net</code> 表拥有 <code>prerouting</code> 和 <code>postrouting</code> 两个规则链， 主要功能为进行一对一、一对多、多对多等网址转译工作（<code>SNAT,DNAT</code>）。</li>
+<li><code>mangle</code> 拥有 <code>prerouting</code>、<code>FORWARD</code>、<code>postrouting</code>三个规则链，除了进行网址转译工作会改写封包外，在某些特殊应用可能也必须去改写封包(<code>ITL</code>、<code>TOS</code>)或者是设定 <code>MARK</code> (将封包作记号，以进行后续的过滤)这时就必须将这些工作定义在 <code>mangles</code> 规则表中</li>
+</ul>
+</blockquote>
+<h4 id="iptables-表"><a href="#iptables-表" class="headerlink" title="iptables 表"></a><code>iptables</code> 表</h4><h5 id="1-filter-表"><a href="#1-filter-表" class="headerlink" title="1. filter 表"></a>1. <code>filter</code> 表</h5><p><code>Filter</code> 表示 <code>iptables</code> 的默认表，因此如果你没有自定义表，那么就默认使用 <code>filter</code> 表，它具有以下三种内建链：</p>
 <ul>
 <li><code>INPUT</code>链 – 处理来自外部的数据。</li>
-<li><code>OUTPUT</code>链 – 处理向外发送的数据。</li>
 <li><code>FORWARD</code>链 – 将数据转发到本机的其他网卡设备上。</li>
+<li><code>OUTPUT</code>链 – 处理向外发送的数据。</li>
 </ul>
-<h4 id="2-nat表"><a href="#2-nat表" class="headerlink" title="2. nat表"></a>2. nat表</h4><p><code>NAT</code>表有三种内建链：</p>
+<h5 id="2-nat-表"><a href="#2-nat-表" class="headerlink" title="2. nat 表"></a>2. <code>nat</code> 表</h5><p><code>NAT</code>表有三种内建链：</p>
 <ul>
-<li><code>PREROUTING</code>链 – 处理刚到达本机并在路由转发前的数据包。它会转换数据包中的目标IP地址（<code>destination ip address</code>），通常用于<code>DNAT</code>(<code>destination NAT</code>)。</li>
-<li><code>POSTROUTING</code>链 – 处理即将离开本机的数据包。它会转换数据包中的源IP地址（<code>source ip address</code>），通常用于<code>SNAT</code>（<code>source NAT</code>）。</li>
-<li><code>OUTPUT</code>链 – 处理本机产生的数据包。</li>
+<li><code>PREROUTING</code> 链 – 处理刚到达本机并在路由转发前的数据包。它会转换数据包中的目标IP地址（<code>destination ip address</code>），通常用于<code>DNAT</code>(<code>destination NAT</code>)。</li>
+<li><code>OUTPUT</code> 链 – 处理本机产生的数据包。</li>
+<li><code>POSTROUTING</code> 链 – 处理即将离开本机的数据包。它会转换数据包中的源IP地址（<code>source ip address</code>），通常用于<code>SNAT</code>（<code>source NAT</code>）。</li>
 </ul>
-<h4 id="3-mangle表"><a href="#3-mangle表" class="headerlink" title="3. mangle表"></a>3. mangle表</h4><p><code>Mangle</code> 表用于指定如何处理数据包。它能改变<code>TCP</code>头中的<code>QoS</code>位。<code>Mangle</code> 表具有5个内建链：</p>
+<h5 id="3-mangle-表"><a href="#3-mangle-表" class="headerlink" title="3. mangle 表"></a>3. <code>mangle</code> 表</h5><p><code>Mangle</code> 表用于指定如何处理数据包。它能改变<code>TCP</code>头中的<code>QoS</code>位。<code>Mangle</code> 表具有5个内建链：</p>
 <ul>
 <li><code>PREROUTING</code></li>
 <li><code>OUTPUT</code></li>
@@ -288,13 +297,149 @@
 <li><code>INPUT</code></li>
 <li><code>POSTROUTING</code></li>
 </ul>
-<h4 id="4-raw表"><a href="#4-raw表" class="headerlink" title="4. raw表"></a>4. raw表</h4><p><code>Raw</code>表用于处理异常，它具有2个内建链：</p>
+<h5 id="4-raw-表"><a href="#4-raw-表" class="headerlink" title="4. raw 表"></a>4. <code>raw</code> 表</h5><p><code>Raw</code>表用于处理异常，它具有2个内建链：</p>
 <ul>
 <li><code>PREROUTING chain</code></li>
 <li><code>OUTPUT chain</code></li>
 </ul>
-<h4 id="5-小结"><a href="#5-小结" class="headerlink" title="5.小结"></a>5.小结</h4><p>下图展示了 <code>iptables</code> 的三个内建表：</p>
+<h6>常用命令</h6>
+
+<ul>
+<li><code>-A</code> ：追加 <code>iptables -A INPUT</code></li>
+<li><code>-D</code> ：删除规则 <code>iptables -D INPUT 1(编号)</code></li>
+<li><code>-R</code> ：修改规则 <code>iptables -R INPUT 1 -s 192.168.1.0 -j DROP</code> 取代取代现行规则，顺序不变(1是位置)</li>
+<li><code>-I</code> ：插入规则 <code>iptables -I INPUT 1 --dport 80 -j ACCEPT</code>  插入一条规则，原本位置上的规则将会往后移动一个顺位</li>
+<li><code>-L</code> ：查看规则 <code>iptables -L INPUT</code> 列出规则链中的所有规则</li>
+<li><code>-N</code> ：新的规则 <code>iptables -N allowed</code> 定义新的规则</li>
+</ul>
+<h6>通用参数</h6>
+
+<ul>
+<li><code>-p</code> ：协议 <code>iptables -A INPUT -p tcp</code></li>
+<li><code>-s</code> ：源地址 <code>iptables -A INPUT -s 192.168.1.1</code></li>
+<li><code>-d</code> ：目的地址 <code>iptables -A INPUT -d 192.168.12.1</code></li>
+<li><code>--sport</code> ：源端口 <code>iptables -A INPUT -p tcp --sport 22</code></li>
+<li><code>--dport</code>：目的端口 <code>iptables -A INPUT -p tcp --dport 22</code></li>
+<li><code>-i</code> ：指定入口网卡 <code>iptables -A INPUT -i eth0</code></li>
+<li><code>-o</code> ：指定出口网卡 <code>iptables -A FORWARD -o eth0</code></li>
+<li><code>-j</code> ： 定要进行的处理动作</li>
+</ul>
+<h6>常用的ACTION</h6>
+
+<ul>
+<li><code>DROP</code> ：丢弃</li>
+<li><code>REJECT</code> ：明示拒绝</li>
+<li><code>ACCEPT</code> ：接受</li>
+<li><code>SNAT</code>： 基于原地址的转换</li>
+<li><code>source</code> ：指定原地址</li>
+</ul>
+<blockquote>
+<p>例子：</p>
+<p> 比如我们现在要将所有 <code>192.168.10.0</code> 网段的 <code>IP</code> 在经过 <code>iptables</code> 的时候全都转换成 <code>172.16.100.1</code> 这个假设出来的外网地址：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -A POSTROUTING -s 192.168.10.0/24 -j SNAT --to-source 172.16.100.1(外网有效ip)<br></code></pre></td></tr></table></figure>
+
+<p>这样，只要是来自本地网络的试图通过网卡访问网络的，都会被统统转换成 <code>172.16.100.1</code> 这个 <code>IP</code>。</p>
+<p><code>MASQUERADE</code> (动态伪装）— 家用带宽获取的外网 <code>ip</code>，就是用到了动态伪装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -A POSTROUTING -s 192.168.10.0/24 -j MASQUERADE<br></code></pre></td></tr></table></figure>
+
+<p><code>DNAT</code> ： 目标地址转换<br><code>destination</code> ： 指定目标地址</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -A PREROUTING -d 192.168.10.18 -p tcp --dport 80 -j DNAT --to-destination 172.16.100.2<br></code></pre></td></tr></table></figure>
+
+<p><code>192.168.10.18</code> 访问80端口转换到 <code>172.16.100.2</code> 上<br><code>MASQUERADE</code> ：源地址伪装<br><code>REDIRECT</code> ：重定向：主要用于实现端口重定向<br><code>MARK</code> ：打防火墙标记的<br><code>RETURN </code>：返回 在自定义链执行完毕后使用返回，来返回原规则链。</p>
+</blockquote>
+<h5 id="5-小结"><a href="#5-小结" class="headerlink" title="5.小结"></a>5.小结</h5><p>下图展示了 <code>iptables</code> 的三个内建表：</p>
 <p><img src="/img/blog_image/Linux_iptables_contentImage/iptables_sum.png"></p>
+<hr>
+<h4 id="iptables-链"><a href="#iptables-链" class="headerlink" title="iptables 链"></a><code>iptables</code> 链</h4><h5 id="1-链-chain"><a href="#1-链-chain" class="headerlink" title="1. 链   (chain)"></a>1. 链   (chain)</h5><p>每个表都有自己的一组内置链，可以对链进行自定义，这样就可以建立一组规则，<code>filter</code> 表中的 <code>input</code> 、<code>output</code> 和 <code>forward</code> 链。</p>
+<h5 id="2-匹配（match）"><a href="#2-匹配（match）" class="headerlink" title="2. 匹配（match）"></a>2. 匹配（match）</h5><p>每个 <code>iptables</code> 规则都包含一组匹配以及一个目标，<code>iptables</code> 匹配指的是数据包必须匹配的条件，只有当数据包满足所有的匹配条件时，<code>iptables</code> 才能根据由该规则的目标所指定的动作来处理该数据包，匹配都在 <code>iptable</code> 的命令行中指定。</p>
+<ul>
+<li><code>source</code> ：匹配源ip地址或网络</li>
+<li><code>destination (-d)</code> ：匹配目标 <code>ip</code> 地址或网络</li>
+<li><code>protocol (-p)</code> ：匹配 <code>ip</code> 值 （<code>TCP</code>/<code>UDP</code>）</li>
+<li><code>in-interface (-i)</code> ：流入接口(例如，<code>eth0</code> 、<code>ens32</code>)</li>
+<li><code>out-interface (-o)</code> ：流出接口</li>
+<li><code>state</code> ：匹配一组连接状态</li>
+<li><code>string</code> ：匹配应用层数据字节序列</li>
+<li><code>comment</code> ：在内核内存中为一个规则关联多达 <code>256</code> 个字节的注释数据</li>
+</ul>
+<h5 id="3-目标（target）"><a href="#3-目标（target）" class="headerlink" title="3. 目标（target）"></a>3. 目标（target）</h5><p><code>iptables</code> 支持一组目标，用于数据包匹配一条规则时触发一个动作</p>
+<ul>
+<li><code>ACCEPT</code> ：允许数据包通过</li>
+<li><code>DROP</code> ：丢弃数据包，不对该数据包做进一步的处理，对接收栈而言，就好像该数据包从来没有被接收一样</li>
+<li><code>LOG</code> ：将数据包信息记录到 <code>syslog</code></li>
+<li><code>REJECT</code> ：丢弃数据包，同时发送适当的响应报文(针对 <code>TCP</code> 连接的 <code>TCP</code> 重要数据包或针对 <code>UDP</code> 数据包的 <code>ICMP</code> 端口不可达消息)</li>
+<li><code>RETURN</code> ：在调用链中继续处理数据包</li>
+</ul>
+<h4 id="链管理命令（立即生效）"><a href="#链管理命令（立即生效）" class="headerlink" title="链管理命令（立即生效）"></a>链管理命令（立即生效）</h4><ul>
+<li><p><code>-P</code> ：设置默认策略的（设定默认门是关着的还是开着的</p>
+<p>默认策略一般只有两种</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -P INPUT (DROP|ACCEPT)<br></code></pre></td></tr></table></figure>
+
+<p>这就把默认规则给拒绝了。并且没有定义哪个动作，所以关于外界连接的所有规则包括 <code>Xshell</code> 连接之类的，远程连接都被拒绝了</p>
+</li>
+<li><p><code>-F </code> ： <code>FLASH</code>，清空规则链的(注意每个链的管理权限)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -F PREROUTING<br><span class="hljs-meta">#</span><span class="bash"> iptables -t nat -F 清空nat表的所有链</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>-X</code> ： 用于删除用户自定义的空链<br>  使用方法跟 <code>-N</code> 相同，但是在删除之前必须要将里面的链给清空昂了</p>
+</li>
+<li><p><code>-N</code> ：<code>NEW</code> 支持用户新建一个链</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -N inbound_tcp_web <br><span class="hljs-meta">#</span><span class="bash"> 表示附在tcp表上用于检查web的。</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>-E：用来 <code>Rename chain</code> 主要是用来给用户自定义的链重命名</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -E oldname newname<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>-Z</code> ：清空链，及链中默认规则的计数器的（有两个计数器，被匹配到多少个数据包，多少个字节）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -Z <br><span class="hljs-meta">#</span><span class="bash">清空</span><br></code></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="规则管理命令"><a href="#规则管理命令" class="headerlink" title="规则管理命令"></a>规则管理命令</h4><ul>
+<li><p><code>-A</code> ：追加，在当前链的最后新增一个规则</p>
+</li>
+<li><p><code>-I num</code> ：插入，把当前规则插入为第几条。</p>
+</li>
+<li><p><code>-I 3</code> ：插入为第三条</p>
+</li>
+<li><p><code>-R num</code> ：<code>Replays</code> 替换/修改第几条规则</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -R 3 ...<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>-D num</code> ：删除，明确指定删除第几条规则</p>
+</li>
+</ul>
+<h4 id="查看管理命令-“-L”"><a href="#查看管理命令-“-L”" class="headerlink" title="查看管理命令 “-L”"></a>查看管理命令 “-L”</h4><blockquote>
+<p>附加子命令<br><code>-n </code>：以数字的方式显示 <code>ip</code> ，它会将 <code>ip</code> 直接显示出来，如果不加 <code>-n</code> ，则会将 <code>ip</code> 反向解析成主机名。<br><code>-v</code>：显示详细信息<br><code>-vv</code><br><code>-vvv</code> :越多越详细<br><code>-x</code>：在计数器上显示精确值，不做单位换算<br><code>--line-numbers</code> : 显示规则的行号<br><code>-t nat</code>：显示所有的关卡的信息</p>
+</blockquote>
+<h4 id="详解匹配标准"><a href="#详解匹配标准" class="headerlink" title="详解匹配标准"></a>详解匹配标准</h4><h6>扩展匹配</h6>
+
+<ol>
+<li><p>隐含扩展：对协议的扩展</p>
+<p><code>-p tcp</code> ：<code>TCP</code> 协议的扩展。一般有三种扩展</p>
+<p><code>--dport XX-XX</code> ：指定目标端口,不能指定多个非连续端口,只能指定单个端口，比如</p>
+<ul>
+<li><p><code>--dport 21</code> 或者 <code>--dport 21-23</code> (此时表示21,22,23)</p>
+</li>
+<li><p><code>--sport</code> ：指定源端口</p>
+</li>
+<li><p><code>--tcp-fiags</code> ：<code>TCP</code> 的标志位（<code>SYN</code>、<code>ACK</code>、<code>FIN</code>、<code>PSH</code>、<code>RST</code> 、<code>URG</code>）<br>  对于它，一般要跟两个参数：</p>
+<ul>
+<li><p>   1.检查的标志位</p>
+</li>
+<li><p> 2.必须为1的标志位</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">--tcpflags syn,ack,fin,rst syn  =  --syn<br><span class="hljs-meta">#</span><span class="bash"> 表示检查这4个位，这4个位中syn必须为1，其他的必须为0。所以这个意思就是用于检测三次握手的第一次包的。对于这种专门匹配第一包的SYN为1的包，还有一种简写方式，叫做--syn</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>-p udp</code> ：<code>UDP</code> 协议的扩展<br>  <code>--dport</code><br> <code>--sport</code></p>
+</li>
+<li><p><code>-p icmp</code> ：<code>icmp</code> 数据报文的扩展<br>  <code>--icmp-type</code>：<br>  <code>echo-request</code> (请求回显)，一般用 <code>8</code> 来表示<br>   所以 <code>--icmp-type 8</code> 匹配请求回显数据包<br>   <code>echo-reply</code>（响应的数据包）一般用 <code>0</code> 来表示</p>
+</li>
+</ul>
+</li>
+</ol>
+<h6>显式扩展（-m）</h6>
+
+<p><strong>扩展各种模块</strong><br><code>-m multiport</code> ：表示启用多端口扩展 之后我们就可以启用比如 </p>
+<p><code>--dports 21,23,80</code></p>
 <h3 id="二、IPTABLES-规则-Rules"><a href="#二、IPTABLES-规则-Rules" class="headerlink" title="二、IPTABLES 规则(Rules)"></a>二、IPTABLES 规则(Rules)</h3><p>牢记以下三点式理解 <code>iptables</code> 规则的关键：</p>
 <ul>
 <li><code>Rules</code>包括一个条件和一个目标(<code>target</code>) </li>
