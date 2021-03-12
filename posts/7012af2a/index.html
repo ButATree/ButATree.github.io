@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      472 字
+      485 字
     </span>
   
 
@@ -253,15 +253,15 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月8日 下午
+                  本文最后更新于：2021年3月12日 晚上
                 
               </p>
             
             <div class="markdown-body">
-              <h1 id="一、安装Samba服务，以及基础配置"><a href="#一、安装Samba服务，以及基础配置" class="headerlink" title="一、安装Samba服务，以及基础配置"></a>一、安装Samba服务，以及基础配置</h1><h2 id="Samba"><a href="#Samba" class="headerlink" title="Samba"></a><strong>Samba</strong></h2><p>Samba基于SMB/CIFS协议开发的软件，为不同操作系统提供文件服务和打印服务。Samba由smba和nmbd两个守护进程组成，使用服务端和客户端模式。</p>
-<p>smbd进程除了为客户端提供文件共享与打印服务，还负责用户权限验证及锁功能。smbd默认监听的端口是TCP协议的139与445，Samba通过smb服务启动smbd进程。</p>
-<p>nmbd进程提供NetBIOS名称服务，类似于DNS实现的功能，可以把Linux系统共享的工作组名称与其IP对应起来，Samba通过nmb服务启动nmbd进程，该进程默认使用UDP 137端口</p>
-<p>本地用户验证登录：Linux账户+samba的密码密码在passdb.tdb</p>
+              <h1 id="一、安装-Samba-服务，以及基础配置"><a href="#一、安装-Samba-服务，以及基础配置" class="headerlink" title="一、安装 Samba 服务，以及基础配置"></a>一、安装 <code>Samba</code> 服务，以及基础配置</h1><h2 id="Samba"><a href="#Samba" class="headerlink" title="Samba"></a><strong><code>Samba</code></strong></h2><p><code>Samba</code> 基于 <code>SMB/CIFS</code> 协议开发的软件，为不同操作系统提供文件服务和打印服务。<code>Samba</code> 由 <code>smba</code> 和 <code>nmbd</code> 两个守护进程组成，使用服务端和客户端模式。</p>
+<p><code>smbd</code> 进程除了为客户端提供文件共享与打印服务，还负责用户权限验证及锁功能。<code>smbd</code> 默认监听的端口是 <code>TCP</code> 协议的 <code>139</code> 与 <code>445</code> ，<code>Samba</code> 通过 <code>smb</code> 服务启动 <code>smbd</code> 进程。</p>
+<p><code>nmbd</code> 进程提供 <code>NetBIOS</code> 名称服务，类似于 <code>DNS</code> 实现的功能，可以把 <code>Linux</code> 系统共享的工作组名称与其 <code>IP</code> 对应起来，<code>Samba</code> 通过 <code>nmb</code> 服务启动 <code>nmbd</code> 进程，该进程默认使用<code>UDP 137</code>端口</p>
+<p>本地用户验证登录：<code>Linux</code> 账户+ <code>samba</code> 的密码密码在 <code>passdb.tdb</code></p>
 <h2 id="Samba服务端配置步骤："><a href="#Samba服务端配置步骤：" class="headerlink" title="Samba服务端配置步骤："></a>Samba服务端配置步骤：</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs routeros">1.基础操作<br>systemctl stop firewalld<br>setenforce 0 &amp;&amp; sed -i <span class="hljs-string">&#x27;s/^SELINUX=.*/SELINUX=disabled/&#x27;</span> /etc/selinux/config<br>2.安装samba服务<br>yum -y install samba<br>3.创建共享目录并修改权限<br>mkdir /common<br>chmod 777 /common/<br>4.创建samba用户<br>useradd -s /sbin/nologin zhangsan<br>pdbedit -a zhangsan<br>5.设置samba的配置文件<br>[common]<br>        <span class="hljs-attribute">comment</span>=share #备注信息<br>        <span class="hljs-attribute">path</span>=/common #绝对路径<br>        write <span class="hljs-attribute">list</span>=zhangsan #允许读写的用户，@用户组<br>        <span class="hljs-attribute">browseable</span>=<span class="hljs-literal">yes</span> #共享是否被查看<br>        <span class="hljs-attribute">writable</span>=<span class="hljs-literal">no</span> #只读<br>        create <span class="hljs-attribute">mask</span>=0664<br>        directory <span class="hljs-attribute">mask</span>=0770<br>6.重启samba服务，并开机自启<br>systemctl restart<span class="hljs-built_in"> smb </span>&amp;&amp; systemctl <span class="hljs-builtin-name">enable</span> smb<br></code></pre></td></tr></table></figure>
 
 <h2 id="Samba客户端配置步骤："><a href="#Samba客户端配置步骤：" class="headerlink" title="Samba客户端配置步骤："></a>Samba客户端配置步骤：</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs awk">客户端登录方式：<br>	linux端：<br>		smbclient -U 用户名 -L <span class="hljs-regexp">//</span>服务器ip<br>		smbclient -U 用户名  <span class="hljs-regexp">//</span>服务器ip/共享名<br>	Windows端：<br>		\\服务器ip\共享名<br>		net use * /del  清除smb登录信息<br><span class="hljs-number">1</span>.在linux客户端上使用yum -y install samba-client 安、装samba客户端<br>	[root@localhost ~]<span class="hljs-comment"># yum -y install samba-client</span><br><span class="hljs-number">2</span>.查看指定服务器共享资源<br>	[root@Clare ~]<span class="hljs-comment"># smbclient -L //192.168.66.11 -U zhangsan%123456</span><br><span class="hljs-number">3</span>.挂载共享目录并设置开机自动项<br>    mkdir /common<br>    vim <span class="hljs-regexp">/etc/</span>fstab<br><span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">210.130</span><span class="hljs-regexp">/common /</span>common cifs  		username=zhangsan,password=<span class="hljs-number">123456</span>,_netdev <span class="hljs-number">0</span> <span class="hljs-number">0</span> <br><br>mount -a<br></code></pre></td></tr></table></figure>

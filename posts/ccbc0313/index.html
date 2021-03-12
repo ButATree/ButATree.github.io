@@ -253,7 +253,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月8日 晚上
+                  本文最后更新于：2021年3月12日 晚上
                 
               </p>
             
@@ -285,50 +285,50 @@
 <li><strong>在电脑新建一个blog文件夹，该文件夹用于存放你的博客文件，然后右键单击选择“Git Bash”</strong></li>
 <li><strong>使用淘宝的NPM镜像，输入以下命令等待安装</strong></li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">npm</span> <span class="hljs-string">install</span> <span class="hljs-string">-g</span> <span class="hljs-string">cnpm</span> <span class="hljs-string">--registry=https://registry.npm.taobao.org</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ npm install -g cnpm --registry=https:<span class="hljs-regexp">//</span>registry.npm.taobao.org<br></code></pre></td></tr></table></figure>
 
 <ol start="3">
 <li><strong>使用淘宝NPM安装Hexo</strong></li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#与原先的npm完全一样，只是命令改为cnpm</span><br><span class="hljs-string">$</span> <span class="hljs-string">cnpm</span> <span class="hljs-string">install</span> <span class="hljs-string">-g</span> <span class="hljs-string">hexo-cli</span><br><span class="hljs-string">$</span> <span class="hljs-string">cnpm</span> <span class="hljs-string">install</span> <span class="hljs-string">hexo</span> <span class="hljs-string">--save</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment">#与原先的npm完全一样，只是命令改为cnpm</span><br>$ cnpm <span class="hljs-keyword">install</span> -g hexo-cli<br>$ cnpm <span class="hljs-keyword">install</span> hexo --save<br></code></pre></td></tr></table></figure>
 
 <ol start="4">
 <li><strong>安装完成后，在输入命令，验证是否安装正确</strong></li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">-v</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>hexo -v<br></code></pre></td></tr></table></figure>
 
 <ol start="5">
 <li><strong>本地运行hexo</strong></li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">cd</span> <span class="hljs-string">/hexo/</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">init</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">cd</span> /hexo/<br><span class="hljs-variable">$</span> hexo init<br></code></pre></td></tr></table></figure>
 
 <ol start="6">
 <li><strong>安装生成器</strong></li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">cnpm</span> <span class="hljs-string">install</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">$ cnpm <span class="hljs-keyword">install</span><br></code></pre></td></tr></table></figure>
 
 <ol start="7">
 <li><strong>运行hexo，以后要在本地运行博客只要输入该命令即可</strong></li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">#生成静态文件</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">generate</span><br><span class="hljs-comment">#运行服务器</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">server</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs verilog">#生成静态文件<br>$ hexo <span class="hljs-keyword">generate</span><br>#运行服务器<br>$ hexo server<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>访问测试：<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a></p>
 </blockquote>
-<h1 id="五、配置SHH-Key"><a href="#五、配置SHH-Key" class="headerlink" title="五、配置SHH Key"></a>五、配置SHH Key</h1><h2 id="1-使用ssh-key"><a href="#1-使用ssh-key" class="headerlink" title="1. 使用ssh key"></a>1. 使用ssh key</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">cd</span> <span class="hljs-string">~/.ssh</span><br><span class="hljs-string">$</span> <span class="hljs-string">ssh-keygen</span> <span class="hljs-string">-t</span> <span class="hljs-string">rsa</span> <span class="hljs-string">-C</span> <span class="hljs-string">&quot;邮件地址&quot;</span><br></code></pre></td></tr></table></figure>
+<h1 id="五、配置SHH-Key"><a href="#五、配置SHH-Key" class="headerlink" title="五、配置SHH Key"></a>五、配置SHH Key</h1><h2 id="1-使用ssh-key"><a href="#1-使用ssh-key" class="headerlink" title="1. 使用ssh key"></a>1. 使用ssh key</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">cd</span> ~/.ssh<br><span class="hljs-variable">$</span> ssh<span class="hljs-literal">-keygen</span> <span class="hljs-literal">-t</span> rsa <span class="hljs-literal">-C</span> <span class="hljs-string">&quot;邮件地址&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>​    接下来一直回车，最终会在你的家目录中.ssh\id_rsa.pub文件，复制里面的内容，打开GitHub主页，进入个人设置→ SSH and GPG keys→New SSH key。</p>
 <p>​    将id_rsa.pub中的内容复制到Key中，Title可以随便写，保存</p>
-<h2 id="2-测试"><a href="#2-测试" class="headerlink" title="2. 测试"></a>2. 测试</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">ssh</span> <span class="hljs-string">-T</span> <span class="hljs-string">git@github.com</span><br><br><span class="hljs-comment">#还需要以下配置：</span><br><span class="hljs-string">$</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-string">--global</span> <span class="hljs-string">user.name</span> <span class="hljs-string">&quot;你的GitHub用户名&quot;</span><br><span class="hljs-string">$</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-string">-global</span> <span class="hljs-string">user.email</span> <span class="hljs-string">&quot;你的GitHub注册邮箱&quot;</span><br></code></pre></td></tr></table></figure>
+<h2 id="2-测试"><a href="#2-测试" class="headerlink" title="2. 测试"></a>2. 测试</h2><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>ssh -T git<span class="hljs-variable">@github</span>.com<br><br><span class="hljs-comment">#还需要以下配置：</span><br><span class="hljs-variable">$ </span>git config --global user.name <span class="hljs-string">&quot;你的GitHub用户名&quot;</span><br><span class="hljs-variable">$ </span>git config -global user.email <span class="hljs-string">&quot;你的GitHub注册邮箱&quot;</span><br></code></pre></td></tr></table></figure>
 
 
 
 <h1 id="六、部署到GitHub上"><a href="#六、部署到GitHub上" class="headerlink" title="六、部署到GitHub上"></a>六、部署到GitHub上</h1><p>在你的创建的blog下可以看到_config.yml文件，配置# Deployment这块</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># Deployment</span><br><span class="hljs-comment">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="hljs-attr">deploy:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>  <span class="hljs-attr">repository:</span> <span class="hljs-string">https://github.com/ButATree/ButATree.github.io.git</span><br>  <span class="hljs-attr">branch:</span> <span class="hljs-string">master</span><br><br><span class="hljs-comment">#安装插件</span><br><span class="hljs-string">$</span> <span class="hljs-string">cnpm</span> <span class="hljs-string">install</span> <span class="hljs-string">hexo-deployer-git</span> <span class="hljs-string">--save</span><br><span class="hljs-comment">#部署到GitHub</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">d</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-meta"># Deployment</span><br><span class="hljs-meta">## Docs: https:<span class="hljs-comment">//hexo.io/docs/one-command-deployment</span></span><br><span class="hljs-symbol">deploy:</span><br><span class="hljs-symbol">  type:</span> git<br><span class="hljs-symbol">  repository:</span> https:<span class="hljs-comment">//github.com/ButATree/ButATree.github.io.git</span><br><span class="hljs-symbol">  branch:</span> master<br><br><span class="hljs-meta">#安装插件</span><br>$ cnpm install hexo-deployer-git --save<br><span class="hljs-meta">#部署到GitHub</span><br>$ hexo d<br></code></pre></td></tr></table></figure>
 
 
 
-<h1 id="七、hexo常用命令"><a href="#七、hexo常用命令" class="headerlink" title="七、hexo常用命令"></a>七、hexo常用命令</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">new</span> <span class="hljs-string">&quot;PostName&quot;</span> <span class="hljs-comment">#新建文章</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">new</span> <span class="hljs-string">page</span> <span class="hljs-string">&quot;PageName&quot;</span> <span class="hljs-comment">#新建页面</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">generate</span> <span class="hljs-comment">#s生成静态页面到Public目录</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">server</span> <span class="hljs-comment">#开启预览访问端口（默认端口4000）</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">deploy</span> <span class="hljs-comment">#部署到GitHub</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">help</span> <span class="hljs-comment">#帮助</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">version</span> <span class="hljs-comment">#查看hexo的版本</span><br><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">s</span> <span class="hljs-string">-g</span> <span class="hljs-comment">#生成并本地预览</span><br><span class="hljs-string">$</span> <span class="hljs-string">hexo</span> <span class="hljs-string">d</span> <span class="hljs-string">-g</span> <span class="hljs-comment">#生成并上传</span><br></code></pre></td></tr></table></figure>
+<h1 id="七、hexo常用命令"><a href="#七、hexo常用命令" class="headerlink" title="七、hexo常用命令"></a>七、hexo常用命令</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> hexo new <span class="hljs-string">&quot;PostName&quot;</span> <span class="hljs-comment">#新建文章</span></span><br><span class="hljs-meta">$</span><span class="bash"> hexo new page <span class="hljs-string">&quot;PageName&quot;</span> <span class="hljs-comment">#新建页面</span></span><br><span class="hljs-meta">$</span><span class="bash"> hexo generate <span class="hljs-comment">#s生成静态页面到Public目录</span></span><br><span class="hljs-meta">$</span><span class="bash"> hexo server <span class="hljs-comment">#开启预览访问端口（默认端口4000）</span></span><br><span class="hljs-meta">$</span><span class="bash"> hexo deploy <span class="hljs-comment">#部署到GitHub</span></span><br><span class="hljs-meta">$</span><span class="bash"> hexo <span class="hljs-built_in">help</span> <span class="hljs-comment">#帮助</span></span><br><span class="hljs-meta">$</span><span class="bash"> hexo version <span class="hljs-comment">#查看hexo的版本</span></span><br><br><span class="hljs-meta">$</span><span class="bash"> hexo s -g <span class="hljs-comment">#生成并本地预览</span></span><br><span class="hljs-meta">$</span><span class="bash"> hexo d -g <span class="hljs-comment">#生成并上传</span></span><br></code></pre></td></tr></table></figure>
 
 
 
@@ -336,37 +336,6 @@
 <p>Hexo 主题地址：<a target="_blank" rel="noopener" href="https://hexo.io/themes">https://hexo.io/themes</a></p>
 </blockquote>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">git</span> <span class="hljs-string">clon</span> <span class="hljs-string">https://github.com/litten/hexo-theme-yilia.git</span> <span class="hljs-string">themes/yilia</span><br><span class="hljs-comment">#修改_config.yml文件中和theme</span><br><span class="hljs-attr">theme:</span> <span class="hljs-string">yilia</span><br></code></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             </div>
             <hr>

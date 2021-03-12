@@ -253,12 +253,12 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月8日 晚上
+                  本文最后更新于：2021年3月12日 晚上
                 
               </p>
             
             <div class="markdown-body">
-              <h1 id="一、登录云服务器安装-Git-和-Nginx"><a href="#一、登录云服务器安装-Git-和-Nginx" class="headerlink" title="一、登录云服务器安装 Git 和 Nginx"></a>一、登录云服务器安装 <code>Git</code> 和 <code>Nginx</code></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[ root ]# yum -y install git nginx<br></code></pre></td></tr></table></figure>
+              <h1 id="一、登录云服务器安装-Git-和-Nginx"><a href="#一、登录云服务器安装-Git-和-Nginx" class="headerlink" title="一、登录云服务器安装 Git 和 Nginx"></a>一、登录云服务器安装 <code>Git</code> 和 <code>Nginx</code></h1><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta"> root </span>]<span class="hljs-meta"># yum -y install git nginx</span><br></code></pre></td></tr></table></figure>
 
 <h1 id="二、修改默认打开页面"><a href="#二、修改默认打开页面" class="headerlink" title="二、修改默认打开页面"></a>二、修改默认打开页面</h1><p>找到 <code>Nginx</code> 配置文件，我这里是 <code>/etc/nginx/nginx.conf</code> ，记得先备份一下。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># 在server段下修改root的目录即可。</span><br>[ root ]#  vim nginx.conf<br>...<br><span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span>       <span class="hljs-number">80</span> default_server;<br>        <span class="hljs-attribute">listen</span>       [::]:<span class="hljs-number">80</span> default_server;<br>        <span class="hljs-attribute">server_name</span>  _;<br>        <span class="hljs-attribute">root</span>         /data/www/hexo;<br>        <span class="hljs-attribute">index</span>        index.html index.htm;<br>&#125;<br>...<br></code></pre></td></tr></table></figure>
@@ -266,10 +266,10 @@
 <p>检测配置文件并重启</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> nginx -t</span><br><span class="hljs-meta">#</span><span class="bash"> nginx -s reload</span><br></code></pre></td></tr></table></figure>
 
-<h1 id="三、创建一个-Git-裸库，保存-Repository"><a href="#三、创建一个-Git-裸库，保存-Repository" class="headerlink" title="三、创建一个 Git 裸库，保存 Repository"></a>三、创建一个 <code>Git</code> 裸库，保存 <code>Repository</code></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">[ root ]# cd ~<br>[ root ]# git init --bare &#123;你的仓库名称&#125;.git #我的仓库名称: My_repository.git<br></code></pre></td></tr></table></figure>
+<h1 id="三、创建一个-Git-裸库，保存-Repository"><a href="#三、创建一个-Git-裸库，保存-Repository" class="headerlink" title="三、创建一个 Git 裸库，保存 Repository"></a>三、创建一个 <code>Git</code> 裸库，保存 <code>Repository</code></h1><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta"> root </span>]<span class="hljs-meta"># cd ~</span><br>[<span class="hljs-meta"> root </span>]<span class="hljs-meta"># git init --bare &#123;你的仓库名称&#125;.git #我的仓库名称: My_repository.git</span><br></code></pre></td></tr></table></figure>
 
 <p>使用 <code>Git-Hook</code> 同步网站根目录，这里使用的是 <code>Git</code> 中的 <code>post-receive</code> ，当有 <code>Git</code> 收发的时候会调用该脚本，自动将最新内容同步到网站跟目录中。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[ root ]# vim My_repository.git/post-receive<br></code></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta"> root </span>]<span class="hljs-meta"># vim My_repository.git/post-receive</span><br></code></pre></td></tr></table></figure>
 
 <p>将下面的语句写入文件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>git --work-tree=/data/www/hexo --git-dir=/data/hexo/My_repository.git checkout -f<br></code></pre></td></tr></table></figure>
@@ -279,24 +279,24 @@
 <p><code>--git-dir</code> ：<code>Git-Hook</code> 同步网站根目录。</p>
 </blockquote>
 <p>保存并赋予执行权限</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">[ root ]# chmod +x /data/hexo/My_repository.git/hooks/post-receive<br></code></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[ root ]# chmod +x <span class="hljs-regexp">/data/</span>hexo<span class="hljs-regexp">/My_repository.git/</span>hooks/post-receive<br></code></pre></td></tr></table></figure>
 
 <h1 id="四、本地配置"><a href="#四、本地配置" class="headerlink" title="四、本地配置"></a>四、本地配置</h1><blockquote>
 <p>这里以 <code>Windows</code> 为本地</p>
 </blockquote>
 <p>配置 <code>&quot;_config.yml&quot;</code></p>
 <p>打开位于 <code>Hexo</code> 博客根目录下的 <code>&quot;_config.yml&quot;</code> ，在最后面知道到 <code>&quot;deploy&quot;</code> 并修改。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">deploy:<br>-  type: git<br>   repository: git@github.com:ButATree/ButATree.github.io.git<br>   branch: master<br>-  type: git<br>   repository: root@你的服务器IP地址:/data/hexo/My_repository.git<br>   branch: master   # 分支<br></code></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs elixir"><span class="hljs-symbol">deploy:</span><br>-  <span class="hljs-symbol">type:</span> git<br>   <span class="hljs-symbol">repository:</span> git<span class="hljs-variable">@github</span>.<span class="hljs-symbol">com:</span>ButATree/ButATree.github.io.git<br>   <span class="hljs-symbol">branch:</span> master<br>-  <span class="hljs-symbol">type:</span> git<br>   <span class="hljs-symbol">repository:</span> root@你的服务器IP地址<span class="hljs-symbol">:/data/hexo/My_repository</span>.git<br>   <span class="hljs-symbol">branch:</span> master   <span class="hljs-comment"># 分支</span><br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>**注意若原来 <code>type: git</code> 前面没有 <code>-</code> 符号，需要手动添加上，不然后面会报错。 </p>
 </blockquote>
 <p>本地 <code>git</code> 软件中执行下命令即可</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">hexo clean<br>hexo g<br>hexo d<br></code></pre></td></tr></table></figure>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">hexo clean</span><br><span class="hljs-attribute">hexo g</span><br><span class="hljs-attribute">hexo d</span><br></code></pre></td></tr></table></figure>
 
 <p>以后 <code>hexo d</code> 的时候就会推到 <code>GitHub</code> 和个人服务器上了。</p>
 <h1 id="五、Hexo-d-免密"><a href="#五、Hexo-d-免密" class="headerlink" title="五、Hexo d 免密"></a>五、<code>Hexo d</code> 免密</h1><p>上述 <code>hexo d</code> 每次推到服务器上，都需要密码，通过添加密钥免密推送。可以在本地建立密钥上传到 <code>GitHub</code> 和你的服务器下的 <code>~/.ssh</code> 即可。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">ssh-keygen -t rsa<br><span class="hljs-meta">#</span><span class="bash"> 一直回车即可，然后将 id_rsa.pub 中的密钥信息拷贝到 authorized_keys 即可。</span><br><span class="hljs-meta">#</span><span class="bash"> GitHub 中添加密钥：右上角个人信息 → SSH and GPG keys → New SSH key</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vala">ssh-keygen -t rsa<br><span class="hljs-meta"># 一直回车即可，然后将 id_rsa.pub 中的密钥信息拷贝到 authorized_keys 即可。</span><br><span class="hljs-meta"># GitHub 中添加密钥：右上角个人信息 → SSH and GPG keys → New SSH key</span><br></code></pre></td></tr></table></figure>
             </div>
             <hr>
             <div>
