@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Hexo中的ssh报错</title>
+    <link href="/posts/a15e2685/"/>
+    <url>/posts/a15e2685/</url>
+    
+    <content type="html"><![CDATA[<p>只需在 <code>_config.yml</code> 中的 <code>deploy</code> 中添加：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>   <span class="hljs-attr">repository:</span> <span class="hljs-string">ssh://root@IP:Port/你的hooks.git</span><br>   <span class="hljs-attr">branch:</span> <span class="hljs-string">master</span><br><br><span class="hljs-string">hexo</span> <span class="hljs-string">clean</span><br><span class="hljs-string">hexo</span> <span class="hljs-string">g</span><br><span class="hljs-string">hexo</span> <span class="hljs-string">d</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Hexo博客搭建</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Blog</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Shell-2-练习</title>
     <link href="/posts/3b79c98c/"/>
     <url>/posts/3b79c98c/</url>
