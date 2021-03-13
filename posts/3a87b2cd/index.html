@@ -18,7 +18,7 @@
   <meta name="description" content="">
   <meta name="author" content="ButATree">
   <meta name="keywords" content="">
-  <title>Hexo中的ssh报错 - ButATree&#39;s blog</title>
+  <title>Hexo-Fluid 部署GitHub日历云 - ButATree&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -175,7 +175,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hexo中的ssh报错">
+            <span class="h2" id="subtitle" title="Hexo-Fluid 部署GitHub日历云">
               
             </span>
 
@@ -190,7 +190,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-13 20:11" pubdate>
+      <time datetime="2021-03-13 22:17" pubdate>
         2021年3月13日 晚上
       </time>
     </span>
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      28 字
+      349 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      5
        分钟
     </span>
   
@@ -250,7 +250,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hexo中的ssh报错</h1>
+            <h1 style="display: none">Hexo-Fluid 部署GitHub日历云</h1>
             
               <p class="note note-info">
                 
@@ -259,9 +259,32 @@
               </p>
             
             <div class="markdown-body">
-              <p>只需在 <code>_config.yml</code> 中的 <code>deploy</code> 中添加：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>   <span class="hljs-attr">repository:</span> <span class="hljs-string">ssh://root@IP:Port/你的hooks.git</span><br>   <span class="hljs-attr">branch:</span> <span class="hljs-string">master</span><br><br><span class="hljs-string">hexo</span> <span class="hljs-string">clean</span><br><span class="hljs-string">hexo</span> <span class="hljs-string">g</span><br><span class="hljs-string">hexo</span> <span class="hljs-string">d</span><br></code></pre></td></tr></table></figure>
+              <a class="btn" href="https://blog.csdn.net/u013854486/article/details/104777219/"  title="相关链接" target="_blank">链接</a>
 
+<h1 id="GitHub日历云"><a href="#GitHub日历云" class="headerlink" title="GitHub日历云"></a>GitHub日历云</h1><ol>
+<li>点击 <a class="btn" href="https://cdn.jsdelivr.net/gh/InfiniteYinux/cloud@2.44/Hexo/themeConfig/echarts.min.js 按钮"  target="_blank">echarts.min.js</a> 下载 <code>echarts.min.js</code> 文件方置于 <code>../fluid/source/js</code> 文件夹中。</li>
+<li>点击 <a class="btn" href="https://cdn.jsdelivr.net/gh/InfiniteYinux/cloud@2.44/Hexo/themeConfig/post-calendar.ejs 按钮"  target="_blank">post-calendar.ejs</a> 下载 <code>post-calendar.ejs</code> 文件方置于 <code>../fluid/layout/_widget</code> 文件夹中。</li>
+<li>打开刚刚下载的 <code>post-calendar.ejs</code> 文件，将第七行</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;container archive-calendar&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;card&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;post-calendar&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;card-content&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;&lt;%- theme.jsDelivr.url %&gt;&lt;%- theme.libs.js.echarts %&gt;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="javascript">    <span class="hljs-keyword">let</span> myChart = echarts.init(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;post-calendar&#x27;</span>));</span><br><br></code></pre></td></tr></table></figure>
+
+<h6>替换为:</h6>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/js/echarts.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>点击 <a class="btn" href="https://cdn.jsdelivr.net/gh/InfiniteYinux/cloud@2.44/Hexo/themeConfig/matery.css 按钮"  target="_blank">matery.css</a> 下载 <code>matery.css</code> 文件方置于 <code>../fluid/source/css</code> 文件夹中，然后在 <code>../fluid/layout/_partial/head.ejs</code> 中引入css文件，在<code>&lt;!-- link --&gt;</code>标记下方添加一行</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;link <span class="hljs-attribute">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attribute">type</span>=<span class="hljs-string">&quot;text/css&quot;</span> <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;/css/matery.css&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>之后你想让它显示的位置添加下面的代码就行了，我是放在 <code>../fluid/layout/archive.ejs</code>中。</p>
+<h6>代码如下:</h6>
+
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gcode">&lt;<span class="hljs-meta">%</span>- partial<span class="hljs-comment">(&#x27;_widget/post-calendar&#x27;)</span> <span class="hljs-meta">%</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xl">&lt;%<br><span class="hljs-built_in">page</span>.layout = <span class="hljs-string">&quot;archive&quot;</span><br><span class="hljs-built_in">page</span>.<span class="hljs-built_in">title</span> = <span class="hljs-built_in">theme</span>.archive.<span class="hljs-built_in">title</span> || __(<span class="hljs-string">&#x27;archive.title&#x27;</span>)<br><span class="hljs-built_in">page</span>.<span class="hljs-built_in">subtitle</span> = <span class="hljs-built_in">theme</span>.archive.<span class="hljs-built_in">subtitle</span> || __(<span class="hljs-string">&#x27;archive.subtitle&#x27;</span>)<br><span class="hljs-built_in">page</span>.banner_img = <span class="hljs-built_in">theme</span>.archive.banner_img<br><span class="hljs-built_in">page</span>.banner_img_height = <span class="hljs-built_in">theme</span>.archive.banner_img_height<br><span class="hljs-built_in">page</span>.banner_mask_alpha = <span class="hljs-built_in">theme</span>.archive.banner_mask_alpha<br>%&gt;<br>&lt;%- partial(<span class="hljs-string">&#x27;_widget/post-calendar&#x27;</span>) %&gt; # ←在这<br>&lt;%- partial(<span class="hljs-string">&#x27;_partial/archive-list.ejs&#x27;</span>, &#123; params: &#123; postTotal: site.posts.length &#125; &#125;) %&gt;<br></code></pre></td></tr></table></figure>
+
+<h6>展示:</h6>
+
+<p><img src="/img/blog_image/hexo/hexo_post.png" alt="1.0 Linux网络数据包的接收过程"></p>
 
             </div>
             <hr>
@@ -292,18 +315,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/3a87b2cd/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hexo-Fluid 部署GitHub日历云</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/3b79c98c/">
-                        <span class="hidden-mobile">Shell-2-练习</span>
+                      <a href="/posts/a15e2685/">
+                        <span class="hidden-mobile">Hexo中的ssh报错</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
