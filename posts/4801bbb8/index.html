@@ -212,7 +212,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      3k 字
     </span>
   
 
@@ -222,7 +222,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      33
+      40
        分钟
     </span>
   
@@ -264,14 +264,35 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月12日 晚上
+                  本文最后更新于：2021年3月25日 晚上
                 
               </p>
             
             <div class="markdown-body">
-              <blockquote>
-<p><strong>闲话少说直接开整</strong>。</p>
+              <h1 id="VSFTP-概述"><a href="#VSFTP-概述" class="headerlink" title="VSFTP 概述"></a><code>VSFTP</code> 概述</h1><blockquote>
+<p>​    <code>FTP</code> 是 <code>File Transfer Protocol</code> （文件传输协议）的英文简称，用于 <code>Internet</code> 上的文件的双向传输。使用 <code>FTP</code> 来传输时，是具有一定程度的危险性，因为数据在 <code>Internet</code> 上面试完全没有受到保护的 <strong>明文传输</strong> 方式！</p>
+<p>​    <code>VSFTP</code> 是一个基于 <code>GPL</code> 发布的类 <code>Unix</code> 系统上使用的 <code>FTP</code> 服务器软件，它的全称是 <code>Very Secure FTP</code> 。</p>
 </blockquote>
+<h2 id="安全特性"><a href="#安全特性" class="headerlink" title="安全特性"></a>安全特性</h2><ol>
+<li><code>vsftp</code> 程序的运行者一般是普通用户，降低了相对应进程的权限，提高了安全性</li>
+<li>任何需要执行较高权限的指令都需要上层程序许可</li>
+<li><code>ftp</code> 所需要使用的绝大多数命令都被整合到了 <code>vsftp</code> 中，基本需要系统额外提供命令</li>
+<li>拥有 <code>chroot</code> 功能，可以改变用户的根目录，限制用户只能在自己的家目录</li>
+</ol>
+<h2 id="VSFTP-连接类型"><a href="#VSFTP-连接类型" class="headerlink" title="VSFTP 连接类型"></a><code>VSFTP</code> 连接类型</h2><p>控制连接（持续连接）→ <code>TCP 21</code> （命令信道） → 用户收发 <code>FTP</code> 命令</p>
+<p>数据连接（按需连接）→ <code>TCP 20</code> （数据信道） → 用户上传下载数据</p>
+<h2 id="VSFTP-工作模式"><a href="#VSFTP-工作模式" class="headerlink" title="VSFTP 工作模式"></a><code>VSFTP</code> 工作模式</h2><p><code>Port</code> 模式：</p>
+<p>​    <code>FTP</code> 客户端首先和服务器的 <code>TCP 21</code> 端口建立连接，用来发送命令，客户端需要接收数据的时候在这个通道上发送 <code>PORT</code> 命令。<code>PORT</code> 命令包含了客户端用什么端口接收数据。在传送数据的时候，服务器端通过自己的 <code>TCP 20</code> 端口连接至客户端的指定端口发送数据。<code>FTP Server</code> 必须和客户端建立一个新的连接用来传送数据。</p>
+<p><code>Passive</code> 模式：</p>
+<p>​    <code>FTP</code> 客户端首先和服务器的 <code>TCP 21</code> 端口建立连接，用来建立控制通道发送命令，但建立连接后客户端发送 <code>Pasv</code> 命令。服务器收到 <code>Pasv</code> 命令后，打开一个临时端口（端口大于 <code>1023</code> 小于 <code>65535</code>）并且通知客户端在这个端口上传输数据的请求，客户端连接 <code>FTP</code> 服务器的临时端口，然后 <code>FTP</code> 服务器将通过这个端口传输数据。</p>
+<blockquote>
+<p>注意：由于 <code>VSFTP</code> 的被动模式是随机端口进行数据传输，所以在设置防火墙时需要刻意放行。</p>
+</blockquote>
+<h2 id="VSFTP-传输模式"><a href="#VSFTP-传输模式" class="headerlink" title="VSFTP 传输模式"></a><code>VSFTP</code> 传输模式</h2><p><code>Binary</code> 模式：不对数据进行任何处理，适合进行可执行文件、压缩文件、图片等</p>
+<p><code>ASCII</code> 模式：进行文本传输时，自动适应目标操作系统的结束符，如回车符等。</p>
+<p><code>Linux</code> 的红帽发行版中 <code>VSFTP</code> 默认采用的是 <code>Binary</code> 模式，这样能保证绝大多数文件传输后能正常使用</p>
+<p><strong>切换方式：</strong> 在 <code>FTP</code> &gt; 提示符下输入 <code>ascii</code> 即转换到 <code>ASCII</code> 方式，输入 <code>bin</code> ，即转换到 <code>Binary</code> 方式。</p>
+<hr>
 <h1 id="一、部署匿名-FTP-服务"><a href="#一、部署匿名-FTP-服务" class="headerlink" title="一、部署匿名 FTP 服务"></a>一、部署匿名 <code>FTP</code> 服务</h1><h2 id="1）-安装-FTP-服务"><a href="#1）-安装-FTP-服务" class="headerlink" title="1） 安装 FTP 服务"></a>1） 安装 <code>FTP</code> 服务</h2><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-meta"># yum -y install vsftpd</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="2）进入配置文件中"><a href="#2）进入配置文件中" class="headerlink" title="2）进入配置文件中"></a>2）进入配置文件中</h2><h3 id="2-1-vsftpd-服务的配置删除"><a href="#2-1-vsftpd-服务的配置删除" class="headerlink" title="2.1 vsftpd 服务的配置删除"></a>2.1 <code>vsftpd</code> 服务的配置删除</h3><ul>
