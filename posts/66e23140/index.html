@@ -229,6 +229,14 @@
 
   
   
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
 </div>
 
             
@@ -253,6 +261,12 @@
           <article class="post-content mx-auto">
             <!-- SEO header -->
             <h1 style="display: none">Linux网络IO流程</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年3月15日 中午
+                
+              </p>
             
             <div class="markdown-body">
               <h1 id="一、Linux-网络-IO-流程"><a href="#一、Linux-网络-IO-流程" class="headerlink" title="一、Linux - 网络 IO 流程"></a>一、<code>Linux</code> - 网络 <code>IO</code> 流程</h1><p>我们访问一个网站，从我们在浏览器上打开输入网址到网页被打开，中间经历的哪些流程？如果网络比较好的情况下，通常在几秒之内就可以打开一个内容非常丰富的网站，但是背后的执行过程是非常复杂的，我们简单对其中的某些过程进行描述。而我们要描述的地方就是服务器网卡接收到用户请求数据开始，如何处理这些请求并将报文响应给用户。</p>

@@ -212,7 +212,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.7k 字
+      3.4k 字
     </span>
   
 
@@ -222,12 +222,20 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      34
+      42
        分钟
     </span>
   
 
   
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
   
 </div>
 
@@ -253,6 +261,12 @@
           <article class="post-content mx-auto">
             <!-- SEO header -->
             <h1 style="display: none">Linux-网络文件共享服务</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年3月25日 下午
+                
+              </p>
             
             <div class="markdown-body">
               <blockquote>
@@ -529,7 +543,23 @@
 <p><img src="/img/blog_image/Linux_shareFile/Linux_smbclient.png" srcset="/img/loading.gif" alt="Linux查看共可用资源"></p>
 <p><img src="/img/blog_image/Linux_shareFile/Linux_smbclient_look.png" srcset="/img/loading.gif" alt="Linux访问共可用资源"></p>
 <hr>
-<h1 id="二、NFS"><a href="#二、NFS" class="headerlink" title="二、NFS"></a>二、<code>NFS</code></h1><h2 id="1-NFS-服务配置"><a href="#1-NFS-服务配置" class="headerlink" title="1. NFS 服务配置"></a>1. <code>NFS</code> 服务配置</h2><blockquote>
+<h1 id="二、NFS"><a href="#二、NFS" class="headerlink" title="二、NFS"></a>二、<code>NFS</code></h1><p><strong>什么是 <code>NFS</code></strong>    </p>
+<p>​    <code>NFS</code> 是 <code>Network File System</code> 的缩写，即网络文件系统。一种使用于分散式文件系统的协定，由 <code>Sun</code> 公司开发，于 <code>1984</code> 年向外公布。功能是通过网络让不同的机器、不同的操作系统能够彼此分享个别的数据，让应用程序在客户端通过网络访问位于服务器磁盘中的数据，是在类 <code>Unix</code> 系统间实现磁盘文件共享的一种方法。</p>
+<p><strong><code>NFS</code> 挂载原理</strong></p>
+<p>​    <code>NFS</code> 是通过网络来进行服务端和客户端之间的数据传输。两者之间要传输数据就要有相对应的网络端口来进行传输。<code>NFS</code> 服务器到底使用什么网络端口来传输数据的，<code>NFS</code> 服务器端其实是随机选择端口来进行数据传输。那 <code>NFS</code> 客户端又是如何知道 <code>NFS</code> 服务器端到底使用的是哪个端口呢？其实 <code>NFS</code> 服务器是通过远程过程调用 <code>( remote procedure call)</code> 简称 <code>RPC</code> 协议/服务来实现的。也就是说 <code>RPC</code> 服务会统一管理 <code>NFS</code> 的端口，客户端和服务端通过 <code>RPC</code> 来先沟通 <code>NFS</code> 使用了哪些端口，之后再利用这些端口（小于 <code>1024</code>）来进行数据的传输。</p>
+<p>​    也就是 <code>RPC</code> 管理服务端的 <code>NFS</code> 端口分配，客户端要传数据，那客户端的 <code>RPC</code> 会先跟服务端的 <code>RPC</code> 去要服务器的端口，要到端口后再建立连接，然后传输数据。</p>
+<p><strong>那 <code>RPC</code> 和 <code>NFS</code> 之间又是如何相互通讯的？</strong></p>
+<p>​    首先当 <code>NFS</code> 启动后，就会随机的使用一些端口，然后 <code>NFS</code> 就会向 <code>RPC</code> 去注册这些端口。 <code>RPC</code> 就会记录这些端口。并且 <code>RPC</code> 会开启 <code>111</code> 端口，等待客户端 <code>RPC</code> 的请求，如果客户端有请求，那服务端的 <code>RPC</code> 就会将记录的 <code>NFS</code> 端口信息告知客户端。</p>
+<p><strong><code>RPC</code> 和 <code>NFS</code> 的启动顺序是怎样的？</strong></p>
+<p>​    在启动 <code>NFS Server</code> 服务之前，首先要启动 <code>RPC</code> 服务（即 <code>portmap</code> 服务，下同）否则 <code>NFS Server</code> 就无法向 <code>RPC</code> 服务区注册，另外，如果 <code>RPC</code> 服务重新启动，原来已经注册好的 <code>NFS</code> 端口数据就会全部丢失。因此此时 <code>RPC</code> 服务管理的 <code>NFS</code> 程序也要重新启动以重新向 <code>RPC</code> 注册。特别注意：一般修改 <code>NFS</code> 配置文档后，是不需要重启 <code>NFS</code> 的，直接在命令执行 <code>/etc/init.d/nfs reload</code> </p>
+<p><strong>总结：客户端 <code>NFS</code> 和服务端 <code>NFS</code> 通信过程</strong></p>
+<p>1）首先服务器启动 <code>RPC</code> 服务，并开启 <code>111</code> 端口</p>
+<p>2）启动 <code>NFS</code> 服务，并向 <code>RPC</code> 注册端口信息</p>
+<p>3）客户端启动 <code>RPC</code> (<code>portmap</code> 服务)，向服务端的 <code>RPC</code> (<code>portmap</code> 服务)请求服务端的 <code>NFS</code> 端口</p>
+<p>4）服务端的 <code>RPC</code> 服务反馈 <code>NFS</code> 端口信息给客户端</p>
+<p>5）客户端通过获取的 <code>NFS</code> 端口来建立和服务端的 <code>NFS</code> 连接并进行数据的传输。</p>
+<p><img src="http://butatree.site:8888/images/2021/03/25/NFS-1.png" srcset="/img/loading.gif" alt="NFS-1.png"></p>
+<h2 id="1-NFS-服务配置"><a href="#1-NFS-服务配置" class="headerlink" title="1. NFS 服务配置"></a>1. <code>NFS</code> 服务配置</h2><blockquote>
 <p>同样的需要关闭防火墙、<code>SELinux</code></p>
 </blockquote>
 <h3 id="1）yum-安装-1"><a href="#1）yum-安装-1" class="headerlink" title="1）yum 安装"></a>1）<code>yum</code> 安装</h3><p>​    <code>NFS</code> 服务需要安装 <code>rpcbind</code>、<code>nfs-utils</code> 两个软件。</p>
@@ -557,8 +587,8 @@
 </tbody></table>
 <h3 id="2）NFS-配置文件"><a href="#2）NFS-配置文件" class="headerlink" title="2）NFS 配置文件"></a>2）<code>NFS</code> 配置文件</h3><p>​    <code>NFS</code> 服务程序的配置文件为 <code>/etc/exports</code> ，默认情况下里面没有任何内容。需要按照“共享目录的路径 允许访问的 <code>NFS</code> 客户端（共享权限参数）”的格式，定义要共享的目录与相应的权限。</p>
 <blockquote>
-<p>比如：把 <code>/home/test</code> 共享给 <code>192.168.100.10</code> 主机，权限为读写，如下：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/home/</span>test     <span class="hljs-number">192.168</span>.<span class="hljs-number">100.10</span>(rw)<br></code></pre></td></tr></table></figure>
+<p>比如：把 <code>/home/test</code> 共享给 <code>10.4.7.101</code> 主机，权限为读写，如下：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/home/</span>test     <span class="hljs-number">10.4</span>.<span class="hljs-number">7.101</span>(rw)<br></code></pre></td></tr></table></figure>
 </blockquote>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gradle"># mkdir <span class="hljs-regexp">/home/</span><span class="hljs-keyword">public</span><br># chmod o+w <span class="hljs-regexp">/home/</span><span class="hljs-keyword">public</span><br># mkdir <span class="hljs-regexp">/home/</span>share<br># chmod o+w <span class="hljs-regexp">/home/</span>share<br></code></pre></td></tr></table></figure>
 
