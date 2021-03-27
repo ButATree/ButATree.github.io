@@ -212,7 +212,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3k 字
+      2.9k 字
     </span>
   
 
@@ -264,7 +264,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月26日 晚上
+                  本文最后更新于：2021年3月27日 下午
                 
               </p>
             
@@ -343,7 +343,7 @@
 <p><code>os level = 200</code></p>
 <p>说明：设置 <code>smaba</code> 服务器的 <code>os level</code> 。该参数决定 <code>Samba Server</code> 是否有机会成为本地网域的主浏览器。<code>os level</code> 从 <code>0</code> 到 <code>255</code> ，<code>winNT</code> 的 <code>os level</code> 是 <code>32</code> ，<code>win95/98</code> 的 <code>os level</code> 是 <code>1</code> 。<code>Windows 2000</code> 的 <code>os level</code> 是 <code>64</code> 。如果设置为 <code>0</code> ，则意味着  <code>Samba Server</code> 将失去浏览器选择。如果想让 <code>Samba Server</code> 成为 <code>PDC</code> ，那么将它的 <code>os level</code> 值设大一些。</p>
 <p><code>domain logons = yes/no</code></p>
-<p>说明：设置 <code>Samba Server</code> 是否要做为本地&lt;・)))&gt;&lt;&lt;控制器。主域控制器和备份域控制器都需要开启此项。</p>
+<p>说明：设置 <code>Samba Server</code> 是否要做为本地控制器。主域控制器和备份域控制器都需要开启此项。</p>
 <p><code>logon . = %u.bat</code></p>
 <p>说明：当使用者用 <code>windows</code> 客户端登录，那么 <code>Samba</code> 将提供一个登录档。如果设置成 <code>%u.bat</code> ，那么就要为每个用户提供一个登录档。如果人比较多，那就比较麻烦。可以设置成一个具体的文件名，比如 <code>start.bat</code> ，那么用户登录后都会去执行 <code>start.bat</code> ，而不用为每个用户设定一个登录档了。这个文件要放置在 <code>[netlogon]</code> 的 <code>path</code> 设置的目录路径下。</p>
 <p><code>wins support = yes/no</code></p>
