@@ -212,7 +212,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      705 字
+      825 字
     </span>
   
 
@@ -222,7 +222,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      12
        分钟
     </span>
   
@@ -353,7 +353,116 @@
 </blockquote>
 <h2 id="发送方配置"><a href="#发送方配置" class="headerlink" title="发送方配置"></a>发送方配置</h2><ol>
 <li><p><code>DNS</code> 搭建</p>
-<p>如上：<span class="label label-primary"><a href="#前提" color=black>前提</a></span></p>
+<p>如上：<span class="label label-primary"><a href="#前提">前提</a></span></p>
+</li>
+<li><p>安装 <code>gcc</code> 以及其他依赖软件</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">yum -y install gcc* mysql mysql-<span class="hljs-keyword">server</span> httpd mailx<br><br> systemctl <span class="hljs-keyword">restart</span> httpd<br> systemctl <span class="hljs-keyword">enable</span> httpd<br> systemctl <span class="hljs-keyword">start</span> mariadb.service <br> systemctl <span class="hljs-keyword">enable</span> mariadb.service<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将 <code>web</code> 页面放到 <code>Apache</code> 的网页目录下</p>
+<blockquote>
+<p>下载地址 <a target="_blank" rel="noopener" href="https://github.com/xyoun/extmail">https://github.com/xyoun/extmail</a></p>
+</blockquote>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs gradle">mkdir -p <span class="hljs-regexp">/var/</span>www/extsuite<br><br>#tar -xf extmail-<span class="hljs-number">1.2</span>.tar.gz -C <span class="hljs-regexp">/var/</span>www/extsuite<br>#tar -xf extman-<span class="hljs-number">1.1</span>.tar.gz -C <span class="hljs-regexp">/var/</span>www/extsuite<br><br>cd <span class="hljs-regexp">/var/</span>www/extsuite<br>mv extmail-<span class="hljs-number">1.2</span> extmail<br>mv extman-<span class="hljs-number">1.1</span> extman<br>chown -R root.root *<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将数据库文件导入到 <code>Mysql</code> 中（没有设置密码，空密码登录）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">   <br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </li>
 </ol>
 
@@ -383,23 +492,6 @@
               
                 <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/posts/7b285b86/">
-                        <span class="hidden-mobile">Linux-SAMBA服务(贰)</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 
