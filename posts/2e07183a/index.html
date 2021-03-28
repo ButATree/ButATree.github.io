@@ -296,7 +296,7 @@
 <hr>
 <h1 id="四、RSYNC-实验演示"><a href="#四、RSYNC-实验演示" class="headerlink" title="四、RSYNC 实验演示"></a>四、<code>RSYNC</code> 实验演示</h1><p>​    我们一般使用 <code>rsync</code> 来进行单向数据同步，因此我们需要确定一个基准，比如：两台服务器，一台 <code>NFS</code> 作为网站数据服务器（基准服务器），另外一台专门做 <code>rsync</code> 数据备份服务器，我们以此我基础开始我们的实验。</p>
 <hr>
-<h3 id="4-1-ssh-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器"><a href="#4-1-ssh-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器" class="headerlink" title="4.1 ssh 协议数据同步：将 NFS 服务器数据同步备份到 RSYNC 服务器"></a>4.1 <code>ssh</code> 协议数据同步：将 <code>NFS</code> 服务器数据同步备份到 <code>RSYNC</code> 服务器</h3><p>实验环境：一台 <code>NFS</code> 服务器，一台 <code>rsync</code> 服务器</p>
+<h2 id="4-1-ssh-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器"><a href="#4-1-ssh-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器" class="headerlink" title="4.1 ssh 协议数据同步：将 NFS 服务器数据同步备份到 RSYNC 服务器"></a>4.1 <code>ssh</code> 协议数据同步：将 <code>NFS</code> 服务器数据同步备份到 <code>RSYNC</code> 服务器</h2><p>实验环境：一台 <code>NFS</code> 服务器，一台 <code>rsync</code> 服务器</p>
 <p>在两台服务器上分别创建目录（/filesrc、/filedst）</p>
 <p><strong>下行同步（下载）</strong></p>
 <p>格式：<code>rsync -avz</code> 服务器地址:/服务器目录/* /本地目录</p>
@@ -325,7 +325,7 @@
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs livescript">[root@a filesrc]<span class="hljs-comment"># touch a.txt</span><br>[root@a filesrc]<span class="hljs-comment"># rsync -avz /filesrc/* root@10.4.7.101:/filedst/</span><br><span class="hljs-string">\S</span><br>Kernel <span class="hljs-string">\r</span> <span class="hljs-literal">on</span> an <span class="hljs-string">\m</span><br>sending incremental file <span class="hljs-keyword">list</span><br>a.txt<br><br>sent <span class="hljs-number">84</span> bytes  received <span class="hljs-number">35</span> bytes  <span class="hljs-number">238.00</span> bytes/sec<br>total size <span class="hljs-keyword">is</span> <span class="hljs-number">0</span>  speedup <span class="hljs-keyword">is</span> <span class="hljs-number">0.00</span><br></code></pre></td></tr></table></figure>
 </blockquote>
 <hr>
-<h3 id="4-2-rsync-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器"><a href="#4-2-rsync-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器" class="headerlink" title="4.2 rsync 协议数据同步：将 NFS 服务器数据同步备份到 RSYNC 服务器"></a>4.2 <code>rsync</code> 协议数据同步：将 <code>NFS</code> 服务器数据同步备份到 <code>RSYNC</code> 服务器</h3><p>实验环境：一台服务器，一台客户端</p>
+<h2 id="4-2-rsync-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器"><a href="#4-2-rsync-协议数据同步：将-NFS-服务器数据同步备份到-RSYNC-服务器" class="headerlink" title="4.2 rsync 协议数据同步：将 NFS 服务器数据同步备份到 RSYNC 服务器"></a>4.2 <code>rsync</code> 协议数据同步：将 <code>NFS</code> 服务器数据同步备份到 <code>RSYNC</code> 服务器</h2><p>实验环境：一台服务器，一台客户端</p>
 <ol>
 <li><p>在两台服务器上分别创建目录（<code>/filesrc、/filedst</code>）</p>
 </li>
@@ -365,6 +365,8 @@
 <p><strong>上传同步（上传）</strong></p>
 <p>格式：<code>rsync -avz /本地目录/* rsync://用户名@服务器地址/共享模块名</code></p>
 <p>示例：<code>rsync -avz /filedst/* rsync://user1@10.4.7.100/web</code></p>
+<blockquote>
+<a class="btn" href="http://butatree.site/posts/14c6ce5b/"  title="跳转" target="_blank">（贰）</a></blockquote>
 
             </div>
             <hr>
