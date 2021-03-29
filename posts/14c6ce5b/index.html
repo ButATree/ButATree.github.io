@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月28日 晚上
+                  本文最后更新于：2021年3月29日 下午
                 
               </p>
             
@@ -362,7 +362,7 @@
 </li>
 </ol>
 <h2 id="3-配置脚本"><a href="#3-配置脚本" class="headerlink" title="3. 配置脚本"></a>3. 配置脚本</h2><blockquote>
-<p><em><font color=red>注：双向自动同步，监控目录和数据同步时，源目录不能使用 \</em>通配符传输，否则会变成死循环。</font>*</p>
+<p><font color=red><em>注：双向自动同步，监控目录和数据同步时，源目录不能使用 \</em>通配符传输，否则会变成死循环。*</font></p>
 </blockquote>
 <p><strong><code>filesrc</code> 端</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@a ~]<span class="hljs-comment"># vi unison_inotify_src.sh </span><br><span class="hljs-meta">#!/bin/bash</span><br><br>a=<span class="hljs-string">&quot;inotifywait -mrq -e create,delete,modify /filesrc&quot;</span><br>b=<span class="hljs-string">&quot;/usr/local/bin/unison -batch /filesrc/ ssh://10.4.7.101//filedst&quot;</span><br><span class="hljs-comment"># -batch:批处理</span><br><span class="hljs-variable">$a</span> | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> directory event file<br><span class="hljs-keyword">do</span><br>     <span class="hljs-variable">$b</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
@@ -375,7 +375,7 @@
 <blockquote>
 <p>在 <code>SRC</code> 创建了 <code>a</code> 文件后又删除了 <code>a</code> 文件。<code>DST</code> 也同步进行。</p>
 </blockquote>
-<p><img src="http://butatree.site:8888/images/2021/03/28/rsync_inotify.png" srcset="/img/loading.gif" alt="rsync_inotify.png"></p>
+<p><img src="http://butatree.site:8888/images/2021/03/29/rsync_inotify.png" srcset="/img/loading.gif" alt="rsync_inotify.png"></p>
 
             </div>
             <hr>
