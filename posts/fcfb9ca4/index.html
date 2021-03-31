@@ -392,6 +392,9 @@
 <h3 id="8-修改-nginx-配置文件"><a href="#8-修改-nginx-配置文件" class="headerlink" title="8. 修改 nginx 配置文件"></a>8. 修改 <code>nginx</code> 配置文件</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">user</span>  nginx;<br><br><span class="hljs-attribute">upstream</span> tomcat &#123; <span class="hljs-comment"># 添加负载调度</span><br>    <span class="hljs-attribute">server</span> <span class="hljs-number">10.4.7.103:8080</span>;<br>&#125;<br> <span class="hljs-attribute">location</span> / &#123; <span class="hljs-comment"># 添加反向代理</span><br>            <span class="hljs-attribute">proxy_pass</span> http://tomcat;<br>            <span class="hljs-attribute">proxy_set_header</span> Host $host;<br>        &#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="9-重载服务"><a href="#9-重载服务" class="headerlink" title="9. 重载服务"></a>9. 重载服务</h3><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-meta"># nginx -t reload</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="http://1.15.86.139:8888/images/2021/03/31/Tomcat.png" srcset="/img/loading.gif" alt="Tomcat.png"></p>
+
             </div>
             <hr>
             <div>
