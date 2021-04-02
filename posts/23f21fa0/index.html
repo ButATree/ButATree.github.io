@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="ButATree">
+  <meta name="keywords" content="">
+  <title>Linux-ELK日志分析 - ButATree&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>ButATree</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-notebook"></i>
+                关于
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/about/">
+                    <i class="iconfont icon-user-fill"></i>
+                    个人
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="http://download.butatree.site">
+                    
+                    下载
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                相关链接
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4l2p20.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux-ELK日志分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      ButATree
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-01 18:30" pubdate>
+        2021年4月1日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux-ELK日志分析</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年4月2日 晚上
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="一、ELK-简介"><a href="#一、ELK-简介" class="headerlink" title="一、ELK 简介"></a>一、<code>ELK</code> 简介</h1><blockquote>
+<p>为什么用到 <code>ELK</code> </p>
+<p>​    一般我们需要进行日志分析场景：直接在日志文件中 <code>grep</code> 、<code>awk</code> 就可以获得自己想要的信息。但在规模较大的场景中，此方法效率低下，面临问题包括日志量太大如何归档、文本搜索太慢怎么办、如果多维度查询。需要集中化的日志管理，所有服务器上的日志收集汇总。场景解决思路是建立集中式日志收集系统，将所有节点上的日志统一收集，管理，访问。</p>
+<p>​    一般大型系统是一个分布式部署的架构，不同的服务模块部署在不同的服务器上，问题出现时，大部分情况需要根据问题暴露的关键信息，定位到具体的服务器和服务模块。构建一套集中式日志系统，可以提高定位问题的效率。</p>
+<p>​    一个完整的集中式日志文件，需要包含以下几个主要特点：</p>
+<ul>
+<li>收集：能够采集多种来源的日志数据</li>
+<li>传输：能够稳定的把日志数据传输到中央系统</li>
+<li>存储：如何存储日志数据</li>
+<li>分析：可以支持 <code>UI</code> 分析</li>
+<li>警告：能够提供错误报告，监控机制 <code>ELK</code> 提供了一整套解决方案，并且都是开源软件，之间互相配合使用，完美衔接，高效的满足了很多场合的应用。目前主流的一种日志系统。</li>
+</ul>
+</blockquote>
+<p>​    <code>ELK</code> 是三个开源软件的缩写，分别表示：<code>Elasticsearch</code> 、<code>Logstash</code> 、<code>Kibana</code> ，他们都是开源软件。新增了一个 <code>FileBeat</code> ，它是一个轻量级的日志收集处理工具（<code>Agent</code>），<code>Filebeat</code> 占用资源少，适合于在各个服务器上搜集日志后传输给 <code>Logstash</code> ，官方也推荐此工具。</p>
+<p>​    <code>Elasticsearch</code> 是个开源分布式搜索引擎，提供搜集、分析、存储数据三大功能。它的特点有：分布式，零配置，自动发现，索引自动分片。索引副本机制，<code>restful</code> 风格接口，多数据源，自动搜索负载等。</p>
+<p>​    <code>Logstash</code> 主要是用来日志的搜集、分析、过滤日志的工具，支持大量的数据获取方式。一般工作方式为 <code>C/S</code> 架构，<code>Client</code> 端安装在需要搜集日志的主机上，<code>Server</code> 端负载将收到的各节点日志进行过滤、修改等操作在一并发往 <code>Elasticsearch</code> 上去。</p>
+<p>​    <code>Kibana</code> 也是一个开源和免费的工具，<code>Kibana</code> 可以为 <code>Elasticsearch</code> 和 <code>Logstash</code> 提供的日志分析友好的 <code>web</code> 界面，可以帮助汇总、分析和搜索重要数据日志。</p>
+<p>​    <code>Filebeat</code> 隶属于 <code>Beats</code> 。目前 <code>Beats</code> 包含四种工具：</p>
+<ul>
+<li><code>Packetbeat</code> ：搜集网络流量数据</li>
+<li><code>Topbeat</code> ：搜集系统、进程和文件系统级别的 <code>CPU</code> 和内存使用情况等数据</li>
+<li><code>Filebeat</code> ：搜集文件数据</li>
+<li><code>Winlogbeat</code> ：搜集 <code>Windows</code> 事件日志数据</li>
+</ul>
+<p><img src="http://1.15.86.139:8888/images/2021/04/01/ELK1.png" srcset="/img/loading.gif" alt="ELK-架构"></p>
+<hr>
+<h1 id="二、ELK-部署"><a href="#二、ELK-部署" class="headerlink" title="二、ELK 部署"></a>二、<code>ELK</code> 部署</h1><p>客户端：<code>Filebeats</code> </p>
+<p>服务端：<code>logstash</code> 、<code>elasticsearch</code> 、<code>kibana</code> </p>
+<p>​    业务请求到达 <code>Nginx-server</code> 机器上的 <code>Nginx</code> ；<code>Nginx</code> 响应请求，并在 <code>access.log</code> 文件中增加访问记录；<code>FileBeat</code> 搜集新增的日志，通过 <code>LogStash</code> 的 <code>5044</code> 端口上传日志；<code>LogStash</code> 将日志信息通过本机的 <code>9200</code> 端口传入到 <code>ElasticSerach</code> ；搜索日志的用户通过浏览器访问 <code>Kibana</code> ，服务器端口是 <code>5601</code> ；<code>Kibana</code> 通过 <code>9200</code> 端口访问 <code>ElasticSerach</code>；</p>
+<p><img src="http://1.15.86.139:8888/images/2021/04/01/ELK2.png" srcset="/img/loading.gif" alt="实验架构"></p>
+<hr>
+<p><strong>实验环境：</strong></p>
+<p>​    本次部署的单点 <code>ELK</code> 用了两台机器（<code>CentOS7</code>）</p>
+<p>​    <code>ELK</code> 服务端：<code>10.4.7.103</code></p>
+<p>​    <code>Nginx</code> 客户端：<code>10.4.7.104</code></p>
+<h2 id="1-下载并安装软件包"><a href="#1-下载并安装软件包" class="headerlink" title="1. 下载并安装软件包"></a>1. 下载并安装软件包</h2><blockquote>
+<p>关闭防火墙和 <code>SELinux</code> </p>
+<blockquote>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stata">[root@localhost config]#  vim /etc/security/limits.<span class="hljs-keyword">conf</span><br><span class="hljs-comment">* soft nproc 65536</span><br><span class="hljs-comment">* hard nproc 65536</span><br><span class="hljs-comment">* soft nofile 65536</span><br><span class="hljs-comment">* hard nofile 65536</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>官网：<a target="_blank" rel="noopener" href="https://artifacts.elastic.co/">分别下载：<code>elasticsearch</code>、<code>logstash</code>、<code>kibana</code>、<code>filebeat</code></a> 版本必须相同，我下载的是最新版的。</p>
+<p>全部解压到 <code>/usr/local</code> 下</p>
+<p>配置网络 <code>yum</code> 源：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta"># wget http:<span class="hljs-comment">//mirrors.aliyun.com/repo/Centos-7.repo</span></span><br><span class="hljs-meta"># wget http:<span class="hljs-comment">//mirrors.aliyun.com/repo/epel-7.repo</span></span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">mkdir <span class="hljs-string">/elk</span> &amp;&amp; <span class="hljs-keyword">cd</span> <span class="hljs-string">/elk</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2-安装-JDK-环境工具"><a href="#2-安装-JDK-环境工具" class="headerlink" title="2. 安装 JDK 环境工具"></a>2. 安装 <code>JDK</code> 环境工具</h2><blockquote>
+<p><code>yum</code> 安装或者源码安装都可以</p>
+</blockquote>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">yum</span> -y install java-<span class="hljs-number">1</span>.<span class="hljs-number">11</span>*<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-配置-elasticsearch"><a href="#3-配置-elasticsearch" class="headerlink" title="3. 配置 elasticsearch"></a>3. 配置 <code>elasticsearch</code></h2><p><strong>1）修改 <code>/etc/sysctl.conf</code> 、<code>/etc/security/limits.conf</code> 文件</strong></p>
+<blockquote>
+<ol>
+<li>报错 <strong><code>max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</code></strong>  是因为操作系统 <code>vm.max_map_count</code> 参数设置太小导致的，至于设置多大的数值，我这里就直接参照报错信息的建议直接设置为 <code>262144</code> </li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@test1 ~]</span><span class="hljs-comment"># vi /etc/sysctl.conf</span><br><span class="hljs-attr">vm.max_map_count</span>=<span class="hljs-number">262144</span> <br><span class="hljs-section">[root@test1 ~]</span><span class="hljs-comment"># sysctl -p</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>报错 <strong><code>max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</code></strong> 是因为操作系统安全检测配置影响的，我们需要切换到<code>root</code> 用户下做如下配置：</li>
+</ol>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stata">[root@test1 ~]# vi /etc/security/limits.<span class="hljs-keyword">conf</span><br><span class="hljs-comment">* soft nproc  65536</span><br><span class="hljs-comment">* hard nproc  65536</span><br><span class="hljs-comment">* soft nofile 65536</span><br><span class="hljs-comment">* hard nofile 65536</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>2）新建 <code>elasticsearch</code> 用户并启动（用 <code>elasticsearch</code> 普通用户启动）</strong></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[root<span class="hljs-variable">@test1</span> ~]<span class="hljs-comment"># useradd elasticsearch</span><br>[root<span class="hljs-variable">@test1</span> ~]<span class="hljs-comment"># chown -Rf elasticsearch.elasticsearch /usr/local/elasticsearch-7.12.0/</span><br>[root<span class="hljs-variable">@test1</span> ~]<span class="hljs-comment"># su - elasticsearch</span><br>[elasticsearch<span class="hljs-variable">@test1</span> elasticsearch<span class="hljs-number">-7.12</span>.0]<span class="hljs-variable">$ </span>cd /usr/local/elasticsearch<span class="hljs-number">-7.12</span>.0<br>[elasticsearch<span class="hljs-variable">@test1</span> elasticsearch<span class="hljs-number">-7.12</span>.0]<span class="hljs-variable">$ </span>./bin/elasticsearch -d<br></code></pre></td></tr></table></figure>
+
+<p><strong>3）查看进程是否启动成功</strong></p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">netstat -tnlup</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>4）若出现错误可以查看日志</strong></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">[elasticsearch@test1 elasticsearch-<span class="hljs-number">7.12</span>.<span class="hljs-number">0</span>]$ cat <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/elasticsearch-7.12.0/</span>logs/elasticsearch.log <br></code></pre></td></tr></table></figure>
+
+<p><strong>5）测试是否可以正常访问</strong></p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[elasticsearch<span class="hljs-variable">@test1</span> elasticsearch<span class="hljs-number">-7.12</span>.0]<span class="hljs-variable">$ </span>curl <span class="hljs-symbol">localhost:</span><span class="hljs-number">9200</span><br>&#123;<br>  <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;test1&quot;</span>,<br>  <span class="hljs-string">&quot;cluster_name&quot;</span> : <span class="hljs-string">&quot;elasticsearch&quot;</span>,<br>  <span class="hljs-string">&quot;cluster_uuid&quot;</span> : <span class="hljs-string">&quot;VDkZKCkTT-Gf3eyOsSptSA&quot;</span>,<br>  <span class="hljs-string">&quot;version&quot;</span> : &#123;<br>    <span class="hljs-string">&quot;number&quot;</span> : <span class="hljs-string">&quot;7.12.0&quot;</span>,<br>    <span class="hljs-string">&quot;build_flavor&quot;</span> : <span class="hljs-string">&quot;default&quot;</span>,<br>    <span class="hljs-string">&quot;build_type&quot;</span> : <span class="hljs-string">&quot;tar&quot;</span>,<br>    <span class="hljs-string">&quot;build_hash&quot;</span> : <span class="hljs-string">&quot;78722783c38caa25a70982b5b042074cde5d3b3a&quot;</span>,<br>    <span class="hljs-string">&quot;build_date&quot;</span> : <span class="hljs-string">&quot;2021-03-18T06:17:15.410153305Z&quot;</span>,<br>    <span class="hljs-string">&quot;build_snapshot&quot;</span> : <span class="hljs-keyword">false</span>,<br>    <span class="hljs-string">&quot;lucene_version&quot;</span> : <span class="hljs-string">&quot;8.8.0&quot;</span>,<br>    <span class="hljs-string">&quot;minimum_wire_compatibility_version&quot;</span> : <span class="hljs-string">&quot;6.8.0&quot;</span>,<br>    <span class="hljs-string">&quot;minimum_index_compatibility_version&quot;</span> : <span class="hljs-string">&quot;6.0.0-beta1&quot;</span><br>  &#125;,<br>  <span class="hljs-string">&quot;tagline&quot;</span> : <span class="hljs-string">&quot;You Know, for Search&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-配置-logstash"><a href="#4-配置-logstash" class="headerlink" title="4. 配置 logstash"></a>4. 配置 <code>logstash</code></h2><p>​    <code>Logstash</code> 收集 <code>nginx</code> 日志使用 <code>grok</code> 过滤插件解析日志，<code>grok</code> 作为一个 <code>logstash</code> 的过滤插件，支持根据模式解析文本日志行，拆成字段。</p>
+<p><strong>1）<code>logstash</code> 中 <code>grok</code> 的正则匹配</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-attr">[root@test1 ~]</span># cd /usr/local/logstash-<span class="hljs-number">7.12</span>.<span class="hljs-number">0</span><br><span class="hljs-selector-attr">[root@test1 logstash-7.12.0]</span># vi vendor/bundle/jruby/<span class="hljs-number">2.5</span>.<span class="hljs-number">0</span>/gems/logstash-patterns-core-<span class="hljs-number">4.3</span>.<span class="hljs-number">0</span>/patterns/legacy/grok-patterns<br><br># nginx log<br>WZ (<span class="hljs-selector-attr">[^ ]</span>*) <br>NGINXACCESS %&#123;IP:remote_ip&#125; \- \- \<span class="hljs-selector-attr">[%&#123;HTTPDATE:timestamp&#125;\]</span> &quot;%&#123;WORD:method&#125; %&#123;WZ:request&#125; HTTP/%&#123;NUMBER:httpversion&#125;&quot; %&#123;NUMBER:status&#125; %&#123;NUMBER:bytes&#125; %&#123;QS:referer&#125; %&#123;QS:agent&#125; %&#123;QS:xforward&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>2）创建 <code>logstash</code> 配置文件</strong></p>
+<figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs puppet">[root@test1 logstash-7.12.0]<span class="hljs-comment"># vi /usr/local/logstash-7.12.0/default.conf</span><br><span class="hljs-keyword">input</span> &#123;<br>    beats &#123;<br>        <span class="hljs-attr">port</span> =&gt; <span class="hljs-string">&quot;5044&quot;</span><br>    &#125;<br>&#125;<br><span class="hljs-comment"># 数据过滤</span><br><span class="hljs-keyword">filter</span> &#123;<br>    grok &#123;<br>        <span class="hljs-attr">match</span> =&gt; &#123;<span class="hljs-string">&quot;message&quot;</span>=&gt;<span class="hljs-string">&quot;%&#123;NGINXACCESS&#125;&quot;</span>&#125;<br>    &#125;<br>    <span class="hljs-keyword">geoip</span> &#123;<br>        <span class="hljs-comment"># nginx 客户端 ip</span><br>        <span class="hljs-attr">source</span> =&gt; <span class="hljs-string">&quot;10.4.7.104&quot;</span><br>    &#125;<br>&#125;<br><span class="hljs-comment"># 输出配置为本机的 9200端口，这是 ElasticSerach 服务的监听端口</span><br><span class="hljs-keyword">output</span> &#123;<br>    elasticsearch &#123;<br>        <span class="hljs-attr">hosts</span> =&gt; [<span class="hljs-string">&quot;127.0.0.1:9200&quot;</span>]<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>3）进入到 <code>/usr/local/logstash-7.12.0</code> 目录下，并执行下列命令</strong></p>
+<blockquote>
+<p>启动的比较慢，记得看下日志</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">后台启动logstash: nohup bin/logstash -f default.conf &amp;</span><br><span class="hljs-section">查看启动日志: tailf nohup.out</span><br><span class="hljs-section">查看端口是否启动: netstat -napt | grep 5044</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-配置-kibana"><a href="#5-配置-kibana" class="headerlink" title="5. 配置 kibana"></a>5. 配置 <code>kibana</code></h2><p><strong>1）打开 <code>kibana</code> 配置文件 <code>/usr/local/kibana-7.12.0-linux-x86_64/config/kibana.yml</code> 找到下面这行并修改</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@test1</span> <span class="hljs-keyword">local</span>]<span class="hljs-meta"># vim /usr/local/kibana-7.12.0-linux-x86_64/config/kibana.yml </span><br><span class="hljs-meta">#server.host: <span class="hljs-string">&quot;localhost&quot;</span> 改→ server.host: <span class="hljs-string">&quot;10.4.7.103&quot;</span></span><br><span class="hljs-meta">#这样其他电脑就能用浏览器访问 Kibana的服务了</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>2）创建用户</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@test1</span> <span class="hljs-keyword">local</span>]<span class="hljs-meta"># useradd kibana</span><br>[root<span class="hljs-symbol">@test1</span> <span class="hljs-keyword">local</span>]<span class="hljs-meta"># chown -Rf kibana.kibana kibana-7.12.0-linux-x86_64/</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>3）进入 <code>Kibana</code> 的目录 <code>cd /usr/local/kibana-7.12.0-linux-x86_64</code></strong></p>
+<blockquote>
+<p><strong>注意和 <code>Elasticsearch</code> 一样不能使用 <code>root</code> 账户启动，具体切换用户可以参照之前 <code>Elasticsearch</code> 的内容</strong></p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs makefile">[root@test1 local]<span class="hljs-comment"># su - kibana</span><br><span class="hljs-section">启动命令: nohup bin/kibana &amp;</span><br><span class="hljs-section">查看启动日志: tail -f nohup.out</span><br><span class="hljs-section">查看端口是否启动: netstat -tlunp | grep 5601</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>4）测试</strong></p>
+<blockquote>
+<p>在浏览器访问 <code>10.4.7.103:5601</code>，<code>ELK</code> 部署完成</p>
+</blockquote>
+<p><img src="http://butatree.site:8888/images/2021/04/02/Login.png" srcset="/img/loading.gif" alt="Login.png"></p>
+<h2 id="6-Nginx-客户端配置"><a href="#6-Nginx-客户端配置" class="headerlink" title="6. Nginx 客户端配置"></a>6. <code>Nginx</code> 客户端配置</h2><p>**1）<code>yum</code> 安装二进制 <code>Nginx</code> **</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@test2</span> ~]<span class="hljs-meta"># yum -y install nginx</span><br>[root<span class="hljs-symbol">@test2</span> ~]<span class="hljs-meta"># systemctl start nginx</span><br>[root<span class="hljs-symbol">@test2</span> ~]<span class="hljs-meta"># systemctl enable nginx</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>2）下载 <code>filebeat</code> 并解压到 <code>/usr/local/</code></strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@test2</span> elk]<span class="hljs-meta"># tar -xf filebeat-7.12.0-linux-x86_64.tar.gz -C /usr/local/</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>3）打开文件 <code>/usr/local/filebeatt-7.12.0-linux-x86_64/filebeat.yml</code>，修改以下内容：</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># ============================== Filebeat inputs ===============================</span><br><span class="hljs-attr">filebeat.inputs:</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">log</span><br><br>  <span class="hljs-comment"># Change to true to enable this input configuration.</span><br>  <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>                   <span class="hljs-comment">#改为true</span><br><br>  <span class="hljs-comment"># Paths that should be crawled and fetched. Glob based paths.</span><br>  <span class="hljs-attr">paths:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">/var/log/nginx/*.log</span>        <span class="hljs-comment">#nginx的日志位置</span><br><br><span class="hljs-comment"># ---------------------------- Elasticsearch Output ----------------------------</span><br><span class="hljs-comment">#output.elasticsearch:            #注释掉</span><br>  <span class="hljs-comment"># Array of hosts to connect to.</span><br>  <span class="hljs-comment">#hosts: [&quot;localhost:9200&quot;]      #注释掉</span><br><br><span class="hljs-comment"># ------------------------------ Logstash Output -------------------------------</span><br><span class="hljs-attr">output.logstash:</span>                  <span class="hljs-comment">#去掉注释</span><br>  <span class="hljs-comment"># The Logstash hosts</span><br>  <span class="hljs-attr">hosts:</span> [<span class="hljs-string">&quot;10.4.7.103:5044&quot;</span>]      <span class="hljs-comment">#服务器地址</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>4）切换到 <code>/usr/local/filebeat-7.12.0-linux-x86_64</code> 目录下</strong></p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs 1c">后台启动 filebeat: nohup ./filebeat -e -c filebeat.yml <span class="hljs-meta">&amp;</span><br>查看日志: tailf nohup.out<br></code></pre></td></tr></table></figure>
+
+<p><strong>5）通过浏览器多访问几次 <code>Nginx</code> 服务，这样能多制造一些访问日志</strong></p>
+<p><strong>6）访问 <code>Kibana</code>: <a target="_blank" rel="noopener" href="https://10.4.7.103:5601/">https://10.4.7.103:5601</a> ，点击左上角的 <code>Discover</code> ，就可以看到访问日志已经被 <code>ELK</code> 搜集了，然后按照下列步骤完成设置</strong></p>
+<p><img src="http://butatree.site:8888/images/2021/04/02/success1.png" srcset="/img/loading.gif" alt="点击Discover"></p>
+<p><img src="http://butatree.site:8888/images/2021/04/02/success2.png" srcset="/img/loading.gif" alt="输入logstash-*,点击 Next step"></p>
+<p><img src="http://butatree.site:8888/images/2021/04/02/success3.png" srcset="/img/loading.gif" alt="选择 @Timestamp，再点击 Create index pattern"></p>
+<p><img src="http://butatree.site:8888/images/2021/04/02/success4.png" srcset="/img/loading.gif" alt="可以自行创建日志内容查询规则"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ELK/">ELK</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/fcfb9ca4/">
+                        <span class="hidden-mobile">Linux-Tomcat部署</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "Mwdu7VOQpQQD3cKW6SsRSt4f-gzGzoHsz",
+          app_key: "XAg4RThXdR3JX0BNAF0axveE",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "mp",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        豫ICP备2021006301号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon"/>
+            
+            <span>京公网安备12345678号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
