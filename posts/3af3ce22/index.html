@@ -220,7 +220,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.1k 字
+      4.2k 字
     </span>
   
 
@@ -230,7 +230,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      56
+      59
        分钟
     </span>
   
@@ -463,10 +463,10 @@
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@b redis]# vi <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>etc/redis.conf<br>requirepass <span class="hljs-number">123456</span><br></code></pre></td></tr></table></figure>
 
 <p><strong>重启 <code>redis</code></strong></p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@b redis]# pkill redis<br>[root@b redis]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin<span class="hljs-regexp">/redis-server /u</span>sr<span class="hljs-regexp">/local/</span>redis<span class="hljs-regexp">/etc/</span>redis.conf<br></code></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@b redis]# pkill redis 或者 redis-cli shutdown<br>[root@b redis]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin<span class="hljs-regexp">/redis-server /u</span>sr<span class="hljs-regexp">/local/</span>redis<span class="hljs-regexp">/etc/</span>redis.conf<br></code></pre></td></tr></table></figure>
 
 <p><strong>客户端登录</strong></p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[root@b etc]# redis-cli -a <span class="hljs-number">123456</span><br><span class="hljs-built_in">Warning</span>: <span class="hljs-keyword">Using</span> a <span class="hljs-keyword">password</span> <span class="hljs-keyword">with</span> <span class="hljs-string">&#x27;-a&#x27;</span> <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;-u&#x27;</span> <span class="hljs-keyword">option</span> <span class="hljs-keyword">on</span> the command <span class="hljs-type">line</span> interface may <span class="hljs-keyword">not</span> be safe.<br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt;<br>或<br>交互模式下使用 auth密码 命令<br></code></pre></td></tr></table></figure>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-string">[root@b etc]</span># redis-cli -a <span class="hljs-number">123456</span><br>Warning: Using a password with &#x27;-a&#x27; or &#x27;-u&#x27; option on the command line interface may not be safe.<br><span class="hljs-number">127.0.0.1:6379</span>&gt;<br>或<br>交互模式下使用 auth密码 命令<br><span class="hljs-string">[root@b etc]</span># redis-cli <br><span class="hljs-number">127.0.0.1:6379</span>&gt; set name a<br>(error) NOAUTH Authentication required.<br><span class="hljs-number">127.0.0.1:6379</span>&gt; AUTH <span class="hljs-number">123456</span><br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; set name a<br>OK<br></code></pre></td></tr></table></figure>
 
 <h2 id="2）-主从同步"><a href="#2）-主从同步" class="headerlink" title="2） 主从同步"></a>2） 主从同步</h2><p><strong><code>Redis</code> 主从复制过程：</strong></p>
 <ul>
@@ -491,11 +491,18 @@
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm">找到 bind <span class="hljs-number">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span> 注释掉，或者修改为本机的 <span class="hljs-built_in">IP</span> 地址（重启）<br></code></pre></td></tr></table></figure>
 
 <p><strong>从：</strong></p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts">replicaof <span class="hljs-params">&lt;masterip&gt;</span> <span class="hljs-params">&lt;masterport&gt;</span>    <span class="hljs-meta"># 主服务器的 IP 和端口</span><br>masterauth <span class="hljs-params">&lt;masterpass&gt;</span>              <span class="hljs-meta"># 主服务器的密码（主服务器要设置好密码）</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts">replicaof <span class="hljs-params">&lt;masterip&gt;</span> <span class="hljs-params">&lt;masterport&gt;</span>     <span class="hljs-meta"># 主服务器的 IP 和端口</span><br>masterauth <span class="hljs-params">&lt;masterpass&gt;</span>               <span class="hljs-meta"># 主服务器的密码（主服务器要设置好密码）</span><br></code></pre></td></tr></table></figure>
 </li>
 </ul>
 <ol start="3">
-<li><strong>重启从服务器，然后测试（可通过 info 命令获取当前服务器身份类型）</strong></li>
+<li><p><strong>重启从服务器，然后测试（可通过 info 命令获取当前服务器身份类型）</strong></p>
+</li>
+<li><p><strong>测试</strong></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"># <span class="hljs-number">10</span>.<span class="hljs-number">4</span>.<span class="hljs-number">7</span>.<span class="hljs-number">101</span><br><span class="hljs-string">[root@b redis]</span># redis-cli <br><span class="hljs-number">127.0.0.1:6379</span>&gt; AUTH <span class="hljs-number">123456</span><br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; set naem a<br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; KEYS *<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;naem&quot;</span><br><br># <span class="hljs-number">10</span>.<span class="hljs-number">4</span>.<span class="hljs-number">7</span>.<span class="hljs-number">100</span><br><span class="hljs-string">[root@a redis]</span># redis-cli -h <span class="hljs-number">10</span>.<span class="hljs-number">4</span>.<span class="hljs-number">7</span>.<span class="hljs-number">101</span> -p <span class="hljs-number">6379</span> -a <span class="hljs-number">123456</span><br>Warning: Using a password with &#x27;-a&#x27; or &#x27;-u&#x27; option on the command line interface may not be safe.<br><span class="hljs-number">10.4.7.101:6379</span>&gt; set user zhangsan<br>OK<br><span class="hljs-number">10.4.7.101:6379</span>&gt; get user<br><span class="hljs-string">&quot;zhangsan&quot;</span><br><span class="hljs-number">10.4.7.101:6379</span>&gt; KEYS *<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;user&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;naem</span><br></code></pre></td></tr></table></figure>
+
+
+
+</li>
 </ol>
 <h2 id="3）-数据持久化"><a href="#3）-数据持久化" class="headerlink" title="3） 数据持久化"></a>3） 数据持久化</h2><p><code>Redis</code> 是一个支持持久化的内存数据库，也就是说需要经常将内存中的数据同步到硬盘来保证持久化</p>
 <p><strong><code>snapshotting</code> （快照） –默认方式</strong></p>
