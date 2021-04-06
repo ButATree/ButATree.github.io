@@ -277,844 +277,437 @@
               </p>
             
             <div class="markdown-body">
-              <hr>
-<h2 id="excerpt-Redis"><a href="#excerpt-Redis" class="headerlink" title="excerpt: Redis"></a>excerpt: Redis</h2><hr>
-<h2 id="index-img"><a href="#index-img" class="headerlink" title="index_img: "></a>index_img: </h2><hr>
-<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><hr>
+              <h1 id="一、什么是-NoSQL"><a href="#一、什么是-NoSQL" class="headerlink" title="一、什么是 NoSQL"></a>一、什么是 <code>NoSQL</code></h1><p>​    <code>NoSQL（NoSQL = Not Only SQL）</code>，意为反 <code>SQL</code> 运动，是一项全新的数据库革命性运动，<code>2000</code> 年前就有人提出，发展至 <code>2009</code> 年趋势越发高涨。它是指运用非关系型的数据存储，相对于铺天地盖地的关系型数据库运用，这一概念无疑是一种全新的思维的注入。</p>
+<p>​    随着互联网 <code>web2.0</code> 网站的兴起，传统的关系数据库在应付 <code>web2.0</code> 网站，特别是超大规模和高并发的 <code>SNS</code> 类型的 <code>web2.0</code> 纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于本事的特点得到了非常迅速的发展。<code>NoSQL</code> 数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。</p>
+<h1 id="二、NoSQL-的特性"><a href="#二、NoSQL-的特性" class="headerlink" title="二、NoSQL 的特性"></a>二、<code>NoSQL</code> 的特性</h1><p>​    <code>NoSQL</code> 是 <code>key-value</code> 形式存储，和传统的关系型数据库不一样，不一定遵循传统数据库的一些基本要求，比如说遵循 <code>SQL</code> 标准、<code>ACID</code> 属性、表结构等等。</p>
+<p>这类数据库主要有以下特点：</p>
 <ul>
-<li>NoSQL</li>
+<li><p>非关系型的、分布式、开源的、水平克扩展的</p>
+</li>
+<li><p>处理超大量数据</p>
+</li>
+<li><p>击碎了性能瓶颈</p>
+</li>
+<li><p>对数据搞并发读写</p>
+</li>
+<li><p>对海量数据的高效率存储和访问</p>
+</li>
+<li><p>对数据的高扩展和高可用性</p>
+</li>
 </ul>
 <hr>
-<hr>
+<h1 id="三、什么是-Redis"><a href="#三、什么是-Redis" class="headerlink" title="三、什么是 Redis"></a>三、什么是 <code>Redis</code></h1><p><code>Redis</code> 是一个开源的，先进的 <code>key - value</code> 存储。它通常被称为数据结构服务器，因为键可以包含 <code>string</code>、<code>hash</code>、<code>list</code>、<code>set</code>、<code>zset</code> （<code>sorted-set--有序集合</code>）。这些数据类型都支持 <code>push/pop</code>、<code>add/remove</code> 及取交集并集和差集及更丰富的操作。</p>
+<p><code>Redis</code> 和 <code>Memcached</code> 类似，它支持存储的 <code>value</code> 类型相对更多，与 <code>memcached</code> 一样，为了保证效率，数据都是缓存在内存中，区别是 <code>Redis</code> 会周期性的把更新的数据写入磁盘或把修改操作写入追加对的记录文件，并且在此基础上实现了 <code>master-slave</code> 同步。</p>
+<h1 id="四、Redis-安装部署"><a href="#四、Redis-安装部署" class="headerlink" title="四、Redis 安装部署"></a>四、<code>Redis</code> 安装部署</h1><blockquote>
+<p> <a href="http//:redis.io"><code>Redis</code> 的官方网站</a></p>
+<p>下载安装包：<code>redis-6.2.1.tar.gz</code></p>
+</blockquote>
+<h2 id="1）-编译安装"><a href="#1）-编译安装" class="headerlink" title="1） 编译安装"></a>1） 编译安装</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@b ~]# yum -y install gcc*<br>[root@b redis]# tar -zxvf redis-<span class="hljs-number">6.2</span>.<span class="hljs-number">1</span>.tar.gz -C <span class="hljs-regexp">/usr/</span>local/<br>[root@b local]# mv redis-<span class="hljs-number">6.2</span>.<span class="hljs-number">1</span>/ redis<br>[root@b local]# cd redis/<br>[root@b redis]# make &amp;&amp; make PREFIX=<span class="hljs-regexp">/usr/</span>local/redis install <br># 指定安装位置，如果没有指定安装位置 PREFIX=<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis，则make install会把redis安装到/u</span>sr<span class="hljs-regexp">/local/</span>bin目录下<br>[root@b redis]# mkdir <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>etc<br>[root@b redis]# cp .<span class="hljs-regexp">/redis.conf /u</span>sr<span class="hljs-regexp">/local/</span>redis<span class="hljs-regexp">/etc/</span><br>#  复制Redis的配置文件到<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>etc/下，便于管理<br></code></pre></td></tr></table></figure>
+
+<h2 id="2）-修改配置文件："><a href="#2）-修改配置文件：" class="headerlink" title="2） 修改配置文件："></a>2） 修改配置文件：</h2><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">[root@b etc]<span class="hljs-comment"># vi /usr/local/redis/etc/redis.conf</span><br>daemonize <span class="hljs-literal">no</span>  改为 daemonize <span class="hljs-literal">yes</span> <span class="hljs-comment">#使之后台启动</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3）-启动服务"><a href="#3）-启动服务" class="headerlink" title="3） 启动服务"></a>3） 启动服务</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@b ~]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin/redis-server 配置文件<br># 必须制定配置文件位置，否则会提示警告<br>[root@b ~]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin<span class="hljs-regexp">/redis-server /u</span>sr<span class="hljs-regexp">/local/</span>redis<span class="hljs-regexp">/etc/</span>redis.conf<br># 链接方便操作<br>[root@b redis]# ln -s <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin<span class="hljs-comment">/* /usr/local/bin/</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="4）-客户端连接"><a href="#4）-客户端连接" class="headerlink" title="4） 客户端连接"></a>4） 客户端连接</h2><p><code>/usr/local/redis/bin/redis-cli</code></p>
 <ul>
-<li>Redis</li>
+<li><code>-h  IP</code>：连接指定的 <code>redis</code> 服务器</li>
+<li><code>-p  6379</code>：指定 <code>redis</code> 服务器的端口</li>
+<li><code>-a</code>  密码：使用密码登录</li>
+<li><code>-n</code>  数据库号：指定连接哪个数据库</li>
+<li><code>--raw</code>：<code>redis</code> 支持存储中文</li>
 </ul>
-<hr>
-<hr>
-<h2 id="categories"><a href="#categories" class="headerlink" title="categories:"></a>categories:</h2><hr>
-<ul>
-<li>NoSQL</li>
-</ul>
-<hr>
-<hr>
-<h2 id="一、什么是-NoSQL"><a href="#一、什么是-NoSQL" class="headerlink" title="一、什么是 NoSQL "></a>一、什么是 NoSQL </h2><hr>
-<pre><code>NoSQL（NoSQL = Not Only SQL），意为反 SQL 运动，是一项全新的数据库革命性运动，2000 年前就有人提出，发展至 2009 年趋势越发高涨。它是指运用非关系型的数据存储，相对于铺天地盖地的关系型数据库运用，这一概念无疑是一种全新的思维的注入。
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<pre><code>随着互联网 web2.0 网站的兴起，传统的关系数据库在应付 web2.0 网站，特别是超大规模和高并发的 SNS 类型的 web2.0 纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于本事的特点得到了非常迅速的发展。NoSQL 数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="￼"><a href="#￼" class="headerlink" title="￼"></a>￼</h2><hr>
-<hr>
-<hr>
-<h2 id="二、NoSQL-的特性"><a href="#二、NoSQL-的特性" class="headerlink" title="二、NoSQL 的特性"></a>二、NoSQL 的特性</h2><hr>
-<pre><code>NoSQL 是 key-value 形式存储，和传统的关系型数据库不一样，不一定遵循传统数据库的一些基本要求，比如说遵循 SQL 标准、ACID 属性、表结构等等。
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<pre><code>这类数据库主要有以下特点：
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="非关系型的、分布式、开源的、水平克扩展的"><a href="#非关系型的、分布式、开源的、水平克扩展的" class="headerlink" title="非关系型的、分布式、开源的、水平克扩展的"></a>非关系型的、分布式、开源的、水平克扩展的</h2><hr>
-<hr>
-<hr>
-<h2 id="处理超大量数据"><a href="#处理超大量数据" class="headerlink" title="处理超大量数据"></a>处理超大量数据</h2><hr>
-<hr>
-<hr>
-<h2 id="击碎了性能瓶颈"><a href="#击碎了性能瓶颈" class="headerlink" title="击碎了性能瓶颈"></a>击碎了性能瓶颈</h2><hr>
-<hr>
-<hr>
-<h2 id="对数据搞并发读写"><a href="#对数据搞并发读写" class="headerlink" title="对数据搞并发读写"></a>对数据搞并发读写</h2><hr>
-<hr>
-<hr>
-<h2 id="对海量数据的呃呃高效率存储和访问"><a href="#对海量数据的呃呃高效率存储和访问" class="headerlink" title="对海量数据的呃呃高效率存储和访问"></a>对海量数据的呃呃高效率存储和访问</h2><hr>
-<hr>
-<hr>
-<h2 id="对数据的高扩展和高可用性"><a href="#对数据的高扩展和高可用性" class="headerlink" title="对数据的高扩展和高可用性"></a>对数据的高扩展和高可用性</h2><hr>
-<hr>
-<hr>
-<h2 id="三、什么是-Redis"><a href="#三、什么是-Redis" class="headerlink" title="三、什么是 Redis"></a>三、什么是 Redis</h2><hr>
-<pre><code>Redis 是一个开源的，先进的 key - value 存储。它通常被称为数据结构服务器，因为键可以包含 string、hash、list、set、zset （sorted-set--有序集合）。这些数据类型都支持 push/pop、add/remove 及取交集并集和差集及更丰富的操作。
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<pre><code>Redis 和 Memcached 类似，它支持存储的 value 类型相对更多，与 memcached 一样，为了保证效率，数据都是缓存在内存中，区别是 Redis 会周期性的把更新的数据写入磁盘或把修改操作写入追加对的记录文件，并且在此基础上实现了 master-slave 同步。
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="￼-1"><a href="#￼-1" class="headerlink" title="￼"></a>￼</h2><hr>
-<hr>
-<hr>
-<h2 id="四、Redis-安装部署"><a href="#四、Redis-安装部署" class="headerlink" title="四、Redis 安装部署"></a>四、Redis 安装部署</h2><hr>
-<h2 id="Redis-的官方网站"><a href="#Redis-的官方网站" class="headerlink" title="Redis 的官方网站"></a>Redis 的官方网站</h2><hr>
-<hr>
-<hr>
-<h2 id="下载安装包：redis-6-2-1-tar-gz"><a href="#下载安装包：redis-6-2-1-tar-gz" class="headerlink" title="下载安装包：redis-6.2.1.tar.gz"></a>下载安装包：redis-6.2.1.tar.gz</h2><hr>
-<hr>
-<hr>
-<h2 id="1）-编译安装"><a href="#1）-编译安装" class="headerlink" title="1） 编译安装"></a>1） 编译安装</h2><hr>
-<h2 id="￼-2"><a href="#￼-2" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="root-b-yum-y-install-gcc"><a href="#root-b-yum-y-install-gcc" class="headerlink" title="[root@b ~]# yum -y install gcc*"></a>[root@b ~]# yum -y install gcc*</h2><hr>
-<h2 id="root-b-redis-tar-zxvf-redis-6-2-1-tar-gz-C-usr-local"><a href="#root-b-redis-tar-zxvf-redis-6-2-1-tar-gz-C-usr-local" class="headerlink" title="[root@b redis]# tar -zxvf redis-6.2.1.tar.gz -C /usr/local/"></a>[root@b redis]# tar -zxvf redis-6.2.1.tar.gz -C /usr/local/</h2><hr>
-<h2 id="root-b-local-mv-redis-6-2-1-redis"><a href="#root-b-local-mv-redis-6-2-1-redis" class="headerlink" title="[root@b local]# mv redis-6.2.1/ redis"></a>[root@b local]# mv redis-6.2.1/ redis</h2><hr>
-<h2 id="root-b-local-cd-redis"><a href="#root-b-local-cd-redis" class="headerlink" title="[root@b local]# cd redis/"></a>[root@b local]# cd redis/</h2><hr>
-<h2 id="root-b-redis-make-amp-amp-make-PREFIX-usr-local-redis-install"><a href="#root-b-redis-make-amp-amp-make-PREFIX-usr-local-redis-install" class="headerlink" title="[root@b redis]# make &amp;&amp; make PREFIX=/usr/local/redis install "></a>[root@b redis]# make &amp;&amp; make PREFIX=/usr/local/redis install </h2><hr>
-<h1 id="指定安装位置，如果没有指定安装位置-PREFIX-usr-local-redis，则make-install会把redis安装到-usr-local-bin目录下"><a href="#指定安装位置，如果没有指定安装位置-PREFIX-usr-local-redis，则make-install会把redis安装到-usr-local-bin目录下" class="headerlink" title="指定安装位置，如果没有指定安装位置 PREFIX=/usr/local/redis，则make install会把redis安装到/usr/local/bin目录下"></a>指定安装位置，如果没有指定安装位置 PREFIX=/usr/local/redis，则make install会把redis安装到/usr/local/bin目录下</h1><hr>
-<hr>
-<h2 id="root-b-redis-mkdir-usr-local-redis-etc"><a href="#root-b-redis-mkdir-usr-local-redis-etc" class="headerlink" title="[root@b redis]# mkdir /usr/local/redis/etc"></a>[root@b redis]# mkdir /usr/local/redis/etc</h2><hr>
-<h2 id="root-b-redis-cp-redis-conf-usr-local-redis-etc"><a href="#root-b-redis-cp-redis-conf-usr-local-redis-etc" class="headerlink" title="[root@b redis]# cp ./redis.conf /usr/local/redis/etc/"></a>[root@b redis]# cp ./redis.conf /usr/local/redis/etc/</h2><hr>
-<h1 id="复制Redis的配置文件到-usr-local-redis-etc-下，便于管理"><a href="#复制Redis的配置文件到-usr-local-redis-etc-下，便于管理" class="headerlink" title="复制Redis的配置文件到/usr/local/redis/etc/下，便于管理"></a>复制Redis的配置文件到/usr/local/redis/etc/下，便于管理</h1><hr>
-<hr>
-<h2 id="2）-修改配置文件："><a href="#2）-修改配置文件：" class="headerlink" title="2） 修改配置文件："></a>2） 修改配置文件：</h2><hr>
-<h2 id="￼-3"><a href="#￼-3" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="root-b-etc-vi-usr-local-redis-etc-redis-conf"><a href="#root-b-etc-vi-usr-local-redis-etc-redis-conf" class="headerlink" title="[root@b etc]# vi /usr/local/redis/etc/redis.conf"></a>[root@b etc]# vi /usr/local/redis/etc/redis.conf</h2><hr>
-<h2 id="daemonize-no-改为-daemonize-yes-使之后台启动"><a href="#daemonize-no-改为-daemonize-yes-使之后台启动" class="headerlink" title="daemonize no  改为 daemonize yes #使之后台启动"></a>daemonize no  改为 daemonize yes #使之后台启动</h2><hr>
-<h2 id="3）-启动服务"><a href="#3）-启动服务" class="headerlink" title="3） 启动服务"></a>3） 启动服务</h2><hr>
-<h2 id="￼-4"><a href="#￼-4" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="root-b-usr-local-redis-bin-redis-server-配置文件"><a href="#root-b-usr-local-redis-bin-redis-server-配置文件" class="headerlink" title="[root@b ~]# /usr/local/redis/bin/redis-server 配置文件"></a>[root@b ~]# /usr/local/redis/bin/redis-server 配置文件</h2><hr>
-<h1 id="必须制定配置文件位置，否则会提示警告"><a href="#必须制定配置文件位置，否则会提示警告" class="headerlink" title="必须制定配置文件位置，否则会提示警告"></a>必须制定配置文件位置，否则会提示警告</h1><hr>
-<hr>
-<h2 id="root-b-usr-local-redis-bin-redis-server-usr-local-redis-etc-redis-conf"><a href="#root-b-usr-local-redis-bin-redis-server-usr-local-redis-etc-redis-conf" class="headerlink" title="[root@b ~]# /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf"></a>[root@b ~]# /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf</h2><hr>
-<h1 id="链接方便操作"><a href="#链接方便操作" class="headerlink" title="链接方便操作"></a>链接方便操作</h1><hr>
-<hr>
-<h2 id="root-b-redis-ln-s-usr-local-redis-bin-usr-local-bin"><a href="#root-b-redis-ln-s-usr-local-redis-bin-usr-local-bin" class="headerlink" title="[root@b redis]# ln -s /usr/local/redis/bin/* /usr/local/bin/"></a>[root@b redis]# ln -s /usr/local/redis/bin/* /usr/local/bin/</h2><hr>
-<h2 id="4）-客户端连接"><a href="#4）-客户端连接" class="headerlink" title="4） 客户端连接"></a>4） 客户端连接</h2><hr>
-<h2 id="￼-5"><a href="#￼-5" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="usr-local-redis-bin-redis-cli"><a href="#usr-local-redis-bin-redis-cli" class="headerlink" title="/usr/local/redis/bin/redis-cli"></a>/usr/local/redis/bin/redis-cli</h2><hr>
-<pre><code>-h  IP:     连接指定的redis服务器
-</code></pre>
-<hr>
-<hr>
-<pre><code>-p  6379:   指定redis服务器的端口
-</code></pre>
-<hr>
-<hr>
-<pre><code>-a  密码:    使用密码登录
-</code></pre>
-<hr>
-<hr>
-<pre><code>-n  数据库号: 指定连接哪个数据库
-</code></pre>
-<hr>
-<hr>
-<pre><code>--raw:      redis 支持存储中文
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="root-b-redis-redis-cli"><a href="#root-b-redis-redis-cli" class="headerlink" title="[root@b redis]# redis-cli "></a>[root@b redis]# redis-cli </h2><hr>
-<h2 id="127-0-0-1-6379-gt"><a href="#127-0-0-1-6379-gt" class="headerlink" title="127.0.0.1:6379&gt;"></a>127.0.0.1:6379&gt;</h2><hr>
-<h2 id="5）-停止-Redis"><a href="#5）-停止-Redis" class="headerlink" title="5） 停止 Redis "></a>5） 停止 Redis </h2><hr>
-<h2 id="￼-6"><a href="#￼-6" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="usr-local-redis-bin-redis-cli-shutdown"><a href="#usr-local-redis-bin-redis-cli-shutdown" class="headerlink" title="/usr/local/redis/bin/redis-cli shutdown"></a>/usr/local/redis/bin/redis-cli shutdown</h2><hr>
-<h2 id="或"><a href="#或" class="headerlink" title="或"></a>或</h2><hr>
-<h2 id="pkill-9-redis"><a href="#pkill-9-redis" class="headerlink" title="pkill -9 redis"></a>pkill -9 redis</h2><hr>
-<h2 id="五、Redis-常用命令"><a href="#五、Redis-常用命令" class="headerlink" title="五、Redis 常用命令"></a>五、Redis 常用命令</h2><hr>
-<h2 id="1）-string-类型及操作"><a href="#1）-string-类型及操作" class="headerlink" title="1） string 类型及操作"></a>1） string 类型及操作</h2><hr>
-<pre><code>string 是最简单的类型，一个 key 对应一个 value ，string 类型是二进制安全的。redis 的 string 可以包含任何数据。
-</code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="set：设置-key-对应的值为-string-类型"><a href="#set：设置-key-对应的值为-string-类型" class="headerlink" title="set：设置 key 对应的值为 string 类型"></a>set：设置 key 对应的值为 string 类型</h2><hr>
-<hr>
-<hr>
-<h2 id="例如：我们添加一个-name-butatree-的键值对应"><a href="#例如：我们添加一个-name-butatree-的键值对应" class="headerlink" title="例如：我们添加一个 name=butatree 的键值对应"></a>例如：我们添加一个 name=butatree 的键值对应</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-7"><a href="#￼-7" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="redis127-0-0-1-6379-gt-set-name-butatree"><a href="#redis127-0-0-1-6379-gt-set-name-butatree" class="headerlink" title="redis127.0.0.1:6379&gt; set name butatree"></a>redis127.0.0.1:6379&gt; set name butatree</h2><hr>
-<h2 id="127-0-0-1-6379-gt-get-name"><a href="#127-0-0-1-6379-gt-get-name" class="headerlink" title="127.0.0.1:6379&gt; get name"></a>127.0.0.1:6379&gt; get name</h2><hr>
-<h2 id="“butatree”"><a href="#“butatree”" class="headerlink" title="“butatree”"></a>“butatree”</h2><hr>
-<h2 id="setnx：设置-key-对应的值为-string-类型，如果-key-已经存在，返回-0，nx-是-not-exist-的意思"><a href="#setnx：设置-key-对应的值为-string-类型，如果-key-已经存在，返回-0，nx-是-not-exist-的意思" class="headerlink" title="setnx：设置 key 对应的值为 string 类型，如果 key 已经存在，返回 0，nx 是 not exist 的意思"></a>setnx：设置 key 对应的值为 string 类型，如果 key 已经存在，返回 0，nx 是 not exist 的意思</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-8"><a href="#￼-8" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SETNX-name-zhangsan"><a href="#127-0-0-1-6379-gt-SETNX-name-zhangsan" class="headerlink" title="127.0.0.1:6379&gt; SETNX name zhangsan"></a>127.0.0.1:6379&gt; SETNX name zhangsan</h2><hr>
-<h2 id="integer-0"><a href="#integer-0" class="headerlink" title="(integer) 0"></a>(integer) 0</h2><hr>
-<h2 id="127-0-0-1-6379-gt-get-name-1"><a href="#127-0-0-1-6379-gt-get-name-1" class="headerlink" title="127.0.0.1:6379&gt; get name"></a>127.0.0.1:6379&gt; get name</h2><hr>
-<h2 id="“butatree”-1"><a href="#“butatree”-1" class="headerlink" title="“butatree”"></a>“butatree”</h2><hr>
-<h2 id="get：获取-key-对应的-string-值，如果-key-不存在返回-nil"><a href="#get：获取-key-对应的-string-值，如果-key-不存在返回-nil" class="headerlink" title="get：获取 key 对应的 string 值，如果 key 不存在返回 nil"></a>get：获取 key 对应的 string 值，如果 key 不存在返回 nil</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-9"><a href="#￼-9" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-get-name-2"><a href="#127-0-0-1-6379-gt-get-name-2" class="headerlink" title="127.0.0.1:6379&gt; get name"></a>127.0.0.1:6379&gt; get name</h2><hr>
-<h2 id="“butatree”-2"><a href="#“butatree”-2" class="headerlink" title="“butatree”"></a>“butatree”</h2><hr>
-<h2 id="127-0-0-1-6379-gt-get-name1"><a href="#127-0-0-1-6379-gt-get-name1" class="headerlink" title="127.0.0.1:6379&gt; get name1"></a>127.0.0.1:6379&gt; get name1</h2><hr>
-<h2 id="nil"><a href="#nil" class="headerlink" title="(nil)"></a>(nil)</h2><hr>
-<h2 id="mset-amp-mget-：同时设置和获取多个键值对"><a href="#mset-amp-mget-：同时设置和获取多个键值对" class="headerlink" title="mset &amp; mget ：同时设置和获取多个键值对"></a>mset &amp; mget ：同时设置和获取多个键值对</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-10"><a href="#￼-10" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-MSET-age-21-sex-man"><a href="#127-0-0-1-6379-gt-MSET-age-21-sex-man" class="headerlink" title="127.0.0.1:6379&gt; MSET age 21 sex man"></a>127.0.0.1:6379&gt; MSET age 21 sex man</h2><hr>
-<h2 id="OK"><a href="#OK" class="headerlink" title="OK"></a>OK</h2><hr>
-<h2 id="127-0-0-1-6379-gt-MGET-name-age-sex"><a href="#127-0-0-1-6379-gt-MGET-name-age-sex" class="headerlink" title="127.0.0.1:6379&gt; MGET name age sex"></a>127.0.0.1:6379&gt; MGET name age sex</h2><hr>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-string">[root@b redis]</span># redis-cli <br><span class="hljs-number">127.0.0.1:6379</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="5）-停止-Redis"><a href="#5）-停止-Redis" class="headerlink" title="5） 停止 Redis"></a>5） 停止 Redis</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin/redis-cli shutdown<br>或<br>pkill -<span class="hljs-number">9</span> redis<br></code></pre></td></tr></table></figure>
+
+<h1 id="五、Redis-常用命令"><a href="#五、Redis-常用命令" class="headerlink" title="五、Redis 常用命令"></a>五、Redis 常用命令</h1><h2 id="1）-string-类型及操作"><a href="#1）-string-类型及操作" class="headerlink" title="1） string 类型及操作"></a>1） string 类型及操作</h2><p>string 是最简单的类型，一个 key 对应一个 value ，string 类型是二进制安全的。redis 的 string 可以包含任何数据。</p>
+<p>set：设置 key 对应的值为 string 类型</p>
+<p>例如：我们添加一个 name=butatree 的键值对应</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">redis127.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; set name butatree<br><span class="hljs-number">127.0.0.1:6379</span>&gt; get name<br><span class="hljs-string">&quot;butatree&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>setnx：设置 key 对应的值为 string 类型，如果 key 已经存在，返回 0，nx 是 not exist 的意思</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SETNX name zhangsan</p>
+<p>(integer) 0</p>
+<p>127.0.0.1:6379&gt; get name</p>
+<p>“butatree”</p>
+<p>get：获取 key 对应的 string 值，如果 key 不存在返回 nil</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; get name</p>
+<p>“butatree”</p>
+<p>127.0.0.1:6379&gt; get name1</p>
+<p>(nil)</p>
+<p>mset &amp; mget ：同时设置和获取多个键值对</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; MSET age 21 sex man</p>
+<p>OK</p>
+<p>127.0.0.1:6379&gt; MGET name age sex</p>
 <ol>
 <li>“butatree”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“21”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“man”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="incrby：对-key-的值做加加（指定值）操作，并返回新的值"><a href="#incrby：对-key-的值做加加（指定值）操作，并返回新的值" class="headerlink" title="incrby：对 key 的值做加加（指定值）操作，并返回新的值"></a>incrby：对 key 的值做加加（指定值）操作，并返回新的值</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-11"><a href="#￼-11" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-INCRBY-age-5-对指定值进行加操作，原来是21，现在加5是26"><a href="#127-0-0-1-6379-gt-INCRBY-age-5-对指定值进行加操作，原来是21，现在加5是26" class="headerlink" title="127.0.0.1:6379&gt; INCRBY age 5 #对指定值进行加操作，原来是21，现在加5是26"></a>127.0.0.1:6379&gt; INCRBY age 5 #对指定值进行加操作，原来是21，现在加5是26</h2><hr>
-<h2 id="integer-26"><a href="#integer-26" class="headerlink" title="(integer) 26"></a>(integer) 26</h2><hr>
-<h2 id="127-0-0-1-6379-gt-get-age"><a href="#127-0-0-1-6379-gt-get-age" class="headerlink" title="127.0.0.1:6379&gt; get age"></a>127.0.0.1:6379&gt; get age</h2><hr>
-<h2 id="“26”"><a href="#“26”" class="headerlink" title="“26”"></a>“26”</h2><hr>
-<h2 id="127-0-0-1-6379-gt-INCRBY-age-6"><a href="#127-0-0-1-6379-gt-INCRBY-age-6" class="headerlink" title="127.0.0.1:6379&gt; INCRBY age -6"></a>127.0.0.1:6379&gt; INCRBY age -6</h2><hr>
-<h2 id="integer-20"><a href="#integer-20" class="headerlink" title="(integer) 20"></a>(integer) 20</h2><hr>
-<h2 id="127-0-0-1-6379-gt-get-age-1"><a href="#127-0-0-1-6379-gt-get-age-1" class="headerlink" title="127.0.0.1:6379&gt; get age"></a>127.0.0.1:6379&gt; get age</h2><hr>
-<h2 id="“20”"><a href="#“20”" class="headerlink" title="“20”"></a>“20”</h2><hr>
-<h2 id="del-：删除一个已创建的-key"><a href="#del-：删除一个已创建的-key" class="headerlink" title="del ：删除一个已创建的 key"></a>del ：删除一个已创建的 key</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-12"><a href="#￼-12" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-del-age"><a href="#127-0-0-1-6379-gt-del-age" class="headerlink" title="127.0.0.1:6379&gt; del age "></a>127.0.0.1:6379&gt; del age </h2><hr>
-<h2 id="integer-1"><a href="#integer-1" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-get-age-2"><a href="#127-0-0-1-6379-gt-get-age-2" class="headerlink" title="127.0.0.1:6379&gt; get age"></a>127.0.0.1:6379&gt; get age</h2><hr>
-<h2 id="nil-1"><a href="#nil-1" class="headerlink" title="(nil)"></a>(nil)</h2><hr>
-<h2 id="2）-hash-类型及操作"><a href="#2）-hash-类型及操作" class="headerlink" title="2） hash 类型及操作"></a>2） hash 类型及操作</h2><hr>
+<p>incrby：对 key 的值做加加（指定值）操作，并返回新的值</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; INCRBY age 5 #对指定值进行加操作，原来是21，现在加5是26</p>
+<p>(integer) 26</p>
+<p>127.0.0.1:6379&gt; get age</p>
+<p>“26”</p>
+<p>127.0.0.1:6379&gt; INCRBY age -6</p>
+<p>(integer) 20</p>
+<p>127.0.0.1:6379&gt; get age</p>
+<p>“20”</p>
+<p>del ：删除一个已创建的 key</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; del age </p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; get age</p>
+<p>(nil)</p>
+<p>2） hash 类型及操作</p>
 <pre><code>Redis hash 是一个 string 类型的 field （字段）和 value 的映射表，它的添加、删除操作都是 0 (1)平均；hash 特别适合用于存储对象，相较于将对象的每个字段存成单个 string 类型，将一个对象存储在 hash 类型中会占用更少的内存，并且可以更方便的存取整个对象。
 </code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="hset：设置-hash-field-为指定值，如果-key-不存在，则先创建。"><a href="#hset：设置-hash-field-为指定值，如果-key-不存在，则先创建。" class="headerlink" title="hset：设置 hash field 为指定值，如果 key 不存在，则先创建。"></a>hset：设置 hash field 为指定值，如果 key 不存在，则先创建。</h2><hr>
-<hr>
-<hr>
-<h2 id="例如：为-numl-表创建一个叫-name-字段（key），键值是-butatree"><a href="#例如：为-numl-表创建一个叫-name-字段（key），键值是-butatree" class="headerlink" title="例如：为 numl 表创建一个叫 name 字段（key），键值是 butatree"></a>例如：为 numl 表创建一个叫 name 字段（key），键值是 butatree</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-13"><a href="#￼-13" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-hset-num1-name-zhangsan"><a href="#127-0-0-1-6379-gt-hset-num1-name-zhangsan" class="headerlink" title="127.0.0.1:6379&gt; hset num1 name zhangsan"></a>127.0.0.1:6379&gt; hset num1 name zhangsan</h2><hr>
-<h2 id="integer-1-1"><a href="#integer-1-1" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-hset-num1-age-18"><a href="#127-0-0-1-6379-gt-hset-num1-age-18" class="headerlink" title="127.0.0.1:6379&gt; hset num1 age 18"></a>127.0.0.1:6379&gt; hset num1 age 18</h2><hr>
-<h2 id="integer-1-2"><a href="#integer-1-2" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-hset-num1-sex-man"><a href="#127-0-0-1-6379-gt-hset-num1-sex-man" class="headerlink" title="127.0.0.1:6379&gt; hset num1 sex man"></a>127.0.0.1:6379&gt; hset num1 sex man</h2><hr>
-<h2 id="integer-1-3"><a href="#integer-1-3" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-hset-num2-name-lisi"><a href="#127-0-0-1-6379-gt-hset-num2-name-lisi" class="headerlink" title="127.0.0.1:6379&gt; hset num2 name lisi"></a>127.0.0.1:6379&gt; hset num2 name lisi</h2><hr>
-<h2 id="integer-1-4"><a href="#integer-1-4" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-hset-num2-age-25"><a href="#127-0-0-1-6379-gt-hset-num2-age-25" class="headerlink" title="127.0.0.1:6379&gt; hset num2 age 25"></a>127.0.0.1:6379&gt; hset num2 age 25</h2><hr>
-<h2 id="integer-1-5"><a href="#integer-1-5" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-hset-num2-sex-woman"><a href="#127-0-0-1-6379-gt-hset-num2-sex-woman" class="headerlink" title="127.0.0.1:6379&gt; hset num2 sex woman"></a>127.0.0.1:6379&gt; hset num2 sex woman</h2><hr>
-<h2 id="integer-1-6"><a href="#integer-1-6" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-14"><a href="#￼-14" class="headerlink" title="￼"></a>￼</h2><hr>
-<hr>
-<hr>
-<h2 id="hget、hmset、hmget-意义同上近似"><a href="#hget、hmset、hmget-意义同上近似" class="headerlink" title="hget、hmset、hmget 意义同上近似"></a>hget、hmset、hmget 意义同上近似</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-15"><a href="#￼-15" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-HGET-num1-name"><a href="#127-0-0-1-6379-gt-HGET-num1-name" class="headerlink" title="127.0.0.1:6379&gt; HGET num1 name"></a>127.0.0.1:6379&gt; HGET num1 name</h2><hr>
-<h2 id="“zhangsan”"><a href="#“zhangsan”" class="headerlink" title="“zhangsan”"></a>“zhangsan”</h2><hr>
-<h2 id="127-0-0-1-6379-gt-HMSET-num1-name-zhangsan-age-18-sex-man"><a href="#127-0-0-1-6379-gt-HMSET-num1-name-zhangsan-age-18-sex-man" class="headerlink" title="127.0.0.1:6379&gt; HMSET num1 name zhangsan age 18 sex man"></a>127.0.0.1:6379&gt; HMSET num1 name zhangsan age 18 sex man</h2><hr>
-<h2 id="OK-1"><a href="#OK-1" class="headerlink" title="OK"></a>OK</h2><hr>
-<h2 id="127-0-0-1-6379-gt-HMGET-num1-name-age-sex"><a href="#127-0-0-1-6379-gt-HMGET-num1-name-age-sex" class="headerlink" title="127.0.0.1:6379&gt; HMGET num1 name age sex"></a>127.0.0.1:6379&gt; HMGET num1 name age sex</h2><hr>
+<p>hset：设置 hash field 为指定值，如果 key 不存在，则先创建。</p>
+<p>例如：为 numl 表创建一个叫 name 字段（key），键值是 butatree</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; hset num1 name zhangsan</p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; hset num1 age 18</p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; hset num1 sex man</p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; hset num2 name lisi</p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; hset num2 age 25</p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; hset num2 sex woman</p>
+<p>(integer) 1</p>
+<p>￼</p>
+<p>hget、hmset、hmget 意义同上近似</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; HGET num1 name</p>
+<p>“zhangsan”</p>
+<p>127.0.0.1:6379&gt; HMSET num1 name zhangsan age 18 sex man</p>
+<p>OK</p>
+<p>127.0.0.1:6379&gt; HMGET num1 name age sex</p>
 <ol>
 <li>“zhangsan”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“18”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“man”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="hdel：删除制定表中的某一个键值对"><a href="#hdel：删除制定表中的某一个键值对" class="headerlink" title="hdel：删除制定表中的某一个键值对"></a>hdel：删除制定表中的某一个键值对</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-16"><a href="#￼-16" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-HDEL-num1-sex"><a href="#127-0-0-1-6379-gt-HDEL-num1-sex" class="headerlink" title="127.0.0.1:6379&gt; HDEL num1 sex"></a>127.0.0.1:6379&gt; HDEL num1 sex</h2><hr>
-<h2 id="integer-1-7"><a href="#integer-1-7" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="hgetall：列出表中的所有键值对"><a href="#hgetall：列出表中的所有键值对" class="headerlink" title="hgetall：列出表中的所有键值对"></a>hgetall：列出表中的所有键值对</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-17"><a href="#￼-17" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-HGETALL-num1"><a href="#127-0-0-1-6379-gt-HGETALL-num1" class="headerlink" title="127.0.0.1:6379&gt; HGETALL num1"></a>127.0.0.1:6379&gt; HGETALL num1</h2><hr>
+<p>hdel：删除制定表中的某一个键值对</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; HDEL num1 sex</p>
+<p>(integer) 1</p>
+<p>hgetall：列出表中的所有键值对</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; HGETALL num1</p>
 <ol>
 <li>“name”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“zhangsan”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“age”</li>
 </ol>
-<hr>
-<hr>
 <ol start="4">
 <li>“18”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="3）-list-类型及操作"><a href="#3）-list-类型及操作" class="headerlink" title="3） list 类型及操作"></a>3） list 类型及操作</h2><hr>
+<p>3） list 类型及操作</p>
 <pre><code>list 是一个链表结构（一个键对应多个元素），主要功能是 push 、pop、获取一个范围内的所有值等等，操作中 key 理解为链表的名字。Redis 的 list 类型其实就是一个每个子元素都是 string 类型的双向链表。我们可以通过 push 、pop 操作从链表的头部或尾部添加删除元素。
 </code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="￼-18"><a href="#￼-18" class="headerlink" title="￼"></a>￼</h2><hr>
-<hr>
-<hr>
-<h2 id="lpush：在-key-对应-list-的头部添加字符串元素。"><a href="#lpush：在-key-对应-list-的头部添加字符串元素。" class="headerlink" title="lpush：在 key 对应 list 的头部添加字符串元素。"></a>lpush：在 key 对应 list 的头部添加字符串元素。</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-19"><a href="#￼-19" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-LPUSH-zhangsan-zhangsan"><a href="#127-0-0-1-6379-gt-LPUSH-zhangsan-zhangsan" class="headerlink" title="127.0.0.1:6379&gt; LPUSH zhangsan zhangsan"></a>127.0.0.1:6379&gt; LPUSH zhangsan zhangsan</h2><hr>
-<h2 id="integer-1-8"><a href="#integer-1-8" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-LPUSH-zhangsan-18"><a href="#127-0-0-1-6379-gt-LPUSH-zhangsan-18" class="headerlink" title="127.0.0.1:6379&gt; LPUSH zhangsan 18"></a>127.0.0.1:6379&gt; LPUSH zhangsan 18</h2><hr>
-<h2 id="integer-2"><a href="#integer-2" class="headerlink" title="(integer) 2"></a>(integer) 2</h2><hr>
-<h2 id="127-0-0-1-6379-gt-LPUSH-zhangsan-man"><a href="#127-0-0-1-6379-gt-LPUSH-zhangsan-man" class="headerlink" title="127.0.0.1:6379&gt; LPUSH zhangsan man"></a>127.0.0.1:6379&gt; LPUSH zhangsan man</h2><hr>
-<h2 id="lrange：从指定链表中获取指定范围的元素"><a href="#lrange：从指定链表中获取指定范围的元素" class="headerlink" title="lrange：从指定链表中获取指定范围的元素"></a>lrange：从指定链表中获取指定范围的元素</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-20"><a href="#￼-20" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-LRANGE-zhangsan-0-1"><a href="#127-0-0-1-6379-gt-LRANGE-zhangsan-0-1" class="headerlink" title="127.0.0.1:6379&gt; LRANGE zhangsan 0 -1"></a>127.0.0.1:6379&gt; LRANGE zhangsan 0 -1</h2><hr>
+<p>￼</p>
+<p>lpush：在 key 对应 list 的头部添加字符串元素。</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; LPUSH zhangsan zhangsan</p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; LPUSH zhangsan 18</p>
+<p>(integer) 2</p>
+<p>127.0.0.1:6379&gt; LPUSH zhangsan man</p>
+<p>lrange：从指定链表中获取指定范围的元素</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; LRANGE zhangsan 0 -1</p>
 <ol>
 <li>“man”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“18”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“zhangsan”</li>
 </ol>
-<hr>
-<hr>
-<h1 id="0-1-此范围代表全部元素，意为从头到尾"><a href="#0-1-此范围代表全部元素，意为从头到尾" class="headerlink" title="0 -1: 此范围代表全部元素，意为从头到尾"></a>0 -1: 此范围代表全部元素，意为从头到尾</h1><hr>
-<hr>
-<h2 id="lpush、rpush、lpop、rpop、lrange-详见图示"><a href="#lpush、rpush、lpop、rpop、lrange-详见图示" class="headerlink" title="lpush、rpush、lpop、rpop、lrange 详见图示"></a>lpush、rpush、lpop、rpop、lrange 详见图示</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-21"><a href="#￼-21" class="headerlink" title="￼"></a>￼</h2><hr>
-<hr>
-<hr>
-<h2 id="4）-Set-类型及操作"><a href="#4）-Set-类型及操作" class="headerlink" title="4） Set 类型及操作"></a>4） Set 类型及操作</h2><hr>
+<p>0 -1: 此范围代表全部元素，意为从头到尾</p>
+<p>lpush、rpush、lpop、rpop、lrange 详见图示</p>
+<p>￼</p>
+<p>4） Set 类型及操作</p>
 <pre><code>set 是集合，他是 string 类型的无序集合。set 是通过 hash table 实现的，对集、交集、差集。通过这些操作我们可以实现社交网站中的好友推荐和 blog 的 tag 功能。集合不允许有重复值。
 </code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="￼-22"><a href="#￼-22" class="headerlink" title="￼"></a>￼</h2><hr>
-<hr>
-<hr>
-<h2 id="sadd：添加一个或多个元素到集合中"><a href="#sadd：添加一个或多个元素到集合中" class="headerlink" title="sadd：添加一个或多个元素到集合中"></a>sadd：添加一个或多个元素到集合中</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-23"><a href="#￼-23" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SADD-mset-1-2-3-4-5-6"><a href="#127-0-0-1-6379-gt-SADD-mset-1-2-3-4-5-6" class="headerlink" title="127.0.0.1:6379&gt; SADD mset 1 2 3 4 5 6"></a>127.0.0.1:6379&gt; SADD mset 1 2 3 4 5 6</h2><hr>
-<h2 id="integer-6"><a href="#integer-6" class="headerlink" title="(integer) 6"></a>(integer) 6</h2><hr>
-<h2 id="smembers：获取集合里面所有的元素"><a href="#smembers：获取集合里面所有的元素" class="headerlink" title="smembers：获取集合里面所有的元素"></a>smembers：获取集合里面所有的元素</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-24"><a href="#￼-24" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SMEMBERS-mset"><a href="#127-0-0-1-6379-gt-SMEMBERS-mset" class="headerlink" title="127.0.0.1:6379&gt; SMEMBERS mset"></a>127.0.0.1:6379&gt; SMEMBERS mset</h2><hr>
+<p>￼</p>
+<p>sadd：添加一个或多个元素到集合中</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SADD mset 1 2 3 4 5 6</p>
+<p>(integer) 6</p>
+<p>smembers：获取集合里面所有的元素</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SMEMBERS mset</p>
 <ol>
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“2”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“3”</li>
 </ol>
-<hr>
-<hr>
 <ol start="4">
 <li>“4”</li>
 </ol>
-<hr>
-<hr>
 <ol start="5">
 <li>“5”</li>
 </ol>
-<hr>
-<hr>
 <ol start="6">
 <li>“6”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="srem：从集合中删除指定的一个或多个元素"><a href="#srem：从集合中删除指定的一个或多个元素" class="headerlink" title="srem：从集合中删除指定的一个或多个元素"></a>srem：从集合中删除指定的一个或多个元素</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-25"><a href="#￼-25" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SREM-mset-2-4-6"><a href="#127-0-0-1-6379-gt-SREM-mset-2-4-6" class="headerlink" title="127.0.0.1:6379&gt; SREM mset 2 4 6"></a>127.0.0.1:6379&gt; SREM mset 2 4 6</h2><hr>
-<h2 id="integer-3"><a href="#integer-3" class="headerlink" title="(integer) 3"></a>(integer) 3</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SMEMBERS-mset-1"><a href="#127-0-0-1-6379-gt-SMEMBERS-mset-1" class="headerlink" title="127.0.0.1:6379&gt; SMEMBERS mset"></a>127.0.0.1:6379&gt; SMEMBERS mset</h2><hr>
+<p>srem：从集合中删除指定的一个或多个元素</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SREM mset 2 4 6</p>
+<p>(integer) 3</p>
+<p>127.0.0.1:6379&gt; SMEMBERS mset</p>
 <ol>
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“3”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“5”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="spop：随机从集合中删除一个元素，并返回"><a href="#spop：随机从集合中删除一个元素，并返回" class="headerlink" title="spop：随机从集合中删除一个元素，并返回"></a>spop：随机从集合中删除一个元素，并返回</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-26"><a href="#￼-26" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SPOP-mset"><a href="#127-0-0-1-6379-gt-SPOP-mset" class="headerlink" title="127.0.0.1:6379&gt; SPOP mset"></a>127.0.0.1:6379&gt; SPOP mset</h2><hr>
-<h2 id="“3”"><a href="#“3”" class="headerlink" title="“3”"></a>“3”</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SMEMBERS-mset-2"><a href="#127-0-0-1-6379-gt-SMEMBERS-mset-2" class="headerlink" title="127.0.0.1:6379&gt; SMEMBERS mset"></a>127.0.0.1:6379&gt; SMEMBERS mset</h2><hr>
+<p>spop：随机从集合中删除一个元素，并返回</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SPOP mset</p>
+<p>“3”</p>
+<p>127.0.0.1:6379&gt; SMEMBERS mset</p>
 <ol>
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“5”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="scard：获取集合里面的元素个数"><a href="#scard：获取集合里面的元素个数" class="headerlink" title="scard：获取集合里面的元素个数"></a>scard：获取集合里面的元素个数</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-27"><a href="#￼-27" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SCARD-mset"><a href="#127-0-0-1-6379-gt-SCARD-mset" class="headerlink" title="127.0.0.1:6379&gt; SCARD mset"></a>127.0.0.1:6379&gt; SCARD mset</h2><hr>
-<h2 id="integer-2-1"><a href="#integer-2-1" class="headerlink" title="(integer) 2"></a>(integer) 2</h2><hr>
-<h2 id="sdiff：返回集合-1-与集合-2-的差集。以集合-1-为主"><a href="#sdiff：返回集合-1-与集合-2-的差集。以集合-1-为主" class="headerlink" title="sdiff：返回集合 1 与集合 2 的差集。以集合 1 为主"></a>sdiff：返回集合 1 与集合 2 的差集。以集合 1 为主</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-28"><a href="#￼-28" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SADD-mset1-1-2-3-4-5-6"><a href="#127-0-0-1-6379-gt-SADD-mset1-1-2-3-4-5-6" class="headerlink" title="127.0.0.1:6379&gt; SADD mset1 1 2 3 4 5 6"></a>127.0.0.1:6379&gt; SADD mset1 1 2 3 4 5 6</h2><hr>
-<h2 id="integer-6-1"><a href="#integer-6-1" class="headerlink" title="(integer) 6"></a>(integer) 6</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SADD-mset2-3-4-5-0-9-1"><a href="#127-0-0-1-6379-gt-SADD-mset2-3-4-5-0-9-1" class="headerlink" title="127.0.0.1:6379&gt; SADD mset2 3 4 5 0 9 1"></a>127.0.0.1:6379&gt; SADD mset2 3 4 5 0 9 1</h2><hr>
-<h2 id="integer-6-2"><a href="#integer-6-2" class="headerlink" title="(integer) 6"></a>(integer) 6</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SDIFF-mset1-mset2"><a href="#127-0-0-1-6379-gt-SDIFF-mset1-mset2" class="headerlink" title="127.0.0.1:6379&gt; SDIFF mset1 mset2"></a>127.0.0.1:6379&gt; SDIFF mset1 mset2</h2><hr>
+<p>scard：获取集合里面的元素个数</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SCARD mset</p>
+<p>(integer) 2</p>
+<p>sdiff：返回集合 1 与集合 2 的差集。以集合 1 为主</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SADD mset1 1 2 3 4 5 6</p>
+<p>(integer) 6</p>
+<p>127.0.0.1:6379&gt; SADD mset2 3 4 5 0 9 1</p>
+<p>(integer) 6</p>
+<p>127.0.0.1:6379&gt; SDIFF mset1 mset2</p>
 <ol>
 <li>“2”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“6”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="sinter：获得两个集合的交集"><a href="#sinter：获得两个集合的交集" class="headerlink" title="sinter：获得两个集合的交集"></a>sinter：获得两个集合的交集</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-29"><a href="#￼-29" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SINTER-mset1-mset2"><a href="#127-0-0-1-6379-gt-SINTER-mset1-mset2" class="headerlink" title="127.0.0.1:6379&gt; SINTER mset1 mset2"></a>127.0.0.1:6379&gt; SINTER mset1 mset2</h2><hr>
+<p>sinter：获得两个集合的交集</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SINTER mset1 mset2</p>
 <ol>
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“3”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“4”</li>
 </ol>
-<hr>
-<hr>
 <ol start="4">
 <li>“5”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="sunion：获得指定集合的并集"><a href="#sunion：获得指定集合的并集" class="headerlink" title="sunion：获得指定集合的并集"></a>sunion：获得指定集合的并集</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-30"><a href="#￼-30" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-SUNION-mster1-mset2"><a href="#127-0-0-1-6379-gt-SUNION-mster1-mset2" class="headerlink" title="127.0.0.1:6379&gt; SUNION mster1 mset2"></a>127.0.0.1:6379&gt; SUNION mster1 mset2</h2><hr>
+<p>sunion：获得指定集合的并集</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; SUNION mster1 mset2</p>
 <ol>
 <li>“0”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“3”</li>
 </ol>
-<hr>
-<hr>
 <ol start="4">
 <li>“4”</li>
 </ol>
-<hr>
-<hr>
 <ol start="5">
 <li>“5”</li>
 </ol>
-<hr>
-<hr>
 <ol start="6">
 <li>“9”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="5）-zset-类型及操作"><a href="#5）-zset-类型及操作" class="headerlink" title="5） zset 类型及操作"></a>5） zset 类型及操作</h2><hr>
+<p>5） zset 类型及操作</p>
 <pre><code>zset 是 set 的一个升级版本，它在 set 的基础上增加了一个顺序属性，这一属性在添加修改元素的时候可以指定，每次指定后，zset 会自动重新按新的值调整顺序。可以理解为有两列的 mysql 表，一列存的 value ，一列存的顺序。操作中 key 理解为 zset 的名字。
 </code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="￼-31"><a href="#￼-31" class="headerlink" title="￼"></a>￼</h2><hr>
-<hr>
-<hr>
-<h2 id="zadd：向一个指定的有序集合中添加元素，每一个元素会对应的有一个分数。你可以指定多个分数-成员组合。如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合的有序。分数的值必须是一个表示数字的字符串。"><a href="#zadd：向一个指定的有序集合中添加元素，每一个元素会对应的有一个分数。你可以指定多个分数-成员组合。如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合的有序。分数的值必须是一个表示数字的字符串。" class="headerlink" title="zadd：向一个指定的有序集合中添加元素，每一个元素会对应的有一个分数。你可以指定多个分数/成员组合。如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合的有序。分数的值必须是一个表示数字的字符串。"></a>zadd：向一个指定的有序集合中添加元素，每一个元素会对应的有一个分数。你可以指定多个分数/成员组合。如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合的有序。分数的值必须是一个表示数字的字符串。</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-32"><a href="#￼-32" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-ZADD-zset-2-zhangsan-1-lisi-1-wangwu"><a href="#127-0-0-1-6379-gt-ZADD-zset-2-zhangsan-1-lisi-1-wangwu" class="headerlink" title="127.0.0.1:6379&gt; ZADD zset 2 zhangsan 1 lisi 1 wangwu"></a>127.0.0.1:6379&gt; ZADD zset 2 zhangsan 1 lisi 1 wangwu</h2><hr>
-<h2 id="integer-3-1"><a href="#integer-3-1" class="headerlink" title="(integer) 3"></a>(integer) 3</h2><hr>
-<h2 id="zrange：返回有序集合中，指定区间内的成员。其中成员安装-score-（分数）值从小到大排序。具有相同-score-值的成员按照字典顺序来排列。"><a href="#zrange：返回有序集合中，指定区间内的成员。其中成员安装-score-（分数）值从小到大排序。具有相同-score-值的成员按照字典顺序来排列。" class="headerlink" title="zrange：返回有序集合中，指定区间内的成员。其中成员安装 score （分数）值从小到大排序。具有相同 score 值的成员按照字典顺序来排列。"></a>zrange：返回有序集合中，指定区间内的成员。其中成员安装 score （分数）值从小到大排序。具有相同 score 值的成员按照字典顺序来排列。</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-33"><a href="#￼-33" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-ZRANGE-zset-0-1-withscores"><a href="#127-0-0-1-6379-gt-ZRANGE-zset-0-1-withscores" class="headerlink" title="127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores"></a>127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores</h2><hr>
+<p>￼</p>
+<p>zadd：向一个指定的有序集合中添加元素，每一个元素会对应的有一个分数。你可以指定多个分数/成员组合。如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合的有序。分数的值必须是一个表示数字的字符串。</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; ZADD zset 2 zhangsan 1 lisi 1 wangwu</p>
+<p>(integer) 3</p>
+<p>zrange：返回有序集合中，指定区间内的成员。其中成员安装 score （分数）值从小到大排序。具有相同 score 值的成员按照字典顺序来排列。</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores</p>
 <ol>
 <li>“lisi”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“wangwu”</li>
 </ol>
-<hr>
-<hr>
 <ol start="4">
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="5">
 <li>“zhangsan”</li>
 </ol>
-<hr>
-<hr>
 <ol start="6">
 <li>“2”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="注：withscores-返回集合中元素的同时，返回其分数（score）"><a href="#注：withscores-返回集合中元素的同时，返回其分数（score）" class="headerlink" title="注：withscores 返回集合中元素的同时，返回其分数（score）"></a>注：withscores 返回集合中元素的同时，返回其分数（score）</h2><hr>
-<hr>
-<hr>
-<h2 id="zrem：删除有序集合中指定的值"><a href="#zrem：删除有序集合中指定的值" class="headerlink" title="zrem：删除有序集合中指定的值"></a>zrem：删除有序集合中指定的值</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-34"><a href="#￼-34" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-ZREM-zset-zhangsan"><a href="#127-0-0-1-6379-gt-ZREM-zset-zhangsan" class="headerlink" title="127.0.0.1:6379&gt; ZREM zset zhangsan"></a>127.0.0.1:6379&gt; ZREM zset zhangsan</h2><hr>
-<h2 id="integer-1-9"><a href="#integer-1-9" class="headerlink" title="(integer) 1"></a>(integer) 1</h2><hr>
-<h2 id="127-0-0-1-6379-gt-ZRANGE-zset-0-1-withscores-1"><a href="#127-0-0-1-6379-gt-ZRANGE-zset-0-1-withscores-1" class="headerlink" title="127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores"></a>127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores</h2><hr>
+<p>注：withscores 返回集合中元素的同时，返回其分数（score）</p>
+<p>zrem：删除有序集合中指定的值</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; ZREM zset zhangsan</p>
+<p>(integer) 1</p>
+<p>127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores</p>
 <ol>
 <li>“lisi”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“wangwu”</li>
 </ol>
-<hr>
-<hr>
 <ol start="4">
 <li>“1”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="zcard：返回有序集合元素的个数"><a href="#zcard：返回有序集合元素的个数" class="headerlink" title="zcard：返回有序集合元素的个数"></a>zcard：返回有序集合元素的个数</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-35"><a href="#￼-35" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-ZCARD-zset"><a href="#127-0-0-1-6379-gt-ZCARD-zset" class="headerlink" title="127.0.0.1:6379&gt; ZCARD zset"></a>127.0.0.1:6379&gt; ZCARD zset</h2><hr>
-<h2 id="integer-2-2"><a href="#integer-2-2" class="headerlink" title="(integer) 2"></a>(integer) 2</h2><hr>
-<h2 id="6）-其他相关命令"><a href="#6）-其他相关命令" class="headerlink" title="6） 其他相关命令"></a>6） 其他相关命令</h2><hr>
-<h2 id="keys：按照键名查找指定的键。支持通配符（-等）"><a href="#keys：按照键名查找指定的键。支持通配符（-等）" class="headerlink" title="keys：按照键名查找指定的键。支持通配符（*?等）"></a>keys：按照键名查找指定的键。支持通配符（*?等）</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-36"><a href="#￼-36" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="127-0-0-1-6379-gt-HGETALL-zhangsan"><a href="#127-0-0-1-6379-gt-HGETALL-zhangsan" class="headerlink" title="127.0.0.1:6379&gt; HGETALL zhangsan"></a>127.0.0.1:6379&gt; HGETALL zhangsan</h2><hr>
+<p>zcard：返回有序集合元素的个数</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; ZCARD zset</p>
+<p>(integer) 2</p>
+<p>6） 其他相关命令</p>
+<p>keys：按照键名查找指定的键。支持通配符（*?等）</p>
+<p>￼</p>
+<p>127.0.0.1:6379&gt; HGETALL zhangsan</p>
 <ol>
 <li>“name”</li>
 </ol>
-<hr>
-<hr>
 <ol start="2">
 <li>“zhangsan”</li>
 </ol>
-<hr>
-<hr>
 <ol start="3">
 <li>“age”</li>
 </ol>
-<hr>
-<hr>
 <ol start="4">
 <li>“18”</li>
 </ol>
-<hr>
-<hr>
 <ol start="5">
 <li>“sex”</li>
 </ol>
-<hr>
-<hr>
 <ol start="6">
 <li>“man</li>
 </ol>
-<hr>
-<hr>
-<h2 id="127-0-0-1-6379-gt-KEYS-zhang-an"><a href="#127-0-0-1-6379-gt-KEYS-zhang-an" class="headerlink" title="127.0.0.1:6379&gt; KEYS zhang*an"></a>127.0.0.1:6379&gt; KEYS zhang*an</h2><hr>
+<p>127.0.0.1:6379&gt; KEYS zhang*an</p>
 <ol>
 <li>“zhangsan”</li>
 </ol>
-<hr>
-<hr>
-<h2 id="exists：确认一个键是否存在（1表示存在）"><a href="#exists：确认一个键是否存在（1表示存在）" class="headerlink" title="exists：确认一个键是否存在（1表示存在）"></a>exists：确认一个键是否存在（1表示存在）</h2><hr>
-<hr>
-<hr>
-<h2 id="del：删除一个键（通用）"><a href="#del：删除一个键（通用）" class="headerlink" title="del：删除一个键（通用）"></a>del：删除一个键（通用）</h2><hr>
-<hr>
-<hr>
-<h2 id="expire：设置一个键（已存在）的过期时间，如果键已经过期，将会被自动删除"><a href="#expire：设置一个键（已存在）的过期时间，如果键已经过期，将会被自动删除" class="headerlink" title="expire：设置一个键（已存在）的过期时间，如果键已经过期，将会被自动删除"></a>expire：设置一个键（已存在）的过期时间，如果键已经过期，将会被自动删除</h2><hr>
-<hr>
-<hr>
-<h2 id="ttl：以秒为单位，返回指定键的剩余有效时间"><a href="#ttl：以秒为单位，返回指定键的剩余有效时间" class="headerlink" title="ttl：以秒为单位，返回指定键的剩余有效时间"></a>ttl：以秒为单位，返回指定键的剩余有效时间</h2><hr>
-<hr>
-<hr>
-<h2 id="当-key-不存在时，返回-2。"><a href="#当-key-不存在时，返回-2。" class="headerlink" title="当 key 不存在时，返回 -2。"></a>当 key 不存在时，返回 -2。</h2><hr>
-<hr>
-<hr>
-<h2 id="当-key-存在但没有剩余生存时间时，返回-1。"><a href="#当-key-存在但没有剩余生存时间时，返回-1。" class="headerlink" title="当 key 存在但没有剩余生存时间时，返回 -1。"></a>当 key 存在但没有剩余生存时间时，返回 -1。</h2><hr>
-<hr>
-<hr>
-<h2 id="否则，以秒为单位，返回-key-的剩余生存时间。"><a href="#否则，以秒为单位，返回-key-的剩余生存时间。" class="headerlink" title="否则，以秒为单位，返回 key 的剩余生存时间。"></a>否则，以秒为单位，返回 key 的剩余生存时间。</h2><hr>
-<hr>
-<hr>
-<h2 id="select：选择一个数据库，默认连接的数据库是-0，可以支持共-16-个数据库。在配置文件中，通过-databases-16-关键字定义"><a href="#select：选择一个数据库，默认连接的数据库是-0，可以支持共-16-个数据库。在配置文件中，通过-databases-16-关键字定义" class="headerlink" title="select：选择一个数据库，默认连接的数据库是 0，可以支持共 16 个数据库。在配置文件中，通过 databases 16 关键字定义"></a>select：选择一个数据库，默认连接的数据库是 0，可以支持共 16 个数据库。在配置文件中，通过 databases 16 关键字定义</h2><hr>
-<hr>
-<hr>
-<h2 id="move：将当期数据库的键移动到指定的数据库中"><a href="#move：将当期数据库的键移动到指定的数据库中" class="headerlink" title="move：将当期数据库的键移动到指定的数据库中"></a>move：将当期数据库的键移动到指定的数据库中</h2><hr>
-<hr>
-<hr>
-<h2 id="type：返回键的类型"><a href="#type：返回键的类型" class="headerlink" title="type：返回键的类型"></a>type：返回键的类型</h2><hr>
-<hr>
-<hr>
-<h2 id="dbsize：返回当前库中键的数据（所有类型）"><a href="#dbsize：返回当前库中键的数据（所有类型）" class="headerlink" title="dbsize：返回当前库中键的数据（所有类型）"></a>dbsize：返回当前库中键的数据（所有类型）</h2><hr>
-<hr>
-<hr>
-<h2 id="save：保存所有的数据。很少在生产环境直接使用-SAVE-命令。因为它hi阻塞所有的客户端的请求，可以使用-BGSAVE-命令代替。如果在-BGSAVE-命令的保存数据的子进程发生错误的时，用-SAVE-命令保存最新的数据是最后的手段。"><a href="#save：保存所有的数据。很少在生产环境直接使用-SAVE-命令。因为它hi阻塞所有的客户端的请求，可以使用-BGSAVE-命令代替。如果在-BGSAVE-命令的保存数据的子进程发生错误的时，用-SAVE-命令保存最新的数据是最后的手段。" class="headerlink" title="save：保存所有的数据。很少在生产环境直接使用 SAVE 命令。因为它hi阻塞所有的客户端的请求，可以使用 BGSAVE 命令代替。如果在 BGSAVE 命令的保存数据的子进程发生错误的时，用 SAVE 命令保存最新的数据是最后的手段。"></a>save：保存所有的数据。很少在生产环境直接使用 SAVE 命令。因为它hi阻塞所有的客户端的请求，可以使用 BGSAVE 命令代替。如果在 BGSAVE 命令的保存数据的子进程发生错误的时，用 SAVE 命令保存最新的数据是最后的手段。</h2><hr>
-<hr>
-<hr>
-<h2 id="info：获取服务器的详细信息"><a href="#info：获取服务器的详细信息" class="headerlink" title="info：获取服务器的详细信息"></a>info：获取服务器的详细信息</h2><hr>
-<hr>
-<hr>
-<h2 id="config-get：获取-redis-服务器配置文件中的参数。支持通配符"><a href="#config-get：获取-redis-服务器配置文件中的参数。支持通配符" class="headerlink" title="config get：获取 redis 服务器配置文件中的参数。支持通配符"></a>config get：获取 redis 服务器配置文件中的参数。支持通配符</h2><hr>
-<hr>
-<hr>
-<h2 id="flushdb：删除当前数据库中所有的数据"><a href="#flushdb：删除当前数据库中所有的数据" class="headerlink" title="flushdb：删除当前数据库中所有的数据"></a>flushdb：删除当前数据库中所有的数据</h2><hr>
-<hr>
-<hr>
-<h2 id="flushall：删除所有数据库中的所有数据"><a href="#flushall：删除所有数据库中的所有数据" class="headerlink" title="flushall：删除所有数据库中的所有数据"></a>flushall：删除所有数据库中的所有数据</h2><hr>
-<hr>
-<hr>
-<h2 id="六、Redis-高级应用"><a href="#六、Redis-高级应用" class="headerlink" title="六、Redis 高级应用"></a>六、Redis 高级应用</h2><hr>
-<h2 id="1）-密码防护"><a href="#1）-密码防护" class="headerlink" title="1） 密码防护"></a>1） 密码防护</h2><hr>
-<h2 id="给-Redis-服务器设置密码"><a href="#给-Redis-服务器设置密码" class="headerlink" title="给 Redis 服务器设置密码"></a>给 Redis 服务器设置密码</h2><hr>
-<hr>
-<hr>
-<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-37"><a href="#￼-37" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="root-b-redis-vi-usr-local-redis-etc-redis-conf"><a href="#root-b-redis-vi-usr-local-redis-etc-redis-conf" class="headerlink" title="[root@b redis]# vi /usr/local/redis/etc/redis.conf"></a>[root@b redis]# vi /usr/local/redis/etc/redis.conf</h2><hr>
-<h2 id="requirepass-123456"><a href="#requirepass-123456" class="headerlink" title="requirepass 123456"></a>requirepass 123456</h2><hr>
-<h2 id="重启-redis"><a href="#重启-redis" class="headerlink" title="重启 redis"></a>重启 redis</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-38"><a href="#￼-38" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="root-b-redis-pkill-redis"><a href="#root-b-redis-pkill-redis" class="headerlink" title="[root@b redis]# pkill redis"></a>[root@b redis]# pkill redis</h2><hr>
-<h2 id="root-b-redis-usr-local-redis-bin-redis-server-usr-local-redis-etc-redis-conf"><a href="#root-b-redis-usr-local-redis-bin-redis-server-usr-local-redis-etc-redis-conf" class="headerlink" title="[root@b redis]# /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf"></a>[root@b redis]# /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf</h2><hr>
-<h2 id="客户端登录"><a href="#客户端登录" class="headerlink" title="客户端登录"></a>客户端登录</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-39"><a href="#￼-39" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="root-b-etc-redis-cli-a-123456"><a href="#root-b-etc-redis-cli-a-123456" class="headerlink" title="[root@b etc]# redis-cli -a 123456"></a>[root@b etc]# redis-cli -a 123456</h2><hr>
-<h2 id="Warning-Using-a-password-with-‘-a’-or-‘-u’-option-on-the-command-line-interface-may-not-be-safe"><a href="#Warning-Using-a-password-with-‘-a’-or-‘-u’-option-on-the-command-line-interface-may-not-be-safe" class="headerlink" title="Warning: Using a password with ‘-a’ or ‘-u’ option on the command line interface may not be safe."></a>Warning: Using a password with ‘-a’ or ‘-u’ option on the command line interface may not be safe.</h2><hr>
-<h2 id="127-0-0-1-6379-gt-1"><a href="#127-0-0-1-6379-gt-1" class="headerlink" title="127.0.0.1:6379&gt;"></a>127.0.0.1:6379&gt;</h2><hr>
-<h2 id="或-1"><a href="#或-1" class="headerlink" title="或"></a>或</h2><hr>
-<h2 id="交互模式下使用-auth密码-命令"><a href="#交互模式下使用-auth密码-命令" class="headerlink" title="交互模式下使用 auth密码 命令"></a>交互模式下使用 auth密码 命令</h2><hr>
-<h2 id="2）-主从同步"><a href="#2）-主从同步" class="headerlink" title="2） 主从同步"></a>2） 主从同步</h2><hr>
-<h2 id="Redis-主从复制过程："><a href="#Redis-主从复制过程：" class="headerlink" title="Redis 主从复制过程："></a>Redis 主从复制过程：</h2><hr>
-<hr>
-<hr>
-<h2 id="Slave-与-Master-建立连接，发送-sync-同步命令。"><a href="#Slave-与-Master-建立连接，发送-sync-同步命令。" class="headerlink" title="Slave 与 Master 建立连接，发送 sync 同步命令。"></a>Slave 与 Master 建立连接，发送 sync 同步命令。</h2><hr>
-<hr>
-<hr>
-<h2 id="Master-会启动一个后台进程，将数据库快照保存到文件中，同时-master-主进程会开始收集新的写命令并缓存。"><a href="#Master-会启动一个后台进程，将数据库快照保存到文件中，同时-master-主进程会开始收集新的写命令并缓存。" class="headerlink" title="Master 会启动一个后台进程，将数据库快照保存到文件中，同时 master 主进程会开始收集新的写命令并缓存。"></a>Master 会启动一个后台进程，将数据库快照保存到文件中，同时 master 主进程会开始收集新的写命令并缓存。</h2><hr>
-<hr>
-<hr>
-<h2 id="后台完成保存后，就将此文件发送给-Slave"><a href="#后台完成保存后，就将此文件发送给-Slave" class="headerlink" title="后台完成保存后，就将此文件发送给 Slave"></a>后台完成保存后，就将此文件发送给 Slave</h2><hr>
-<hr>
-<hr>
-<h2 id="Slave-将此文件保存到硬盘上"><a href="#Slave-将此文件保存到硬盘上" class="headerlink" title="Slave 将此文件保存到硬盘上"></a>Slave 将此文件保存到硬盘上</h2><hr>
-<hr>
-<hr>
+<p>exists：确认一个键是否存在（1表示存在）</p>
+<p>del：删除一个键（通用）</p>
+<p>expire：设置一个键（已存在）的过期时间，如果键已经过期，将会被自动删除</p>
+<p>ttl：以秒为单位，返回指定键的剩余有效时间</p>
+<p>当 key 不存在时，返回 -2。</p>
+<p>当 key 存在但没有剩余生存时间时，返回 -1。</p>
+<p>否则，以秒为单位，返回 key 的剩余生存时间。</p>
+<p>select：选择一个数据库，默认连接的数据库是 0，可以支持共 16 个数据库。在配置文件中，通过 databases 16 关键字定义</p>
+<p>move：将当期数据库的键移动到指定的数据库中</p>
+<p>type：返回键的类型</p>
+<p>dbsize：返回当前库中键的数据（所有类型）</p>
+<p>save：保存所有的数据。很少在生产环境直接使用 SAVE 命令。因为它hi阻塞所有的客户端的请求，可以使用 BGSAVE 命令代替。如果在 BGSAVE 命令的保存数据的子进程发生错误的时，用 SAVE 命令保存最新的数据是最后的手段。</p>
+<p>info：获取服务器的详细信息</p>
+<p>config get：获取 redis 服务器配置文件中的参数。支持通配符</p>
+<p>flushdb：删除当前数据库中所有的数据</p>
+<p>flushall：删除所有数据库中的所有数据</p>
+<h1 id="六、Redis-高级应用"><a href="#六、Redis-高级应用" class="headerlink" title="六、Redis 高级应用"></a>六、Redis 高级应用</h1><p>1） 密码防护</p>
+<p>给 Redis 服务器设置密码</p>
+<p>修改配置文件</p>
+<p>￼</p>
+<p>[root@b redis]# vi /usr/local/redis/etc/redis.conf</p>
+<p>requirepass 123456</p>
+<p>重启 redis</p>
+<p>￼</p>
+<p>[root@b redis]# pkill redis</p>
+<p>[root@b redis]# /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf</p>
+<p>客户端登录</p>
+<p>￼</p>
+<p>[root@b etc]# redis-cli -a 123456</p>
+<p>Warning: Using a password with ‘-a’ or ‘-u’ option on the command line interface may not be safe.</p>
+<p>127.0.0.1:6379&gt;</p>
+<p>或</p>
+<p>交互模式下使用 auth密码 命令</p>
+<p>2） 主从同步</p>
+<p>Redis 主从复制过程：</p>
+<p>Slave 与 Master 建立连接，发送 sync 同步命令。</p>
+<p>Master 会启动一个后台进程，将数据库快照保存到文件中，同时 master 主进程会开始收集新的写命令并缓存。</p>
+<p>后台完成保存后，就将此文件发送给 Slave</p>
+<p>Slave 将此文件保存到硬盘上</p>
 <ol>
 <li>主服务器给自己设置好密码即可（iptables &amp; SELinux 关闭）</li>
 </ol>
-<hr>
-<hr>
-<hr>
-<hr>
 <ol start="2">
 <li>从服务器修改配置文件，用来连接主服务器</li>
 </ol>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="老版本："><a href="#老版本：" class="headerlink" title="老版本："></a>老版本：</h2><hr>
-<hr>
-<hr>
-<h2 id="从："><a href="#从：" class="headerlink" title="从："></a>从：</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-40"><a href="#￼-40" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="slaveof-主服务器的IP和端口"><a href="#slaveof-主服务器的IP和端口" class="headerlink" title="slaveof    # 主服务器的IP和端口"></a>slaveof<masterip><msterport>    # 主服务器的IP和端口</h2><hr>
-<h2 id="masterauth-主服务器的密码（主服务器要设置好密码）"><a href="#masterauth-主服务器的密码（主服务器要设置好密码）" class="headerlink" title="masterauth          # 主服务器的密码（主服务器要设置好密码）"></a>masterauth<masterpass>          # 主服务器的密码（主服务器要设置好密码）</h2><hr>
-<h2 id="新版本-redis-5-以上："><a href="#新版本-redis-5-以上：" class="headerlink" title="新版本 redis 5.* 以上："></a>新版本 redis 5.* 以上：</h2><hr>
-<hr>
-<hr>
-<h2 id="主："><a href="#主：" class="headerlink" title="主："></a>主：</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-41"><a href="#￼-41" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="找到-bind-127-0-0-1-注释掉，或者修改为本机的-IP-地址（重启）"><a href="#找到-bind-127-0-0-1-注释掉，或者修改为本机的-IP-地址（重启）" class="headerlink" title="找到 bind 127.0.0.1 注释掉，或者修改为本机的 IP 地址（重启）"></a>找到 bind 127.0.0.1 注释掉，或者修改为本机的 IP 地址（重启）</h2><hr>
-<h2 id="从：-1"><a href="#从：-1" class="headerlink" title="从："></a>从：</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-42"><a href="#￼-42" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="replicaof-主服务器的-IP-和端口"><a href="#replicaof-主服务器的-IP-和端口" class="headerlink" title="replicaof      # 主服务器的 IP 和端口"></a>replicaof <masterip> <masterport>    # 主服务器的 IP 和端口</h2><hr>
-<h2 id="masterauth-主服务器的密码（主服务器要设置好密码）-1"><a href="#masterauth-主服务器的密码（主服务器要设置好密码）-1" class="headerlink" title="masterauth               # 主服务器的密码（主服务器要设置好密码）"></a>masterauth <masterpass>              # 主服务器的密码（主服务器要设置好密码）</h2><hr>
+<p>老版本：</p>
+<p>从：</p>
+<p>￼</p>
+<p>slaveof<masterip><msterport>    # 主服务器的IP和端口</p>
+<p>masterauth<masterpass>          # 主服务器的密码（主服务器要设置好密码）</p>
+<p>新版本 redis 5.* 以上：</p>
+<p>主：</p>
+<p>￼</p>
+<p>找到 bind 127.0.0.1 注释掉，或者修改为本机的 IP 地址（重启）</p>
+<p>从：</p>
+<p>￼</p>
+<p>replicaof <masterip> <masterport>    # 主服务器的 IP 和端口</p>
+<p>masterauth <masterpass>              # 主服务器的密码（主服务器要设置好密码）</p>
 <ol start="3">
 <li>重启从服务器，然后测试（可通过 info 命令获取当前服务器身份类型）</li>
 </ol>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="3）-数据持久化"><a href="#3）-数据持久化" class="headerlink" title="3） 数据持久化"></a>3） 数据持久化</h2><hr>
+<p>3） 数据持久化</p>
 <pre><code>Redis 是一个支持持久化的内存数据库，也就是说需要经常将内存中的数据同步到硬盘来保证持久化
 </code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="snapshotting-（快照）-–默认方式"><a href="#snapshotting-（快照）-–默认方式" class="headerlink" title="snapshotting （快照） –默认方式"></a>snapshotting （快照） –默认方式</h2><hr>
-<hr>
-<hr>
+<p>snapshotting （快照） –默认方式</p>
 <pre><code>RDB 持久化方式能够在指定的时间间隔能对你的数据进行快照存储。是默认的持久化方式。这种方式是将内存中数据以快照的方式写入到二进制文件中，默认的文件名为 dump.rdb。这种持久化方式被称为快照 snapshotting（快照）。
 </code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="过了-900-秒并且有-1-个-key-发生了改变，就会触发-save-动作"><a href="#过了-900-秒并且有-1-个-key-发生了改变，就会触发-save-动作" class="headerlink" title="过了 900 秒并且有 1 个 key 发生了改变，就会触发 save 动作"></a>过了 900 秒并且有 1 个 key 发生了改变，就会触发 save 动作</h2><hr>
-<hr>
-<hr>
-<h2 id="过了-300-秒并且有-10-个-key-发生了改变，就会触发-save-动作"><a href="#过了-300-秒并且有-10-个-key-发生了改变，就会触发-save-动作" class="headerlink" title="过了 300 秒并且有 10 个 key 发生了改变，就会触发 save 动作"></a>过了 300 秒并且有 10 个 key 发生了改变，就会触发 save 动作</h2><hr>
-<hr>
-<hr>
-<h2 id="过了-60-秒并且至少有-10000-个-key-发生了改变，也会触发-save-动作"><a href="#过了-60-秒并且至少有-10000-个-key-发生了改变，也会触发-save-动作" class="headerlink" title="过了 60 秒并且至少有 10000 个 key 发生了改变，也会触发 save 动作"></a>过了 60 秒并且至少有 10000 个 key 发生了改变，也会触发 save 动作</h2><hr>
-<hr>
-<hr>
-<h2 id="结论：在-redis-conf-文件中-dir-定义了数据库文件的存放位置，默认是当前目录。所以每次重启-redis-服务所在的位置不同，将会生成新的-dump-rdb-文件；建议服务器搭建完成时先修改快照文件保存位置。"><a href="#结论：在-redis-conf-文件中-dir-定义了数据库文件的存放位置，默认是当前目录。所以每次重启-redis-服务所在的位置不同，将会生成新的-dump-rdb-文件；建议服务器搭建完成时先修改快照文件保存位置。" class="headerlink" title="结论：在 redis.conf 文件中 dir ./ 定义了数据库文件的存放位置，默认是当前目录。所以每次重启 redis 服务所在的位置不同，将会生成新的 dump.rdb 文件；建议服务器搭建完成时先修改快照文件保存位置。 "></a>结论：在 redis.conf 文件中 dir ./ 定义了数据库文件的存放位置，默认是当前目录。所以每次重启 redis 服务所在的位置不同，将会生成新的 dump.rdb 文件；建议服务器搭建完成时先修改快照文件保存位置。 </h2><hr>
-<hr>
-<hr>
-<h2 id="append-only-file-（缩写-aof）"><a href="#append-only-file-（缩写-aof）" class="headerlink" title="append-only file （缩写 aof）"></a>append-only file （缩写 aof）</h2><hr>
-<hr>
-<hr>
+<p>过了 900 秒并且有 1 个 key 发生了改变，就会触发 save 动作</p>
+<p>过了 300 秒并且有 10 个 key 发生了改变，就会触发 save 动作</p>
+<p>过了 60 秒并且至少有 10000 个 key 发生了改变，也会触发 save 动作</p>
+<p>结论：在 redis.conf 文件中 dir ./ 定义了数据库文件的存放位置，默认是当前目录。所以每次重启 redis 服务所在的位置不同，将会生成新的 dump.rdb 文件；建议服务器搭建完成时先修改快照文件保存位置。 </p>
+<p>append-only file （缩写 aof）</p>
 <pre><code>使用 AOF 会让你的 Redis 更加耐久：你可以使用不同的持久化策略，每次写的时候备份、每秒备份、无备份。使用默认的每秒备份策略，Redis 的性能依然很好（备份是由后台线程进行处理的，主线程会尽力处理客户端请求）一旦出现故障，你最多丢失 1 秒的数据。
 </code></pre>
-<hr>
-<hr>
-<hr>
-<hr>
-<h2 id="打开-redis-conf-配置文件开启-AOF-持久化"><a href="#打开-redis-conf-配置文件开启-AOF-持久化" class="headerlink" title="打开 redis.conf 配置文件开启 AOF 持久化"></a>打开 redis.conf 配置文件开启 AOF 持久化</h2><hr>
-<hr>
-<hr>
-<h2 id="￼-43"><a href="#￼-43" class="headerlink" title="￼"></a>￼</h2><hr>
-<h2 id="appendonly-no-默认不使用-AOF-持久化。将-no-改为-yes"><a href="#appendonly-no-默认不使用-AOF-持久化。将-no-改为-yes" class="headerlink" title="appendonly no    # 默认不使用 AOF 持久化。将 no 改为 yes"></a>appendonly no    # 默认不使用 AOF 持久化。将 no 改为 yes</h2><hr>
-<hr>
+<p>打开 redis.conf 配置文件开启 AOF 持久化</p>
+<p>￼</p>
+<p>appendonly no    # 默认不使用 AOF 持久化。将 no 改为 yes</p>
 <ul>
 <li><pre><code>appendonly no    # 默认不使用 AOF 持久化。将 no 改为 yes
 </code></pre>
@@ -1126,6 +719,22 @@
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/NoSQL/">NoSQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/NoSQL/">NoSQL</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Redis/">Redis</a>
+                    
+                  </div>
                 
               </div>
               
