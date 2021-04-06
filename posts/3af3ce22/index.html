@@ -220,7 +220,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.6k 字
+      4.1k 字
     </span>
   
 
@@ -230,7 +230,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      47
+      56
        分钟
     </span>
   
@@ -279,6 +279,7 @@
             <div class="markdown-body">
               <h1 id="一、什么是-NoSQL"><a href="#一、什么是-NoSQL" class="headerlink" title="一、什么是 NoSQL"></a>一、什么是 <code>NoSQL</code></h1><p>​    <code>NoSQL（NoSQL = Not Only SQL）</code>，意为反 <code>SQL</code> 运动，是一项全新的数据库革命性运动，<code>2000</code> 年前就有人提出，发展至 <code>2009</code> 年趋势越发高涨。它是指运用非关系型的数据存储，相对于铺天地盖地的关系型数据库运用，这一概念无疑是一种全新的思维的注入。</p>
 <p>​    随着互联网 <code>web2.0</code> 网站的兴起，传统的关系数据库在应付 <code>web2.0</code> 网站，特别是超大规模和高并发的 <code>SNS</code> 类型的 <code>web2.0</code> 纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于本事的特点得到了非常迅速的发展。<code>NoSQL</code> 数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。</p>
+<hr>
 <h1 id="二、NoSQL-的特性"><a href="#二、NoSQL-的特性" class="headerlink" title="二、NoSQL 的特性"></a>二、<code>NoSQL</code> 的特性</h1><p>​    <code>NoSQL</code> 是 <code>key-value</code> 形式存储，和传统的关系型数据库不一样，不一定遵循传统数据库的一些基本要求，比如说遵循 <code>SQL</code> 标准、<code>ACID</code> 属性、表结构等等。</p>
 <p>这类数据库主要有以下特点：</p>
 <ul>
@@ -296,8 +297,9 @@
 </li>
 </ul>
 <hr>
-<h1 id="三、什么是-Redis"><a href="#三、什么是-Redis" class="headerlink" title="三、什么是 Redis"></a>三、什么是 <code>Redis</code></h1><p><code>Redis</code> 是一个开源的，先进的 <code>key - value</code> 存储。它通常被称为数据结构服务器，因为键可以包含 <code>string</code>、<code>hash</code>、<code>list</code>、<code>set</code>、<code>zset</code> （<code>sorted-set--有序集合</code>）。这些数据类型都支持 <code>push/pop</code>、<code>add/remove</code> 及取交集并集和差集及更丰富的操作。</p>
-<p><code>Redis</code> 和 <code>Memcached</code> 类似，它支持存储的 <code>value</code> 类型相对更多，与 <code>memcached</code> 一样，为了保证效率，数据都是缓存在内存中，区别是 <code>Redis</code> 会周期性的把更新的数据写入磁盘或把修改操作写入追加对的记录文件，并且在此基础上实现了 <code>master-slave</code> 同步。</p>
+<h1 id="三、什么是-Redis"><a href="#三、什么是-Redis" class="headerlink" title="三、什么是 Redis"></a>三、什么是 <code>Redis</code></h1><p>​    <code>Redis</code> 是一个开源的，先进的 <code>key - value</code> 存储。它通常被称为数据结构服务器，因为键可以包含 <code>string</code>、<code>hash</code>、<code>list</code>、<code>set</code>、<code>zset</code> （<code>sorted-set--有序集合</code>）。这些数据类型都支持 <code>push/pop</code>、<code>add/remove</code> 及取交集并集和差集及更丰富的操作。</p>
+<p>​    <code>Redis</code> 和 <code>Memcached</code> 类似，它支持存储的 <code>value</code> 类型相对更多，与 <code>memcached</code> 一样，为了保证效率，数据都是缓存在内存中，区别是 <code>Redis</code> 会周期性的把更新的数据写入磁盘或把修改操作写入追加对的记录文件，并且在此基础上实现了 <code>master-slave</code> 同步。</p>
+<hr>
 <h1 id="四、Redis-安装部署"><a href="#四、Redis-安装部署" class="headerlink" title="四、Redis 安装部署"></a>四、<code>Redis</code> 安装部署</h1><blockquote>
 <p> <a href="http//:redis.io"><code>Redis</code> 的官方网站</a></p>
 <p>下载安装包：<code>redis-6.2.1.tar.gz</code></p>
@@ -318,401 +320,224 @@
 </ul>
 <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-string">[root@b redis]</span># redis-cli <br><span class="hljs-number">127.0.0.1:6379</span>&gt;<br></code></pre></td></tr></table></figure>
 
-<h2 id="5）-停止-Redis"><a href="#5）-停止-Redis" class="headerlink" title="5） 停止 Redis"></a>5） 停止 Redis</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin/redis-cli shutdown<br>或<br>pkill -<span class="hljs-number">9</span> redis<br></code></pre></td></tr></table></figure>
+<h2 id="5）-停止-Redis"><a href="#5）-停止-Redis" class="headerlink" title="5） 停止 Redis"></a>5） 停止 <code>Redis</code></h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin/redis-cli shutdown<br>或<br>pkill -<span class="hljs-number">9</span> redis<br></code></pre></td></tr></table></figure>
 
-<h1 id="五、Redis-常用命令"><a href="#五、Redis-常用命令" class="headerlink" title="五、Redis 常用命令"></a>五、Redis 常用命令</h1><h2 id="1）-string-类型及操作"><a href="#1）-string-类型及操作" class="headerlink" title="1） string 类型及操作"></a>1） string 类型及操作</h2><p>string 是最简单的类型，一个 key 对应一个 value ，string 类型是二进制安全的。redis 的 string 可以包含任何数据。</p>
-<p>set：设置 key 对应的值为 string 类型</p>
-<p>例如：我们添加一个 name=butatree 的键值对应</p>
+<hr>
+<h1 id="五、Redis-常用命令"><a href="#五、Redis-常用命令" class="headerlink" title="五、Redis 常用命令"></a>五、<code>Redis</code> 常用命令</h1><h2 id="1）-string-类型及操作"><a href="#1）-string-类型及操作" class="headerlink" title="1） string 类型及操作"></a>1） <code>string</code> 类型及操作</h2><p>​    <code>string</code> 是最简单的类型，一个 <code>key</code> 对应一个 <code>value</code> ，<code>string</code> 类型是二进制安全的。<code>redis</code> 的 <code>string</code> 可以包含任何数据。</p>
+<p><code>set</code>：设置 <code>key</code> 对应的值为 <code>string</code> 类型</p>
+<p>例如：我们添加一个 <code>name=butatree</code> 的键值对应</p>
 <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">redis127.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; set name butatree<br><span class="hljs-number">127.0.0.1:6379</span>&gt; get name<br><span class="hljs-string">&quot;butatree&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p>setnx：设置 key 对应的值为 string 类型，如果 key 已经存在，返回 0，nx 是 not exist 的意思</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SETNX name zhangsan</p>
-<p>(integer) 0</p>
-<p>127.0.0.1:6379&gt; get name</p>
-<p>“butatree”</p>
-<p>get：获取 key 对应的 string 值，如果 key 不存在返回 nil</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; get name</p>
-<p>“butatree”</p>
-<p>127.0.0.1:6379&gt; get name1</p>
-<p>(nil)</p>
-<p>mset &amp; mget ：同时设置和获取多个键值对</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; MSET age 21 sex man</p>
-<p>OK</p>
-<p>127.0.0.1:6379&gt; MGET name age sex</p>
-<ol>
-<li>“butatree”</li>
-</ol>
-<ol start="2">
-<li>“21”</li>
-</ol>
-<ol start="3">
-<li>“man”</li>
-</ol>
-<p>incrby：对 key 的值做加加（指定值）操作，并返回新的值</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; INCRBY age 5 #对指定值进行加操作，原来是21，现在加5是26</p>
-<p>(integer) 26</p>
-<p>127.0.0.1:6379&gt; get age</p>
-<p>“26”</p>
-<p>127.0.0.1:6379&gt; INCRBY age -6</p>
-<p>(integer) 20</p>
-<p>127.0.0.1:6379&gt; get age</p>
-<p>“20”</p>
-<p>del ：删除一个已创建的 key</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; del age </p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; get age</p>
-<p>(nil)</p>
-<p>2） hash 类型及操作</p>
-<pre><code>Redis hash 是一个 string 类型的 field （字段）和 value 的映射表，它的添加、删除操作都是 0 (1)平均；hash 特别适合用于存储对象，相较于将对象的每个字段存成单个 string 类型，将一个对象存储在 hash 类型中会占用更少的内存，并且可以更方便的存取整个对象。
-</code></pre>
-<p>hset：设置 hash field 为指定值，如果 key 不存在，则先创建。</p>
-<p>例如：为 numl 表创建一个叫 name 字段（key），键值是 butatree</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; hset num1 name zhangsan</p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; hset num1 age 18</p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; hset num1 sex man</p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; hset num2 name lisi</p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; hset num2 age 25</p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; hset num2 sex woman</p>
-<p>(integer) 1</p>
-<p>￼</p>
-<p>hget、hmset、hmget 意义同上近似</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; HGET num1 name</p>
-<p>“zhangsan”</p>
-<p>127.0.0.1:6379&gt; HMSET num1 name zhangsan age 18 sex man</p>
-<p>OK</p>
-<p>127.0.0.1:6379&gt; HMGET num1 name age sex</p>
-<ol>
-<li>“zhangsan”</li>
-</ol>
-<ol start="2">
-<li>“18”</li>
-</ol>
-<ol start="3">
-<li>“man”</li>
-</ol>
-<p>hdel：删除制定表中的某一个键值对</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; HDEL num1 sex</p>
-<p>(integer) 1</p>
-<p>hgetall：列出表中的所有键值对</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; HGETALL num1</p>
-<ol>
-<li>“name”</li>
-</ol>
-<ol start="2">
-<li>“zhangsan”</li>
-</ol>
-<ol start="3">
-<li>“age”</li>
-</ol>
-<ol start="4">
-<li>“18”</li>
-</ol>
-<p>3） list 类型及操作</p>
-<pre><code>list 是一个链表结构（一个键对应多个元素），主要功能是 push 、pop、获取一个范围内的所有值等等，操作中 key 理解为链表的名字。Redis 的 list 类型其实就是一个每个子元素都是 string 类型的双向链表。我们可以通过 push 、pop 操作从链表的头部或尾部添加删除元素。
-</code></pre>
-<p>￼</p>
-<p>lpush：在 key 对应 list 的头部添加字符串元素。</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; LPUSH zhangsan zhangsan</p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; LPUSH zhangsan 18</p>
-<p>(integer) 2</p>
-<p>127.0.0.1:6379&gt; LPUSH zhangsan man</p>
-<p>lrange：从指定链表中获取指定范围的元素</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; LRANGE zhangsan 0 -1</p>
-<ol>
-<li>“man”</li>
-</ol>
-<ol start="2">
-<li>“18”</li>
-</ol>
-<ol start="3">
-<li>“zhangsan”</li>
-</ol>
-<p>0 -1: 此范围代表全部元素，意为从头到尾</p>
-<p>lpush、rpush、lpop、rpop、lrange 详见图示</p>
-<p>￼</p>
-<p>4） Set 类型及操作</p>
-<pre><code>set 是集合，他是 string 类型的无序集合。set 是通过 hash table 实现的，对集、交集、差集。通过这些操作我们可以实现社交网站中的好友推荐和 blog 的 tag 功能。集合不允许有重复值。
-</code></pre>
-<p>￼</p>
-<p>sadd：添加一个或多个元素到集合中</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SADD mset 1 2 3 4 5 6</p>
-<p>(integer) 6</p>
-<p>smembers：获取集合里面所有的元素</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SMEMBERS mset</p>
-<ol>
-<li>“1”</li>
-</ol>
-<ol start="2">
-<li>“2”</li>
-</ol>
-<ol start="3">
-<li>“3”</li>
-</ol>
-<ol start="4">
-<li>“4”</li>
-</ol>
-<ol start="5">
-<li>“5”</li>
-</ol>
-<ol start="6">
-<li>“6”</li>
-</ol>
-<p>srem：从集合中删除指定的一个或多个元素</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SREM mset 2 4 6</p>
-<p>(integer) 3</p>
-<p>127.0.0.1:6379&gt; SMEMBERS mset</p>
-<ol>
-<li>“1”</li>
-</ol>
-<ol start="2">
-<li>“3”</li>
-</ol>
-<ol start="3">
-<li>“5”</li>
-</ol>
-<p>spop：随机从集合中删除一个元素，并返回</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SPOP mset</p>
-<p>“3”</p>
-<p>127.0.0.1:6379&gt; SMEMBERS mset</p>
-<ol>
-<li>“1”</li>
-</ol>
-<ol start="2">
-<li>“5”</li>
-</ol>
-<p>scard：获取集合里面的元素个数</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SCARD mset</p>
-<p>(integer) 2</p>
-<p>sdiff：返回集合 1 与集合 2 的差集。以集合 1 为主</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SADD mset1 1 2 3 4 5 6</p>
-<p>(integer) 6</p>
-<p>127.0.0.1:6379&gt; SADD mset2 3 4 5 0 9 1</p>
-<p>(integer) 6</p>
-<p>127.0.0.1:6379&gt; SDIFF mset1 mset2</p>
-<ol>
-<li>“2”</li>
-</ol>
-<ol start="2">
-<li>“6”</li>
-</ol>
-<p>sinter：获得两个集合的交集</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SINTER mset1 mset2</p>
-<ol>
-<li>“1”</li>
-</ol>
-<ol start="2">
-<li>“3”</li>
-</ol>
-<ol start="3">
-<li>“4”</li>
-</ol>
-<ol start="4">
-<li>“5”</li>
-</ol>
-<p>sunion：获得指定集合的并集</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; SUNION mster1 mset2</p>
-<ol>
-<li>“0”</li>
-</ol>
-<ol start="2">
-<li>“1”</li>
-</ol>
-<ol start="3">
-<li>“3”</li>
-</ol>
-<ol start="4">
-<li>“4”</li>
-</ol>
-<ol start="5">
-<li>“5”</li>
-</ol>
-<ol start="6">
-<li>“9”</li>
-</ol>
-<p>5） zset 类型及操作</p>
-<pre><code>zset 是 set 的一个升级版本，它在 set 的基础上增加了一个顺序属性，这一属性在添加修改元素的时候可以指定，每次指定后，zset 会自动重新按新的值调整顺序。可以理解为有两列的 mysql 表，一列存的 value ，一列存的顺序。操作中 key 理解为 zset 的名字。
-</code></pre>
-<p>￼</p>
-<p>zadd：向一个指定的有序集合中添加元素，每一个元素会对应的有一个分数。你可以指定多个分数/成员组合。如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合的有序。分数的值必须是一个表示数字的字符串。</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; ZADD zset 2 zhangsan 1 lisi 1 wangwu</p>
-<p>(integer) 3</p>
-<p>zrange：返回有序集合中，指定区间内的成员。其中成员安装 score （分数）值从小到大排序。具有相同 score 值的成员按照字典顺序来排列。</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores</p>
-<ol>
-<li>“lisi”</li>
-</ol>
-<ol start="2">
-<li>“1”</li>
-</ol>
-<ol start="3">
-<li>“wangwu”</li>
-</ol>
-<ol start="4">
-<li>“1”</li>
-</ol>
-<ol start="5">
-<li>“zhangsan”</li>
-</ol>
-<ol start="6">
-<li>“2”</li>
-</ol>
-<p>注：withscores 返回集合中元素的同时，返回其分数（score）</p>
-<p>zrem：删除有序集合中指定的值</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; ZREM zset zhangsan</p>
-<p>(integer) 1</p>
-<p>127.0.0.1:6379&gt; ZRANGE zset 0 -1 withscores</p>
-<ol>
-<li>“lisi”</li>
-</ol>
-<ol start="2">
-<li>“1”</li>
-</ol>
-<ol start="3">
-<li>“wangwu”</li>
-</ol>
-<ol start="4">
-<li>“1”</li>
-</ol>
-<p>zcard：返回有序集合元素的个数</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; ZCARD zset</p>
-<p>(integer) 2</p>
-<p>6） 其他相关命令</p>
-<p>keys：按照键名查找指定的键。支持通配符（*?等）</p>
-<p>￼</p>
-<p>127.0.0.1:6379&gt; HGETALL zhangsan</p>
-<ol>
-<li>“name”</li>
-</ol>
-<ol start="2">
-<li>“zhangsan”</li>
-</ol>
-<ol start="3">
-<li>“age”</li>
-</ol>
-<ol start="4">
-<li>“18”</li>
-</ol>
-<ol start="5">
-<li>“sex”</li>
-</ol>
-<ol start="6">
-<li>“man</li>
-</ol>
-<p>127.0.0.1:6379&gt; KEYS zhang*an</p>
-<ol>
-<li>“zhangsan”</li>
-</ol>
-<p>exists：确认一个键是否存在（1表示存在）</p>
-<p>del：删除一个键（通用）</p>
-<p>expire：设置一个键（已存在）的过期时间，如果键已经过期，将会被自动删除</p>
-<p>ttl：以秒为单位，返回指定键的剩余有效时间</p>
-<p>当 key 不存在时，返回 -2。</p>
-<p>当 key 存在但没有剩余生存时间时，返回 -1。</p>
-<p>否则，以秒为单位，返回 key 的剩余生存时间。</p>
-<p>select：选择一个数据库，默认连接的数据库是 0，可以支持共 16 个数据库。在配置文件中，通过 databases 16 关键字定义</p>
-<p>move：将当期数据库的键移动到指定的数据库中</p>
-<p>type：返回键的类型</p>
-<p>dbsize：返回当前库中键的数据（所有类型）</p>
-<p>save：保存所有的数据。很少在生产环境直接使用 SAVE 命令。因为它hi阻塞所有的客户端的请求，可以使用 BGSAVE 命令代替。如果在 BGSAVE 命令的保存数据的子进程发生错误的时，用 SAVE 命令保存最新的数据是最后的手段。</p>
-<p>info：获取服务器的详细信息</p>
-<p>config get：获取 redis 服务器配置文件中的参数。支持通配符</p>
-<p>flushdb：删除当前数据库中所有的数据</p>
-<p>flushall：删除所有数据库中的所有数据</p>
-<h1 id="六、Redis-高级应用"><a href="#六、Redis-高级应用" class="headerlink" title="六、Redis 高级应用"></a>六、Redis 高级应用</h1><p>1） 密码防护</p>
-<p>给 Redis 服务器设置密码</p>
-<p>修改配置文件</p>
-<p>￼</p>
-<p>[root@b redis]# vi /usr/local/redis/etc/redis.conf</p>
-<p>requirepass 123456</p>
-<p>重启 redis</p>
-<p>￼</p>
-<p>[root@b redis]# pkill redis</p>
-<p>[root@b redis]# /usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf</p>
-<p>客户端登录</p>
-<p>￼</p>
-<p>[root@b etc]# redis-cli -a 123456</p>
-<p>Warning: Using a password with ‘-a’ or ‘-u’ option on the command line interface may not be safe.</p>
-<p>127.0.0.1:6379&gt;</p>
-<p>或</p>
-<p>交互模式下使用 auth密码 命令</p>
-<p>2） 主从同步</p>
-<p>Redis 主从复制过程：</p>
-<p>Slave 与 Master 建立连接，发送 sync 同步命令。</p>
-<p>Master 会启动一个后台进程，将数据库快照保存到文件中，同时 master 主进程会开始收集新的写命令并缓存。</p>
-<p>后台完成保存后，就将此文件发送给 Slave</p>
-<p>Slave 将此文件保存到硬盘上</p>
-<ol>
-<li>主服务器给自己设置好密码即可（iptables &amp; SELinux 关闭）</li>
-</ol>
-<ol start="2">
-<li>从服务器修改配置文件，用来连接主服务器</li>
-</ol>
-<p>老版本：</p>
-<p>从：</p>
-<p>￼</p>
-<p>slaveof<masterip><msterport>    # 主服务器的IP和端口</p>
-<p>masterauth<masterpass>          # 主服务器的密码（主服务器要设置好密码）</p>
-<p>新版本 redis 5.* 以上：</p>
-<p>主：</p>
-<p>￼</p>
-<p>找到 bind 127.0.0.1 注释掉，或者修改为本机的 IP 地址（重启）</p>
-<p>从：</p>
-<p>￼</p>
-<p>replicaof <masterip> <masterport>    # 主服务器的 IP 和端口</p>
-<p>masterauth <masterpass>              # 主服务器的密码（主服务器要设置好密码）</p>
-<ol start="3">
-<li>重启从服务器，然后测试（可通过 info 命令获取当前服务器身份类型）</li>
-</ol>
-<p>3） 数据持久化</p>
-<pre><code>Redis 是一个支持持久化的内存数据库，也就是说需要经常将内存中的数据同步到硬盘来保证持久化
-</code></pre>
-<p>snapshotting （快照） –默认方式</p>
-<pre><code>RDB 持久化方式能够在指定的时间间隔能对你的数据进行快照存储。是默认的持久化方式。这种方式是将内存中数据以快照的方式写入到二进制文件中，默认的文件名为 dump.rdb。这种持久化方式被称为快照 snapshotting（快照）。
-</code></pre>
-<p>过了 900 秒并且有 1 个 key 发生了改变，就会触发 save 动作</p>
-<p>过了 300 秒并且有 10 个 key 发生了改变，就会触发 save 动作</p>
-<p>过了 60 秒并且至少有 10000 个 key 发生了改变，也会触发 save 动作</p>
-<p>结论：在 redis.conf 文件中 dir ./ 定义了数据库文件的存放位置，默认是当前目录。所以每次重启 redis 服务所在的位置不同，将会生成新的 dump.rdb 文件；建议服务器搭建完成时先修改快照文件保存位置。 </p>
-<p>append-only file （缩写 aof）</p>
-<pre><code>使用 AOF 会让你的 Redis 更加耐久：你可以使用不同的持久化策略，每次写的时候备份、每秒备份、无备份。使用默认的每秒备份策略，Redis 的性能依然很好（备份是由后台线程进行处理的，主线程会尽力处理客户端请求）一旦出现故障，你最多丢失 1 秒的数据。
-</code></pre>
-<p>打开 redis.conf 配置文件开启 AOF 持久化</p>
-<p>￼</p>
-<p>appendonly no    # 默认不使用 AOF 持久化。将 no 改为 yes</p>
+<p><code>setnx</code>：设置 <code>key</code> 对应的值为 <code>string</code> 类型，如果 <code>key</code> 已经存在，返回 <code>0</code>，<code>nx</code> 是 <code>not exist</code> 的意思</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; SETNX name zhangsan<br>(integer) <span class="hljs-number">0</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; get name<br><span class="hljs-string">&quot;butatree&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>get</code>：获取 <code>key</code> 对应的 <code>string</code> 值，如果 <code>key</code> 不存在返回 <code>nil</code></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; get name<br><span class="hljs-string">&quot;butatree&quot;</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; get name1<br>(nil)<br></code></pre></td></tr></table></figure>
+
+<p><code>mset &amp; mget</code>：同时设置和获取多个键值对</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; MSET age <span class="hljs-number">21</span> sex man<br><span class="hljs-attribute">OK</span><br><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; MGET name age sex<br><span class="hljs-attribute">1</span>) <span class="hljs-string">&quot;butatree&quot;</span><br><span class="hljs-attribute">2</span>) <span class="hljs-string">&quot;21&quot;</span><br><span class="hljs-attribute">3</span>) <span class="hljs-string">&quot;man&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>incrby</code>：对 <code>key</code> 的值做加加（指定值）操作，并返回新的值</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; INCRBY age <span class="hljs-number">5</span> #对指定值进行加操作，原来是<span class="hljs-number">21</span>，现在加<span class="hljs-number">5</span>是<span class="hljs-number">26</span><br>(integer) <span class="hljs-number">26</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; get age<br><span class="hljs-string">&quot;26&quot;</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; INCRBY age -<span class="hljs-number">6</span><br>(integer) <span class="hljs-number">20</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; get age<br><span class="hljs-string">&quot;20&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>del</code> ：删除一个已创建的 <code>key</code></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; del age <br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; get age<br>(nil)<br></code></pre></td></tr></table></figure>
+
+<h2 id="2）-hash-类型及操作"><a href="#2）-hash-类型及操作" class="headerlink" title="2） hash 类型及操作"></a>2） <code>hash</code> 类型及操作</h2><p>​    <code>Redis hash</code> 是一个 <code>string</code> 类型的 <code>field</code> （字段）和 <code>value</code> 的映射表，它的添加、删除操作都是 <code>0</code> (<code>1</code>)平均；<code>hash</code> 特别适合用于存储对象，相较于将对象的每个字段存成单个 <code>string</code> 类型，将一个对象存储在 <code>hash</code> 类型中会占用更少的内存，并且可以更方便的存取整个对象。</p>
+<p><code>hset</code>：设置 <code>hash field</code> 为指定值，如果 <code>key</code> 不存在，则先创建。</p>
+<p>例如：为 <code>numl</code> 表创建一个叫 <code>name</code> 字段（<code>key</code>），键值是 <code>butatree</code></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num1 name zhangsan<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num1 age <span class="hljs-number">18</span><br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num1 sex man<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num2 name lisi<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num2 age <span class="hljs-number">25</span><br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num2 sex woman<br>(integer) <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><code>hget</code>、<code>hmset</code>、<code>hmget</code> 意义同上近似</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; HGET num1 name<br><span class="hljs-string">&quot;zhangsan&quot;</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; HMSET num1 name zhangsan age <span class="hljs-number">18</span> sex man<br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; HMGET num1 name age sex<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;zhangsan&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;18&quot;</span><br><span class="hljs-number">3</span>) <span class="hljs-string">&quot;man&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>hdel</code>：删除制定表中的某一个键值对</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; HDEL num1 sex<br>(integer) <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><code>hgetall</code>：列出表中的所有键值对</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; HGETALL num<span class="hljs-number">1</span><br><span class="hljs-attribute">1</span>) <span class="hljs-string">&quot;name&quot;</span><br><span class="hljs-attribute">2</span>) <span class="hljs-string">&quot;zhangsan&quot;</span><br><span class="hljs-attribute">3</span>) <span class="hljs-string">&quot;age&quot;</span><br><span class="hljs-attribute">4</span>) <span class="hljs-string">&quot;18&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3）-list-类型及操作"><a href="#3）-list-类型及操作" class="headerlink" title="3） list 类型及操作"></a>3） <code>list</code> 类型及操作</h2><p><code>list</code> 是一个链表结构（一个键对应多个元素），主要功能是 <code>push</code> 、<code>pop</code>、获取一个范围内的所有值等等，操作中 <code>key</code> 理解为链表的名字。<code>Redis</code> 的 <code>list</code> 类型其实就是一个每个子元素都是 <code>string</code> 类型的双向链表。我们可以通过 <code>push</code> 、<code>pop</code> 操作从链表的头部或尾部添加删除元素。</p>
+<p><code>lpush</code>：在 <code>key</code> 对应 <code>list</code> 的头部添加字符串元素。</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; LPUSH zhangsan zhangsan<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; LPUSH zhangsan <span class="hljs-number">18</span><br>(integer) <span class="hljs-number">2</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; LPUSH zhangsan man<br></code></pre></td></tr></table></figure>
+
+<p><code>lrange</code>：从指定链表中获取指定范围的元素</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; LRANGE zhangsan <span class="hljs-number">0</span> -<span class="hljs-number">1</span><br><span class="hljs-attribute">1</span>) <span class="hljs-string">&quot;man&quot;</span><br><span class="hljs-attribute">2</span>) <span class="hljs-string">&quot;18&quot;</span><br><span class="hljs-attribute">3</span>) <span class="hljs-string">&quot;zhangsan&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>0 -1</code>: 此范围代表全部元素，意为从头到尾</p>
+<p><code>lpush</code>、<code>rpush</code>、<code>lpop</code>、<code>rpop</code>、<code>lrange</code> 详见图示</p>
+<h2 id="4）-Set-类型及操作"><a href="#4）-Set-类型及操作" class="headerlink" title="4） Set 类型及操作"></a>4） <code>Set</code> 类型及操作</h2><p>​    <code>set</code> 是集合，他是 <code>string</code> 类型的无序集合。<code>set</code> 是通过 <code>hash table</code> 实现的，对集、交集、差集。通过这些操作我们可以实现社交网站中的好友推荐和 <code>blog</code> 的 <code>tag</code> 功能。集合不允许有重复值。</p>
+<p><code>sadd</code>：添加一个或多个元素到集合中</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; SADD mset <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span><br>(integer) <span class="hljs-number">6</span><br></code></pre></td></tr></table></figure>
+
+<p><code>smembers</code>：获取集合里面所有的元素</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; SMEMBERS mset<br><span class="hljs-attribute">1</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-attribute">2</span>) <span class="hljs-string">&quot;2&quot;</span><br><span class="hljs-attribute">3</span>) <span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-attribute">4</span>) <span class="hljs-string">&quot;4&quot;</span><br><span class="hljs-attribute">5</span>) <span class="hljs-string">&quot;5&quot;</span><br><span class="hljs-attribute">6</span>) <span class="hljs-string">&quot;6&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>srem</code>：从集合中删除指定的一个或多个元素</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; SREM mset <span class="hljs-number">2</span> <span class="hljs-number">4</span> <span class="hljs-number">6</span><br>(integer) <span class="hljs-number">3</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; SMEMBERS mset<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-number">3</span>) <span class="hljs-string">&quot;5&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>spop</code>：随机从集合中删除一个元素，并返回</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; SPOP mset<br><span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; SMEMBERS mset<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;5&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>scard</code>：获取集合里面的元素个数</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; SCARD mset<br>(integer) <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p><code>sdiff</code>：返回集合 <code>1</code> 与集合 <code>2</code> 的差集。以集合 <code>1</code> 为主</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; SADD mset1 <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span><br>(integer) <span class="hljs-number">6</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; SADD mset2 <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span> <span class="hljs-number">0</span> <span class="hljs-number">9</span> <span class="hljs-number">1</span><br>(integer) <span class="hljs-number">6</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; SDIFF mset1 mset2<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;2&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;6&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>sinter</code>：获得两个集合的交集</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; SINTER mset<span class="hljs-number">1</span> mset<span class="hljs-number">2</span><br><span class="hljs-attribute">1</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-attribute">2</span>) <span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-attribute">3</span>) <span class="hljs-string">&quot;4&quot;</span><br><span class="hljs-attribute">4</span>) <span class="hljs-string">&quot;5&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>sunion</code>：获得指定集合的并集</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; SUNION mster<span class="hljs-number">1</span> mset<span class="hljs-number">2</span><br><span class="hljs-attribute">1</span>) <span class="hljs-string">&quot;0&quot;</span><br><span class="hljs-attribute">2</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-attribute">3</span>) <span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-attribute">4</span>) <span class="hljs-string">&quot;4&quot;</span><br><span class="hljs-attribute">5</span>) <span class="hljs-string">&quot;5&quot;</span><br><span class="hljs-attribute">6</span>) <span class="hljs-string">&quot;9&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5）-zset-类型及操作"><a href="#5）-zset-类型及操作" class="headerlink" title="5） zset 类型及操作"></a>5）<code> zset</code> 类型及操作</h2><p>​    <code>zset</code> 是 <code>set</code> 的一个升级版本，它在 <code>set</code> 的基础上增加了一个顺序属性，这一属性在添加修改元素的时候可以指定，每次指定后，<code>zset</code> 会自动重新按新的值调整顺序。可以理解为有两列的 <code>mysql</code> 表，一列存的 <code>value</code> ，一列存的顺序。操作中 <code>key</code> 理解为 <code>zset</code> 的名字。</p>
+<p>​    <code>zadd</code>：向一个指定的有序集合中添加元素，每一个元素会对应的有一个分数。你可以指定多个分数/成员组合。如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合的有序。分数的值必须是一个表示数字的字符串。</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; ZADD zset <span class="hljs-number">2</span> zhangsan <span class="hljs-number">1</span> lisi <span class="hljs-number">1</span> wangwu<br>(integer) <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<p>​    <code>zrange</code>：返回有序集合中，指定区间内的成员。其中成员安装 <code>score</code> （分数）值从小到大排序。具有相同     <code>score</code> 值的成员按照字典顺序来排列。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>:<span class="hljs-number">6379</span>&gt; ZRANGE zset <span class="hljs-number">0</span> -<span class="hljs-number">1</span> withscores<br><span class="hljs-attribute">1</span>) <span class="hljs-string">&quot;lisi&quot;</span><br><span class="hljs-attribute">2</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-attribute">3</span>) <span class="hljs-string">&quot;wangwu&quot;</span><br><span class="hljs-attribute">4</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-attribute">5</span>) <span class="hljs-string">&quot;zhangsan&quot;</span><br><span class="hljs-attribute">6</span>) <span class="hljs-string">&quot;2&quot;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：<code>withscores</code> 返回集合中元素的同时，返回其分数（<code>score</code>）</p>
+</blockquote>
+<p><code>zrem</code>：删除有序集合中指定的值</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; ZREM zset zhangsan<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; ZRANGE zset <span class="hljs-number">0</span> -<span class="hljs-number">1</span> withscores<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;lisi&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;1&quot;</span><br><span class="hljs-number">3</span>) <span class="hljs-string">&quot;wangwu&quot;</span><br><span class="hljs-number">4</span>) <span class="hljs-string">&quot;1&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>zcard</code>：返回有序集合元素的个数</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; ZCARD zset<br>(integer) <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="6）-其他相关命令"><a href="#6）-其他相关命令" class="headerlink" title="6） 其他相关命令"></a>6） 其他相关命令</h2><p><code>keys</code>：按照键名查找指定的键。支持通配符（<code>*?</code>等）</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-meta">127.0.0.1:6379&gt;</span> HGETALL zhangsan<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;name&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;zhangsan&quot;</span><br><span class="hljs-number">3</span>) <span class="hljs-string">&quot;age&quot;</span><br><span class="hljs-number">4</span>) <span class="hljs-string">&quot;18&quot;</span><br><span class="hljs-number">5</span>) <span class="hljs-string">&quot;sex&quot;</span><br><span class="hljs-number">6</span>) <span class="hljs-string">&quot;man</span><br><span class="hljs-string"></span><br><span class="hljs-string">127.0.0.1:6379&gt; KEYS zhang*an</span><br><span class="hljs-string">1) &quot;</span>zhangsan<span class="hljs-string">&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>exists</code>：确认一个键是否存在（1表示存在）</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; EXISTS zhangsan<br>(integer) <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><code>del</code>：删除一个键（通用）</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; set name a<br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; get name<br><span class="hljs-string">&quot;a&quot;</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; del name<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; get name<br>(nil)<br></code></pre></td></tr></table></figure>
+
+<p><code>expire</code>：设置一个键（已存在）的过期时间，如果键已经过期，将会被自动删除</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; EXPIRE name <span class="hljs-number">10</span><br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; TTL name<br>(integer) <span class="hljs-number">4</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; TTL name<br>(integer) <span class="hljs-number">3</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; TTL name<br>(integer) <span class="hljs-number">2</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; TTL name<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; TTL name<br>(integer) <span class="hljs-number">0</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; TTL name<br>(integer) -<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p><code>ttl</code>：以秒为单位，返回指定键的剩余有效时间</p>
 <ul>
-<li><pre><code>appendonly no    # 默认不使用 AOF 持久化。将 no 改为 yes
-</code></pre>
+<li><p>当 <code>key</code> 不存在时，返回 <code>-2</code>。</p>
+</li>
+<li><p>当 <code>key</code> 存在但没有剩余生存时间时，返回 <code>-1</code>。</p>
+</li>
+<li><p>否则，以秒为单位，返回 <code>key</code> 的剩余生存时间。</p>
 </li>
 </ul>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; set name a<br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; ttl name<br>(integer) -<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><code>select</code>：选择一个数据库，默认连接的数据库是 <code>0</code>，可以支持共 <code>16</code> 个数据库。在配置文件中，通过 <code>databases 16</code> 关键字定义</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; SELECT <span class="hljs-number">1</span><br>OK<br><span class="hljs-number">127.0.0.1:6379</span><span class="hljs-string">[1]</span>&gt; SELECT <span class="hljs-number">0</span><br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p><code>move</code>：将当期数据库的键移动到指定的数据库中</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; MOVE zhangsan <span class="hljs-number">1</span><br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; SELECT <span class="hljs-number">1</span><br>OK<br><span class="hljs-number">127.0.0.1:6379</span><span class="hljs-string">[1]</span>&gt; HGETALL zhangsan<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;name&quot;</span><br><span class="hljs-number">2</span>) <span class="hljs-string">&quot;zhangsan&quot;</span><br><span class="hljs-number">3</span>) <span class="hljs-string">&quot;age&quot;</span><br><span class="hljs-number">4</span>) <span class="hljs-string">&quot;18&quot;</span><br><span class="hljs-number">5</span>) <span class="hljs-string">&quot;sex&quot;</span><br><span class="hljs-number">6</span>) <span class="hljs-string">&quot;man&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>type</code>：返回键的类型</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span><span class="hljs-string">[1]</span>&gt; TYPE zhangsan<br>hash<br></code></pre></td></tr></table></figure>
+
+<p><code>dbsize</code>：返回当前库中键的数据（所有类型）</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span><span class="hljs-string">[1]</span>&gt; DBSIZE<br>(integer) <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><code>save</code>：保存所有的数据。很少在生产环境直接使用 <code>SAVE</code> 命令。因为它hi阻塞所有的客户端的请求，可以使用 <code>BGSAVE</code> 命令代替。如果在 <code>BGSAVE</code> 命令的保存数据的子进程发生错误的时，用 <code>SAVE</code> 命令保存最新的数据是最后的手段。</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span><span class="hljs-string">[1]</span>&gt; BGSAVE<br>Background saving started<br></code></pre></td></tr></table></figure>
+
+<p><code>info</code>：获取服务器的详细信息</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">127.0.0.1:6379&gt; INFO</span><br><span class="hljs-comment"># Server</span><br><span class="hljs-section">redis_version:6.2.1</span><br><span class="hljs-section">redis_git_sha1:00000000</span><br><span class="hljs-section">redis_git_dirty:0</span><br><span class="hljs-section">redis_build_id:a83f47cccb3018ca</span><br><span class="hljs-section">redis_mode:standalone</span><br><span class="hljs-section">os:Linux 3.10.0-1062.el7.x86_64 x86_64</span><br><span class="hljs-section">arch_bits:64</span><br>...<br></code></pre></td></tr></table></figure>
+
+<p><code>config get</code>：获取 <code>redis</code> 服务器配置文件中的参数。支持通配符</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">127.0.0.1:6379&gt;<span class="hljs-built_in"> CONFIG </span><span class="hljs-builtin-name">GET</span> *<br>  1) <span class="hljs-string">&quot;rdbchecksum&quot;</span><br>  2) <span class="hljs-string">&quot;yes&quot;</span><br>  3) <span class="hljs-string">&quot;daemonize&quot;</span><br>  4) <span class="hljs-string">&quot;yes&quot;</span><br>  <span class="hljs-built_in">..</span>.<br></code></pre></td></tr></table></figure>
+
+<p><code>flushdb</code>：删除当前数据库中所有的数据</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; FLUSHDB<br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; KEYS *<br>(empty array)<br><span class="hljs-number">127.0.0.1:6379</span>&gt; SELECT <span class="hljs-number">1</span><br>OK<br><span class="hljs-number">127.0.0.1:6379</span><span class="hljs-string">[1]</span>&gt; KEYS *<br><span class="hljs-number">1</span>) <span class="hljs-string">&quot;zhangsan&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>flushall</code>：删除所有数据库中的所有数据</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; FLUSHALL<br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; SELECT <span class="hljs-number">1</span><br>OK<br><span class="hljs-number">127.0.0.1:6379</span><span class="hljs-string">[1]</span>&gt; KEYS *<br>(empty array)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="六、Redis-高级应用"><a href="#六、Redis-高级应用" class="headerlink" title="六、Redis 高级应用"></a>六、<code>Redis</code> 高级应用</h1><h2 id="1）-密码防护"><a href="#1）-密码防护" class="headerlink" title="1） 密码防护"></a>1） 密码防护</h2><p>给 <code>Redis</code> 服务器设置密码</p>
+<p><strong>修改配置文件</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@b redis]# vi <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>etc/redis.conf<br>requirepass <span class="hljs-number">123456</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>重启 <code>redis</code></strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@b redis]# pkill redis<br>[root@b redis]# <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/redis/</span>bin<span class="hljs-regexp">/redis-server /u</span>sr<span class="hljs-regexp">/local/</span>redis<span class="hljs-regexp">/etc/</span>redis.conf<br></code></pre></td></tr></table></figure>
+
+<p><strong>客户端登录</strong></p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[root@b etc]# redis-cli -a <span class="hljs-number">123456</span><br><span class="hljs-built_in">Warning</span>: <span class="hljs-keyword">Using</span> a <span class="hljs-keyword">password</span> <span class="hljs-keyword">with</span> <span class="hljs-string">&#x27;-a&#x27;</span> <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;-u&#x27;</span> <span class="hljs-keyword">option</span> <span class="hljs-keyword">on</span> the command <span class="hljs-type">line</span> interface may <span class="hljs-keyword">not</span> be safe.<br><span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">6379</span>&gt;<br>或<br>交互模式下使用 auth密码 命令<br></code></pre></td></tr></table></figure>
+
+<h2 id="2）-主从同步"><a href="#2）-主从同步" class="headerlink" title="2） 主从同步"></a>2） 主从同步</h2><p><strong><code>Redis</code> 主从复制过程：</strong></p>
+<ul>
+<li><code>Slave</code> 与 <code>Master</code> 建立连接，发送 <code>sync</code> 同步命令。</li>
+<li><code>Master</code> 会启动一个后台进程，将数据库快照保存到文件中，同时 <code>Master</code> 主进程会开始收集新的写命令并缓存。</li>
+<li>后台完成保存后，就将此文件发送给 <code>Slave</code>。</li>
+<li><code>Slave</code> 将此文件保存到硬盘上。</li>
+</ul>
+<ol>
+<li><p><strong>主服务器给自己设置好密码即可（<code>iptables &amp; SELinux</code> 关闭）</strong></p>
+</li>
+<li><p><strong>从服务器修改配置文件，用来连接主服务器</strong></p>
+</li>
+</ol>
+<ul>
+<li><p><strong>老版本：</strong></p>
+<p><strong>从：</strong></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts">slaveof<span class="hljs-params">&lt;masterip&gt;</span><span class="hljs-params">&lt;msterport&gt;</span>    <span class="hljs-meta"># 主服务器的IP和端口</span><br>masterauth<span class="hljs-params">&lt;masterpass&gt;</span>          <span class="hljs-meta"># 主服务器的密码（主服务器要设置好密码）</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>新版本 <code>redis 5.</code> 以上:</p>
+<p><strong>主：</strong></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm">找到 bind <span class="hljs-number">127</span>.<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span> 注释掉，或者修改为本机的 <span class="hljs-built_in">IP</span> 地址（重启）<br></code></pre></td></tr></table></figure>
+
+<p><strong>从：</strong></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts">replicaof <span class="hljs-params">&lt;masterip&gt;</span> <span class="hljs-params">&lt;masterport&gt;</span>    <span class="hljs-meta"># 主服务器的 IP 和端口</span><br>masterauth <span class="hljs-params">&lt;masterpass&gt;</span>              <span class="hljs-meta"># 主服务器的密码（主服务器要设置好密码）</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li><strong>重启从服务器，然后测试（可通过 info 命令获取当前服务器身份类型）</strong></li>
+</ol>
+<h2 id="3）-数据持久化"><a href="#3）-数据持久化" class="headerlink" title="3） 数据持久化"></a>3） 数据持久化</h2><p><code>Redis</code> 是一个支持持久化的内存数据库，也就是说需要经常将内存中的数据同步到硬盘来保证持久化</p>
+<p><strong><code>snapshotting</code> （快照） –默认方式</strong></p>
+<p>​    <code>RDB</code> 持久化方式能够在指定的时间间隔能对你的数据进行快照存储。是默认的持久化方式。这种方式是将内存中数据以快照的方式写入到二进制文件中，默认的文件名为 <code>dump.rdb</code>。这种持久化方式被称为快照 <code>snapshotting</code>（快照）。</p>
+<ul>
+<li><p>过了 <code>900</code> 秒并且有 <code>1</code> 个 <code>key</code> 发生了改变，就会触发 <code>save</code> 动作</p>
+</li>
+<li><p>过了 <code>300</code> 秒并且有 <code>10</code> 个 <code>key</code> 发生了改变，就会触发 <code>save</code> 动作</p>
+</li>
+<li><p>过了 <code>60</code> 秒并且至少有 <code>10000</code> 个 <code>key</code> 发生了改变，也会触发 <code>save</code> 动作</p>
+</li>
+</ul>
+<blockquote>
+<p>结论：在 <code>redis.conf</code> 文件中 <code>dir ./</code> 定义了数据库文件的存放位置，默认是当前目录。所以每次重启 <code>redis</code> 服务所在的位置不同，将会生成新的 <code>dump.rdb</code> 文件；建议服务器搭建完成时先修改快照文件保存位置。 </p>
+</blockquote>
+<p><strong><code>append-only file</code> （缩写 <code>aof</code>）</strong></p>
+<p>使用 <code>AOF</code> 会让你的 <code>Redis</code> 更加耐久：你可以使用不同的持久化策略，每次写的时候备份、每秒备份、无备份。使用默认的每秒备份策略，<code>Redis</code> 的性能依然很好（备份是由后台线程进行处理的，主线程会尽力处理客户端请求）一旦出现故障，你最多丢失 <code>1</code> 秒的数据。</p>
+<p>打开 <code>redis.conf</code> 配置文件开启 <code>AOF</code> 持久化</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">appendonly <span class="hljs-keyword">no</span>    # 默认不使用 AOF 持久化。将 <span class="hljs-keyword">no</span> 改为 <span class="hljs-keyword">yes</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             </div>
             <hr>
