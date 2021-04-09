@@ -272,21 +272,22 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月16日 晚上
+                  本文最后更新于：2021年4月7日 晚上
                 
               </p>
             
             <div class="markdown-body">
-              <h1 id="关于-Let’s-Encrypt-免费SSL证书"><a href="#关于-Let’s-Encrypt-免费SSL证书" class="headerlink" title="关于 Let’s Encrypt 免费SSL证书"></a>关于 <code>Let’s Encrypt</code> 免费SSL证书</h1><p><code>Let’s Encrypt</code> 作为一个公共且免费 <code>SSL</code> 的项目逐渐被广大用户传播和使用，是由 <code>Mozilla</code>、<code>Cisco</code>、<code>Akamai</code>、<code>IdenTrust</code>、<code>EFF</code> 等组织人员发起，主要的目的也是为了推进网站从 <code>HTTP</code> 向 <code>HTTPS</code> 过度的进程，目前已经有越来越多的商家加入和赞助支持。</p>
-<p><code>Let’s Encrypt</code> 免费 <code>SSL</code> 证书的出现，也会对传统提供付费 <code>SSL</code> 证书服务的商家有不小的打击。到目前为止，<code>Let’s Encrypt</code> 获得 <code>IdenTrust</code> 交叉签名，这就是说可以应用且支持包括 <code>FireFox</code>、<code>Chrome</code> 在内的主流浏览器的兼容和支持，虽然目前是公测阶段，但是也有不少的用户在自有网站项目中正式使用起来。</p>
-<p><code>Let’s Encrypt</code> 的最大贡献是它的 <code>ACME</code> 协议，第一份全自动服务器身份验证协议，以及配套的基础设施和客户端。这是为了解决一直以来 <code>HTTPS TLS X.509 PKI </code>信任模型，即证书权威（<code>Certificate Authority, CA</code>）模型缺陷的一个起步。</p>
-<p>在客户端-服务器数据传输中，公私钥加密使得公钥可以明文传输而依然保密数据，但公钥本身是否属于服务器，或公钥与服务器是否同属一个身份，是无法简单验证的。证书权威模型通过引入事先信任的第三方，由第三方去验证这一点，并通过在服务器公钥上签名的方式来认证服务器。第三方的公钥则在事先就约定并离线准备好，以备访问时验证签名之用。这个第三方就称为证书权威，简称 <code>CA</code>。相应的，<code>CA</code> 验证过的公钥被称为证书。</p>
-<p>问题是，如果服务器私钥泄露，<code>CA</code> 无法离线使对应的证书无效化，只能另外发布无效记录供客户端查询。也就是说，在私钥泄露到 <code>CA</code> 发布无效记录的窗口内，中间人可以肆意监控服-客之间的传输。如果中间人设法屏蔽了客户端对无效记录的访问，那么直到证书过期，中间人都可以进行监控。而由于当前 <code>CA</code> 验证和签发证书大多手动，证书有效期往往在一年到三年。</p>
-<p><code>Let’s Encrypt</code> 签发的证书有效期只有 <code>90</code> 天，甚至希望缩短到 <code>60</code> 天。有效期越短，泄密后可供监控的窗口就越短。为了支撑这么短的有效期，就必须自动化验证和签发。因为自动化了，长远而言，维护反而比手动申请再安装要简单。</p>
-<p>证书的有效期，我坚持认为这是合理的。<code>Let’s Encrypt</code> 的证书是自动签发的，对 <code>Let’s Encrypt</code> 的目标用户（个人网站、小网站）来说，<code>90</code> 天已经是一个很长的时间了。特别是个人网站，域名所有权的变动是非常快的。可能前几天域名还属于张三，后几天就属于李四了。因此自动签发一个长有效期的证书是很容易产生问题的。如果证书的有效期是两年，那么经常交易域名的人就可以长时间持有已经不属于他们的域名的证书。并且这种持有不受证书吊销列表的控制，因为签发的时候，所有权是没有问题的，即使后来所有权变更了，<code>Let’s Encrypt</code> 也不会知道。所以设的有效期短一点，可以减少这个问题的影响。然后是易用性，现在已经有不少的 <code>Let’s Encrypt</code> 自动续期脚本了，配好后就不用管了，非常方便。</p>
-<p>总之，强烈推荐站长和服务器平台用 <code>Let’s Encrypt</code> 向访客提供加密连接。这是域名认证未来的发展方向。</p>
-<p>怎么样，看了上述有关 <code>Let’s Encrypt</code> 的介绍后，是否还鄙视这种“免费” <code>SSL</code> 证书呢？</p>
-<p>下面我们就具体的讲述一下利用 <code>Let’s Encrypt</code> 的 <code>ACME</code> 协议在服务器上运用 <code>acme.sh</code> 脚本来申请、管理 <code>SSL</code> 证书（这里要强调一下的是 <code>Let’s Encrypt</code> 的 <code>SSL</code> 证书申请是必须要有服务器 <code>root</code> 权限的哦，也就是说必须是 <code>VPS</code>（云主机）才可以的，虚拟主机上是无法申请获取的，但是可以在 <code>VPS</code>（云主机）上申请后部署到虚拟主机上）。</p>
+              <h1 id="关于-Let’s-Encrypt-免费SSL证书"><a href="#关于-Let’s-Encrypt-免费SSL证书" class="headerlink" title="关于 Let’s Encrypt 免费SSL证书"></a>关于 <code>Let’s Encrypt</code> 免费SSL证书</h1><p>​    <code>Let’s Encrypt</code> 作为一个公共且免费 <code>SSL</code> 的项目逐渐被广大用户传播和使用，是由 <code>Mozilla</code>、<code>Cisco</code>、<code>Akamai</code>、<code>IdenTrust</code>、<code>EFF</code> 等组织人员发起，主要的目的也是为了推进网站从 <code>HTTP</code> 向 <code>HTTPS</code> 过度的进程，目前已经有越来越多的商家加入和赞助支持。</p>
+<p>​    <code>Let’s Encrypt</code> 免费 <code>SSL</code> 证书的出现，也会对传统提供付费 <code>SSL</code> 证书服务的商家有不小的打击。到目前为止，<code>Let’s Encrypt</code> 获得 <code>IdenTrust</code> 交叉签名，这就是说可以应用且支持包括 <code>FireFox</code>、<code>Chrome</code> 在内的主流浏览器的兼容和支持，虽然目前是公测阶段，但是也有不少的用户在自有网站项目中正式使用起来。</p>
+<p>​    <code>Let’s Encrypt</code> 的最大贡献是它的 <code>ACME</code> 协议，第一份全自动服务器身份验证协议，以及配套的基础设施和客户端。这是为了解决一直以来 <code>HTTPS TLS X.509 PKI </code>信任模型，即证书权威（<code>Certificate Authority, CA</code>）模型缺陷的一个起步。</p>
+<p>​    在客户端-服务器数据传输中，公私钥加密使得公钥可以明文传输而依然保密数据，但公钥本身是否属于服务器，或公钥与服务器是否同属一个身份，是无法简单验证的。证书权威模型通过引入事先信任的第三方，由第三方去验证这一点，并通过在服务器公钥上签名的方式来认证服务器。第三方的公钥则在事先就约定并离线准备好，以备访问时验证签名之用。这个第三方就称为证书权威，简称 <code>CA</code>。相应的，<code>CA</code> 验证过的公钥被称为证书。</p>
+<p>​    问题是，如果服务器私钥泄露，<code>CA</code> 无法离线使对应的证书无效化，只能另外发布无效记录供客户端查询。也就是说，在私钥泄露到 <code>CA</code> 发布无效记录的窗口内，中间人可以肆意监控服-客之间的传输。如果中间人设法屏蔽了客户端对无效记录的访问，那么直到证书过期，中间人都可以进行监控。而由于当前 <code>CA</code> 验证和签发证书大多手动，证书有效期往往在一年到三年。</p>
+<p>​    <code>Let’s Encrypt</code> 签发的证书有效期只有 <code>90</code> 天，甚至希望缩短到 <code>60</code> 天。有效期越短，泄密后可供监控的窗口就越短。为了支撑这么短的有效期，就必须自动化验证和签发。因为自动化了，长远而言，维护反而比手动申请再安装要简单。</p>
+<p>​    证书的有效期，我坚持认为这是合理的。<code>Let’s Encrypt</code> 的证书是自动签发的，对 <code>Let’s Encrypt</code> 的目标用户（个人网站、小网站）来说，<code>90</code> 天已经是一个很长的时间了。特别是个人网站，域名所有权的变动是非常快的。可能前几天域名还属于张三，后几天就属于李四了。因此自动签发一个长有效期的证书是很容易产生问题的。如果证书的有效期是两年，那么经常交易域名的人就可以长时间持有已经不属于他们的域名的证书。并且这种持有不受证书吊销列表的控制，因为签发的时候，所有权是没有问题的，即使后来所有权变更了，<code>Let’s Encrypt</code> 也不会知道。所以设的有效期短一点，可以减少这个问题的影响。然后是易用性，现在已经有不少的 <code>Let’s Encrypt</code> 自动续期脚本了，配好后就不用管了，非常方便。</p>
+<p>​    总之，强烈推荐站长和服务器平台用 <code>Let’s Encrypt</code> 向访客提供加密连接。这是域名认证未来的发展方向。</p>
+<p>​    怎么样，看了上述有关 <code>Let’s Encrypt</code> 的介绍后，是否还鄙视这种“免费” <code>SSL</code> 证书呢？</p>
+<hr>
+<p>​    下面我们就具体的讲述一下利用 <code>Let’s Encrypt</code> 的 <code>ACME</code> 协议在服务器上运用 <code>acme.sh</code> 脚本来申请、管理 <code>SSL</code> 证书（这里要强调一下的是 <code>Let’s Encrypt</code> 的 <code>SSL</code> 证书申请是必须要有服务器 <code>root</code> 权限的哦，也就是说必须是 <code>VPS</code>（云主机）才可以的，虚拟主机上是无法申请获取的，但是可以在 <code>VPS</code>（云主机）上申请后部署到虚拟主机上）。</p>
 <p>首先我们要先下载 <code>acme.sh</code> 到我们的主机上来，安装命令非常的简单，如下：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">curl  http<span class="hljs-variable">s:</span>//<span class="hljs-built_in">get</span>.acme.<span class="hljs-keyword">sh</span> | <span class="hljs-keyword">sh</span><br></code></pre></td></tr></table></figure>
 
