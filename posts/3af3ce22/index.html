@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年4月7日 下午
+                  本文最后更新于：2021年4月10日 晚上
                 
               </p>
             
@@ -349,7 +349,7 @@
 <h2 id="2）-hash-类型及操作"><a href="#2）-hash-类型及操作" class="headerlink" title="2） hash 类型及操作"></a>2） <code>hash</code> 类型及操作</h2><p>​    <code>Redis hash</code> 是一个 <code>string</code> 类型的 <code>field</code> （字段）和 <code>value</code> 的映射表，它的添加、删除操作都是 <code>0</code> (<code>1</code>)平均；<code>hash</code> 特别适合用于存储对象，相较于将对象的每个字段存成单个 <code>string</code> 类型，将一个对象存储在 <code>hash</code> 类型中会占用更少的内存，并且可以更方便的存取整个对象。</p>
 <p><code>hset</code>：设置 <code>hash field</code> 为指定值，如果 <code>key</code> 不存在，则先创建。</p>
 <p>例如：为 <code>numl</code> 表创建一个叫 <code>name</code> 字段（<code>key</code>），键值是 <code>butatree</code></p>
-<p><a target="_blank" rel="noopener" href="http://butatree.site:8888/image/F6k"><img src="http://butatree.site:8888/images/2021/04/06/Redis2.png" srcset="/img/loading.gif" alt="Redis2.png"></a></p>
+<p><img src="http://butatree.site:8888/images/2021/04/06/Redis2.png" srcset="/img/loading.gif" alt="Redis2.png"></p>
 <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num1 name zhangsan<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num1 age <span class="hljs-number">18</span><br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num1 sex man<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num2 name lisi<br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num2 age <span class="hljs-number">25</span><br>(integer) <span class="hljs-number">1</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; hset num2 sex woman<br>(integer) <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
 <p><code>hget</code>、<code>hmset</code>、<code>hmget</code> 意义同上近似</p>
