@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年4月12日 晚上
+                  本文最后更新于：2021年4月13日 下午
                 
               </p>
             
@@ -461,7 +461,8 @@
 </ul>
 </blockquote>
 <h3 id="1-配置-LVS-调度器"><a href="#1-配置-LVS-调度器" class="headerlink" title="1. 配置 LVS 调度器"></a>1. 配置 <code>LVS</code> 调度器</h3><blockquote>
-<p><code>master1</code>：<code>10.10.10.11</code></p>
+<p><code>master1 - ens33</code>：<code>10.10.10.11</code></p>
+<p>这里的每个虚拟机都有两张网卡，我两张设置都是仅主机模式。</p>
 </blockquote>
 <h4 id="1-1-关闭守护进程"><a href="#1-1-关闭守护进程" class="headerlink" title="1.1 关闭守护进程"></a>1.1 关闭守护进程</h4><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@master1</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager &amp;&amp; systemctl disable NetworkManager</span><br>[root<span class="hljs-symbol">@master2</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager &amp;&amp; systemctl disable NetworkManager</span><br>[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager &amp;&amp; systemctl disable NetworkManager</span><br></code></pre></td></tr></table></figure>
 
@@ -509,12 +510,14 @@
 <figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs tap"><span class="hljs-comment"># 查看状态</span><br>[root@master1 ~]<span class="hljs-comment"># ipvsadm -Ln --stats</span><br>IP Virtual Server version 1.2.1 (size=4096)<br>Prot LocalAddress:Port               Conns   InPkts  OutPkts  InBytes OutBytes<br>  -&gt; RemoteAddress:Port              连接数    入站包   出站包    入站字节 出站字节 <br>TCP  10.10.10.100:80                   <span class="hljs-number"> 21 </span>    <span class="hljs-number"> 218 </span>      <span class="hljs-number"> 0 </span>  <span class="hljs-number"> 45595 </span>       0<br>  -&gt; 10.10.10.12:80                    <span class="hljs-number"> 10 </span>    <span class="hljs-number"> 136 </span>      <span class="hljs-number"> 0 </span>  <span class="hljs-number"> 31989 </span>       0<br>  -&gt; 10.10.10.13:80                    <span class="hljs-number"> 11 </span>     <span class="hljs-number"> 82 </span>      <span class="hljs-number"> 0 </span>  <span class="hljs-number"> 13606 </span>		 0<br>  <br><span class="hljs-comment"># 为什么出站数据包为0？</span><br>LVS调度器只负责接收入站，出站由真实服务器完成，所以出站数据包为0。<br></code></pre></td></tr></table></figure>
 
 <h2 id="2）LVS-NAT-的构建"><a href="#2）LVS-NAT-的构建" class="headerlink" title="2）LVS-NAT 的构建"></a>2）<code>LVS-NAT</code> 的构建</h2><blockquote>
-<p><strong>同样是添加两块相同的网卡</strong></p>
+<p><strong>同样是添加两块相同的网卡，这里的每个虚拟机都有两张网卡，我两张都是的设置仅主机模式。</strong></p>
 <p><code>20.20.20.0/24</code> 模拟的是公网地址</p>
 <p><code>10.10.10.11</code> 模拟的是私有地址</p>
 <p><strong>实验架构：</strong></p>
 <p><img src="http://butatree.site:8888/images/2021/04/12/LVS-NAT.png" srcset="/img/loading.gif" alt="LVS-NAT"></p>
 <p><code>Client</code> 可以在 <code>Windows</code> 的网卡适配器选项中设置一下。</p>
+<p><code>master1 - ens32</code>：<code>20.20.20.11</code></p>
+<p><code>master1 - ens33</code>：<code>10.10.10.11</code></p>
 </blockquote>
 <p><strong><code>关闭守护进程</code></strong></p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@master1</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager  &amp;&amp; systemctl disable NetworkManager</span><br>[root<span class="hljs-symbol">@master2</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager  &amp;&amp; systemctl disable NetworkManager</span><br>[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager  &amp;&amp; systemctl disable NetworkManager</span><br></code></pre></td></tr></table></figure>
@@ -569,6 +572,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/posts/d9d032ee/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux-LVS(贰)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
