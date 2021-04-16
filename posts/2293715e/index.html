@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="ButATree">
+  <meta name="keywords" content="">
+  <title>MySQL-数据库 - ButATree&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"butatree.site","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>ButATree</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-notebook"></i>
+                关于
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/about/">
+                    <i class="iconfont icon-user-fill"></i>
+                    个人
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://download.butatree.site">
+                    
+                    下载
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                相关链接
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4l2p20.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL-数据库">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      ButATree
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-02 19:57" pubdate>
+        2021年4月2日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL-数据库</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年4月2日 晚上
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="一、数据库-理论基础"><a href="#一、数据库-理论基础" class="headerlink" title="一、数据库-理论基础"></a>一、数据库-理论基础</h1><h2 id="1-什么是数据库？"><a href="#1-什么是数据库？" class="headerlink" title="1. 什么是数据库？"></a>1. 什么是数据库？</h2><p>​    数据：描述事物的符号记录，可以是数字、文字、图形、声音、语言等，数据有多种形式，它们都可以经过数字化后存入计算机。</p>
+<p>​    数据库：存储数据的仓库，是长期存放在计算机内、有组织、可共享的大量数据的集合。数据库中的数据按照一定数据模型组织、描述和存储，具有较小的冗余度，较高的独立性和易扩展性，并未各种用户共享，总结为以下几点：</p>
+<ul>
+<li>数据结构化</li>
+<li>数据的共享性高，冗余度低，易扩充</li>
+<li>数据独立性高</li>
+<li>数据由 <code>DBMS</code> （<code>DBMS</code> ：数据库管理系统）统一管理和控制（安全性、完整性、并发控制、故障恢复）</li>
+</ul>
+<hr>
+<h2 id="2-数据库与文件系统的区别？"><a href="#2-数据库与文件系统的区别？" class="headerlink" title="2. 数据库与文件系统的区别？"></a>2. 数据库与文件系统的区别？</h2><p>​    <strong>文件系统：</strong>文件系统是操作系统用于明确存储设备（常见的是磁盘）或分区上的文件的方法和数据结构；即在存储设备上组织文件的方法。操作系统中负责管理和存储文件信息的软件机构称为文件管理系统，简称文件系统。</p>
+<p>​    <strong>数据库系统：</strong>数据库管理系统（<code>Database Management System</code>）是一种操纵和管理数据库的大型软件，用于建立、使用和维护数据库，简称 <code>DBMS</code> 。它对数据库进行统一的管理和控制，以保证数据库的安全性和完整性。</p>
+<p><strong>对比区别：</strong></p>
+<ol>
+<li>管理对象不同：文件系统的管理对象是文件，并非直接对数据进行管理，不同的数据结构需要使用不同的文件类型进行保存；而数据库直接对数据进行存储和管理</li>
+<li>存储方式不同：文件系统使用不同的文件将数据分类（<code>.doc</code>、 <code>.mp4</code> 、<code>.jpg</code>）保存在外部存储上；数据库系统使用标准统一的数据类型进行数据保存（字母、数字、符号、时间）</li>
+<li>调用数据的方式不同：文件系统使用不同的软件打开不同类型的文件；数据库系统由 <code>DBMS</code> 统一调用和管理。</li>
+</ol>
+<p><strong>优缺点总结：</strong></p>
+<ul>
+<li>由于 <code>DBMS</code> 的存在，用户不再需要了解数据存储和其他实现的细节，直接通过 <code>DBMS</code> 就能获取数据，为数据的使用带来极大便利。</li>
+<li>具有以数据为单位的共享性，具有数据的并发访问能力。<code>DBMS</code> 保证了再并发访问时数据的一致性。</li>
+<li>低延时访问，典型例子就是线下支付系统的应用，支付规模巨大的时候，数据库系统的表现远远优于文件系统。</li>
+<li>能够较为频繁的对数据进行修改，在需要频繁修改数据的场景下，数据库系统可以依赖 <code>DBMS</code> 来对数据进行操作且对性能的消耗相比文件系统比较小。</li>
+<li>对事务的支持。<code>DBMS</code> 支持事务，即一系列对数据的操作集合要么都完成，要么都不完成。在 <code>DBMS</code> 上对数据的各种操作都是原子级的。</li>
+</ul>
+<hr>
+<h2 id="3-常见的数据库有哪些？"><a href="#3-常见的数据库有哪些？" class="headerlink" title="3. 常见的数据库有哪些？"></a>3. 常见的数据库有哪些？</h2><ul>
+<li><p><strong>关系型数据库</strong></p>
+<p>​    <strong>关系数据库</strong>是建立在关系模型基础上的数据库，借助于集合代数等数学概念和方法来处理数据库中的数据。现实世界中的各种实体以及实体之间的各种联系均用关系模型来表示。简单来说，关系型数据库是由多张能互相链接的二维行列表格组成的数据库。</p>
+<p>​    <strong>关系模型</strong>就是指二维表格模型，因而一个关系型数据库就是由二维表及其之间的联系组成的一个数据组织。当前主流的关系数据库有 <code>Oracle</code> 、<code>DB2</code>、<code>Microsoft SQL Server</code>、<code>Microsoft Access</code>、<code>MySQL</code>、<code>浪潮 K-DB</code> 等。</p>
+<p>​    <strong>实体关系模型</strong>简称 <code>E-R</code> 模型，是一套数据库的设计工具，他运用真实世界中事物与关系的观念，来解释数据库中的抽象的数据架构。实体关系模型利用图形的方式（实体-关系图）来表示数据库的概念设计，有助于设计过程中的构思及沟通讨论。</p>
+</li>
+<li><p><strong>非关系型数据库</strong></p>
+<p>​    <strong>非关系型数据库：</strong>又称为 <code>NoSQL</code> （<code>Not Only SQL</code>），意味不仅仅是 <code>SQL</code> ，是一种轻量、开源、不兼容 <code>SQL</code> 功能的数据库，对 <code>NoSQL</code> 最普遍的定义时 <strong>非关联型的</strong> ，强调 <code>Key-Value</code> 存储和文档数据库的优点，而不是单纯地反对 <strong><code>RDBMS</code></strong> （关系型数据库管理系统）</p>
+</li>
+</ul>
+<hr>
+<h2 id="4-关系型数据库（MySQL）的特性及组成结构介绍"><a href="#4-关系型数据库（MySQL）的特性及组成结构介绍" class="headerlink" title="4. 关系型数据库（MySQL）的特性及组成结构介绍"></a>4. 关系型数据库（<code>MySQL</code>）的特性及组成结构介绍</h2><p><strong>关系型数据库的发展历程</strong></p>
+<ul>
+<li>层次模型</li>
+<li>网状模型</li>
+</ul>
+<p>关系模型（<code>Relation</code>）</p>
+<p>​    关系模型以二维表结构来表示实体与实体之间的联系，关系模型的数据结构是一个 <strong>二维表框架</strong> 组成的集合。每个二维表又可以称为关系。在关系模型中，操作的对象和结果都是二维表。</p>
+<p>​    关系模型是目前最流行的数据库模型。支持关系模型的数据库管理系统称为关系数据库管理系统，<code>Access</code> 就是一种关系数据库管理系统。</p>
+<p><strong>关系式数据库的组成结构和名词解释</strong></p>
+<p>​    数据以表格的形式出现，每行为单独的一条记录，每列为一个单独的字段，许多的记录和字段组成一张表单（<code>table</code>），若干的表单成库（<code>database</code>）</p>
+<ul>
+<li><p><strong>记录（一条数据）</strong></p>
+<p>在数据当中，表当中的行称为记录</p>
+</li>
+<li><p><strong>字段（<code>id name ...</code>）</strong></p>
+<p>在数据库当中，表当中的列称为字段</p>
+</li>
+<li><p><strong><code>MySQL</code> 数据类型</strong></p>
+<p>​    数据类型用于指定特定字段所包含数据的规则，它决定了数据保存在字段里的方式，包括分配给字段的宽度，以及值是否可以是字母、数字、日期和时间等。任何数据或数据的组合都是对应的数据类型，用于存储字母、数字、日期和时间、图像、二进制数据等。数据类型是数据本身的特征，其特性被设置到表里的字段。</p>
+<p><code>MySQL</code> 常见基础数据类型：</p>
+<ul>
+<li>字符串类型（<code>CHAR(0-255固定长度),VARCHAR(0-255可变长度)</code>）</li>
+<li>数值类型（<code>INT</code>（整数型）、<code>FLOAT</code> （浮点型））</li>
+<li>日期和时间类型（<code>DATE</code>（年月日）、<code>TIME</code> （时分秒））</li>
+</ul>
+</li>
+<li><p><strong><code>MySQL</code> 约束类型</strong></p>
+<p>约束是一种限制，它通过对表的行或列的数据做出限制，来确保表的数据的完整性、唯一性。</p>
+<p>​    <strong>主键约束（<code>primary key</code>）：</strong>主键约束相当于唯一约束+非空约束的组合，主键约束列不允许重复，也不允许出现空值。每个表诸多只允许一个主键，建立主键约束可以在列级别创建，也可以再表级别创建。当创建主键的约束时，系统默认会在所在的列和列组合上建立对应的唯一索引。</p>
+<p>​    <strong>外键约束 （<code>foreign key</code>）：</strong>外键约束是保证一个或两个表之间的参照完整性，外键是构建于一个表的两个字段或是两个表的两个字段之间的参照关系。</p>
+<p>​    <strong>唯一约束 （<code>unique</code>）：</strong>唯一约束是指定 <code>table</code> 的列或列组合不能重复，保证数据的唯一性。唯一约束不允许出现重复的值，但是可以为多个 <code>null</code> 。同一个表可以有多个唯一约束，多个列组合的约束。在创建唯一约束时，如果不给唯一约束名称，就默认和列名相同。唯一约束不仅可以在一个表内创建，而且可以同时多表创建组合唯一约束。</p>
+<p>​    <strong>非空约束（<code>not null</code>）与默认值（<code>default</code>）：</strong>非空约束用于确保当前列的值不为空值，非空约束只能在出现在表对象的列上。<code>Null</code> 类型特征：所有的类型的值都可以是 <code>null</code>，包括 <code>int</code> 、<code>float</code> 等数据类型。</p>
+</li>
+<li><p><strong><code>MySQL</code> 索引</strong></p>
+<p>​    索引是一个单独的、物理的数据库结构，它是某个表中一字段或若干字段值的集合。表的存储由两部分组成，一部分用来存放数据，另一部分存放索引页面。通常，索引页面相对于数据页面来说小得多。数据检索花费的大部分开销是磁盘读写，没有索引就需要从磁盘上读表的每一个数据页，如果有索引，则只需查找索引页面就可以了。所以建立合理的索引，就能加速数据的检索过程。</p>
+</li>
+<li><p><strong><code>MySQL</code> 锁</strong></p>
+<p>​    数据库是一个多用户使用的共享资源。当多个用户并发地存取数据时，在数据库就会产生多个事务同时存取统一数据的情况。若对并发操作不加控制就可能会读取和存储不正确的数据，破坏数据库的一致性。</p>
+<p>​    加锁是实现数据库并发控制的一个非常重要的技术。当事务在对某个数据对象进行操作前，先向系统发出请求，对其加锁。加锁后事务就对该数据对象有了一定的控制，在钙食物释放锁之前，其他的事务不能对此数据对象进行更新操作。</p>
+</li>
+<li><p><strong><code>MySQL</code> 的存储引擎</strong></p>
+<p>​    存储引擎就是存储数据，建立索引。更新查询数据等等技术的实现方式。存储引擎是基于表的，而不是基于库的。所以存储引擎也可以被称为表类型。<code>Oracle</code>，<code>SqlServer</code> 等数据库只有一种存储引擎。<code>MySQL</code> 提供了插件式的存储引擎架构。所以 <code>MySQL</code> 存在多种存储引擎，可以根据需要使用相应引擎，或者编写存储引擎。</p>
+<p><code>MYISAM</code>：默认支持引擎、插入和查询速度较快，支持全文索引，不支持事务、行级锁和外键约束等功能</p>
+<p><code>INNODB</code>：支持事务、行级锁和外键约束等功能</p>
+<p><code>MEMORY</code>：工作在内存中，通过散列字段保存数据，速度快、不能永久保存数据</p>
+<p>…</p>
+</li>
+<li><p><strong>事务（<code>Transaction</code>）是并发控制的基本单位</strong></p>
+<p>​    可以把一系列要执行的操作称为事务，而事务管理就是管理这些操作要么完全执行，要么完全不执行。</p>
+<p>​    经典案例：银行转账工作，从一个账号扣款并使另一个账号增款，这两个操作要么都执行，要么都不执行。所以，应该把它们看成一个事务。事务是数据库维护数据一致性的单位，在每个事务结束时，都能保持数据一致性。</p>
+<p><font color=green>注意：<code>MySQL</code> 中并不是所有的数据引擎都支持事务管理的，只有 <code>innodb</code> 支持事务管理</font></p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1a2b3f6a/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MySQL-数据库-操作基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/23f21fa0/">
+                        <span class="hidden-mobile">Linux-ELK日志分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "Mwdu7VOQpQQD3cKW6SsRSt4f-gzGzoHsz",
+          app_key: "XAg4RThXdR3JX0BNAF0axveE",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "mp",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            <b>"总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次"</b>
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            <b>"总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人"</b>
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        豫ICP备2021006301号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

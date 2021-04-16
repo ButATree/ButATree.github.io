@@ -1,0 +1,695 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="ButATree">
+  <meta name="keywords" content="">
+  <title>Linux-SAMBA服务(贰) - ButATree&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"butatree.site","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>ButATree</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-notebook"></i>
+                关于
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/about/">
+                    <i class="iconfont icon-user-fill"></i>
+                    个人
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://download.butatree.site">
+                    
+                    下载
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                相关链接
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4l2p20.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux-SAMBA服务(贰)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      ButATree
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-26 17:04" pubdate>
+        2021年3月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux-SAMBA服务(贰)</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年3月27日 下午
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="全局参数"><a href="#全局参数" class="headerlink" title="全局参数"></a>全局参数</h1><p><code>[global]</code></p>
+<p><code>config file = /usr/local/samba/lib/smb.conf.%m</code></p>
+<p>​    说明：<code>config file</code> 可以让你使用另一个配置文件来覆盖缺省的配置文件。如果文件 不存在，则该项无效。这个参数很有用，可以使得 <code>samba</code> 配置更灵活，可以让一台 <code>samba</code> 服务器模拟多台不同配置的服务器。比如，你想让 <code>PC1</code> （主机名）这台电脑在访问 <code>Samba Server</code> 时使用它自己的配置文件，那么先在 <code>/etc/samba/host/</code> 下为 <code>PC1</code> 这台电脑在访问 <code>Samba Server</code> 时使用它自己的配置文件，那么先在 <code>/etc/samba/host/</code> 下为 <code>PC1</code> 配置一个名为 <code>smb.conf.pc1</code> 的文件，然后在 <code>smb.conf</code> 中加入 <code>:configfile= /etc/samba/host/smb.conf.%m</code> 。这样当 <code>PC1</code> 请求连接 <code>Samba Server</code> 时，<code>smb.conf.%m</code> 就被替换成 <code>smb.conf.pc1</code> 。这样，对于 <code>PC1</code> 来说，它所使用的 <code>Samba</code> 服务就是由 <code>smb.conf.pc1</code> 定义的，而其他机器访问 <code>Samba Server</code>   则还是应用 <code>smb.conf</code> 。</p>
+<p><code>workgroup = WORKGROUP</code></p>
+<p>说明：设定 <code>Samba Server</code> 所要加入的工作组或者域。</p>
+<p><code>server string = Samba Server Version %v</code></p>
+<p>说明：设定 <code>Samba Server</code> 的注释，可以是任何字符串，也可以不填。宏 <code>%v</code> 表示显示 <code>Samba</code> 的版本号。</p>
+<p><code>netbios name = smbserver</code> </p>
+<p>说明：设置 <code>Samba Server</code> 的 <code>NetBIOS</code> 名称。如果不填，则默认会使用该服务器的 <code>DNS</code> 名称的 第一部分。<code>netbios name </code> 和 <code> workgroup</code> 名字不要设置成一样了。</p>
+<p><code>interfaces=lo eth0 10.4.7.100/24 10.4.7.101/24</code></p>
+<p>说明：设置 <code>Samba Server</code> 监听哪些网卡，可以写网卡名，也可以写该网卡的 <code>IP</code> 地址。</p>
+<p><code>hosts allow = 127. 192.168.1. 192.168.10.1</code></p>
+<p>说明：表示允许连接到 <code>Samba Server</code> 的客户端，多个参数以空格隔开。可以用一个 <code>IP</code> 表示，也可以用一个网段表示。<code>hosts deny</code> 与 <code>hosts allow</code> 刚好相反。</p>
+<p>例如：<code>hosts allow=172.17.2.EXCEPT172.17.2.50</code></p>
+<p>表示允许来自 <code>172.17.2.*</code> 的主机连接，但排除 <code>172.17.2.50</code> 。</p>
+<p><code>hosts allow = 172.17.2.0/255.255.0.0</code></p>
+<p>表示允许来自 <code>172.17.2.0/255.255.0.0</code> 子网中的所有主机连接。</p>
+<p><code>hosts allow=M1,M2</code></p>
+<p>表示允许来自 <code>M1,M2</code> 两台计算机连接。</p>
+<p><code>hosts allow=@xq</code></p>
+<p>表示允许来自 <code>@xq</code> 网域的所有计算机连接。</p>
+<p><code>max connections = 0</code></p>
+<p>说明：<code>max connections</code> 用来指定连接 <code>Samba Server</code> 的最大连接数目。如果超出连接数目，则新的连接请求将被拒绝。<code>0</code> 表示不限制。</p>
+<p><code>deadtime = 0</code></p>
+<p>说明：<code>deadtime</code> 用来设置断掉一个没有打开任何文件的连接时间。单位是分钟，0 代表 <code>Samba Server</code> 不自动切断任何连接。</p>
+<p><code>time server = yes/no</code></p>
+<p>说明：<code>time server</code> 用来设置让 <code>nmdb</code> 成为 <code>windows</code> 客户端的时间服务器。</p>
+<p><code>log file = /var/log/samba/log.%m</code></p>
+<p>说明：设置 <code>Samba Server</code> 日志文件的存储位置以及日志文件名称。在文件名后加个宏 <code>%m</code> （主机名），表示对每台访问 <code>Samba Server</code> 的机器都单独记录一个日志文件。如果 <code>pc1, pc2</code> 访问过 <code>Samba Server</code> 就会在 <code>/var/log/samba</code> 目录下留下 <code>log.pc1</code> 和 <code>log.pc2</code> 两个日志文件。</p>
+<p><code>max log size = 50</code></p>
+<p>说明：设置 <code>Samba Server</code> 日志文件的最大容量，单位为 <code>kB</code> ，<code>0</code> 代表不限制。</p>
+<p><code>security = user</code></p>
+<p>说明：设置用户访问 <code>Samba Server</code> 的验证方式，一共有四种验证方式。</p>
+<ol>
+<li><code>share</code> ：用户访问 <code>Samba Server</code> 不需要提供用户名和口令，安全性能较低。</li>
+<li><code>user</code> ：<code>Samba Server</code> 共享目录只能被授权的用户访问，由 <code>Samba Server</code> 负责检查账号和密码的正确性。账号和密码要在本 <code>Samba Server</code> 中建立。</li>
+<li><code>server</code> ：依靠其他 <code>Windows NT/2000</code> 或 <code>Samba Server</code> 来验证用户的账号和密码，是一种代理验证。此种安全模式下，系统管理员可以把所有的 <code>Windows</code> 用户和口令集中到一个 <code>NT</code> 系统上，使用 <code>Windows NT</code> 进行 <code>Samba</code> 认证，远程服务器可以自动认证全部用户和口令，如果认证失败，<code>Samba</code> 将使用用户级安全模式作为替代的方式。</li>
+<li><code>domain</code> ：域安全级别，使用主域控制器 （<code>PDC</code>）来完成认证。</li>
+</ol>
+<p><code>passdb backend = tdbsam</code></p>
+<p>说明：<code>passdb backend</code> 就是用户后台的意思。目前有三种后台：<code>smbpasswd、tdbsam</code>  和  <code>ldapsam</code> 。<code>sam</code> 应该还是 <code>security account manager</code> （安全账户管理）的简写。</p>
+<ol>
+<li><p><code>smbpasswd</code> ：该方式是使用 <code>smb</code> 自己的工具 <code>smbpasswd</code> 来给系统用户（真实用户或者虚拟用户）设置一个 <code>Samba</code> 密码，客户端就用这个密码来访问 <code>Samba</code> 的资源。<code>smbpasswd</code> 文件默认在 <code>/etc/samba</code> 目录下，不过有时候要手工建立该文件。</p>
+</li>
+<li><p><code>tdvsam</code> ：该方式则是使用一个数据库文件来建立用户数据库。数据库文件叫 <code>passdb.tdb</code> ，默认在 <code>/etc/samba</code> 目录下。<code>passdb.tdb</code> 用户数据库可以使用 <code>smbpasswd -a</code> 来建立 <code>Samba</code> 用户，不过要建立的 <code>Samba</code> 用户必须显示系统用户。我们也可以使用 <code>pdbedit</code> 命令来建立 <code>Samba</code> 账户。<code>pdbedit</code> 命令的参数很多，我们列出几个主要的。</p>
+<p><code>pdbedit -a username</code> ：新建 <code>Samba</code> 用户。</p>
+<p><code>pdbedit -x username</code> ：删除 <code>Samba</code> 用户。</p>
+<p><code>pdbedit -L</code> ：列出 <code>Samba</code> 用户列表，读取 <code>passdb.tdb</code> 数据库文件。</p>
+<p><code>pdbedit -Lv</code> ：列出 <code>Samba</code> 用户列表的详细信息。</p>
+<p><code>pdbedit -c &quot;[D]&quot; -u username</code> ：暂停该 <code>Samba</code> 用户的账号。</p>
+<p><code>pdbedit -c &quot;[]&quot; -u username</code> ：恢复该 <code>samba</code> 用户的账号。</p>
+</li>
+<li><p><code>ldapsam</code> ：该方式则是基于 <code>LDAP</code> 的账户管理方式来验证用户。首先要建立 <code>LDAP</code> 服务，然后设置 <code>passdb backend = ldapsam:ldap//LDAP Server</code></p>
+</li>
+</ol>
+<p><code>encrypt passwords = yes/no</code> </p>
+<p>说明：是否将认证密码加密。因为现在 <code>Windows</code> 操作系统都是使用加密密码，所以一般要开启此项。不过配置文件默认已开启。</p>
+<p><code>smb passwd file = /etc/samba/smbpasswd</code></p>
+<p>说明：用来定义 <code>samba</code> 用户的密码文件。<code>smbpasswd</code> 文件如果没有那就手工新建。</p>
+<p><code>username map = /etc/samba/smbusers</code></p>
+<p>说明：用来定义用户名映射，比如可以将<code>root</code> 换成 <code>administrator、admin</code> 等。不过要事先在 <code>smbusers</code> 文件中定义好。比如：<code>root = adminsitrator admin</code> ，这样就可以用 <code>administrarot</code> 或 <code>admin</code> 这两个用户来代替 <code>root</code> 登陆 <code>Samba Server</code> ，更贴近 <code>Windows</code> 用户的习惯。</p>
+<p><code>guest account = nobody</code></p>
+<p>说明：用来设置 <code>guest</code> 用户名。</p>
+<p><code>socket options = TCP_NODELAY SO-RCVBUF=8192 SO_SNDBUF=8192</code></p>
+<p>说明：用来设置服务器和客户端之间会话的 <code>Socket</code> 选项，可以优化传输速度。</p>
+<p><code>domain master = yes/no</code></p>
+<p>说明：设置 <code>Samba</code> 服务器是否要成为网域主浏览器，网域主浏览器可以管理跨子网域的浏览服务。</p>
+<p><code>local master = yes/no</code></p>
+<p>说明：<code>local master</code> 用来指定 <code>Samba Server</code> 是否试图成为本地网域主浏览器。如果设为 <code>no</code> ，则永远不会成为本地网域主浏览器。但是即使设置为 <code>yes</code> ，也不等于该 <code>Samba Server</code> 就能成为主浏览器，还是需要参加选举。</p>
+<p><code>preferred master = yes/no</code></p>
+<p>说明：设置 <code>Samba Server</code> 一开机就强迫进行主浏览器选举，可以提高 <code>Samba Server</code> 成为本地网域主浏览器的机会。如果该参数指定为 <code>yes</code> 时，最好把 <code>domain master</code> 也指定为 <code>yes</code> 。使用该参数时要注意：如果在本 <code>Samba Server</code> 所在的子网有其他机器（不论是 <code>windows NT</code> 还是其他 <code>Samba Server</code>），也指定为首要主浏览器时，那么这些机器将会因为争夺主浏览器而在网络上大发广播，影响网络性能。如果同一个区域内有多台 <code>Samba Server</code> ，将上面三个参数设定在一台即可。</p>
+<p><code>os level = 200</code></p>
+<p>说明：设置 <code>smaba</code> 服务器的 <code>os level</code> 。该参数决定 <code>Samba Server</code> 是否有机会成为本地网域的主浏览器。<code>os level</code> 从 <code>0</code> 到 <code>255</code> ，<code>winNT</code> 的 <code>os level</code> 是 <code>32</code> ，<code>win95/98</code> 的 <code>os level</code> 是 <code>1</code> 。<code>Windows 2000</code> 的 <code>os level</code> 是 <code>64</code> 。如果设置为 <code>0</code> ，则意味着  <code>Samba Server</code> 将失去浏览器选择。如果想让 <code>Samba Server</code> 成为 <code>PDC</code> ，那么将它的 <code>os level</code> 值设大一些。</p>
+<p><code>domain logons = yes/no</code></p>
+<p>说明：设置 <code>Samba Server</code> 是否要做为本地控制器。主域控制器和备份域控制器都需要开启此项。</p>
+<p><code>logon . = %u.bat</code></p>
+<p>说明：当使用者用 <code>windows</code> 客户端登录，那么 <code>Samba</code> 将提供一个登录档。如果设置成 <code>%u.bat</code> ，那么就要为每个用户提供一个登录档。如果人比较多，那就比较麻烦。可以设置成一个具体的文件名，比如 <code>start.bat</code> ，那么用户登录后都会去执行 <code>start.bat</code> ，而不用为每个用户设定一个登录档了。这个文件要放置在 <code>[netlogon]</code> 的 <code>path</code> 设置的目录路径下。</p>
+<p><code>wins support = yes/no</code></p>
+<p>说明：设置 <code>samba</code> 服务器是否提供 <code>wins</code> 服务。</p>
+<p><code>wins server = wins ServerIP</code></p>
+<p>说明：设置 <code>Samba Server</code> 是否使用别的 <code>wins</code> 服务器提供 <code>wins</code> 服务。</p>
+<p><code>wins proxy = yes/no</code></p>
+<p>说明：设置 <code>Samba Server</code> 是否开启 <code>wins</code> 代理服务。</p>
+<p><code>dns proxy = yes/no</code></p>
+<p>说明：设置 <code>Samba Server</code> 是否开启 <code>dns</code> 代理服务。</p>
+<p><code>load printers = yes/no</code></p>
+<p>说明：设置是否在启动 <code>Samba</code> 时就共享打印机。</p>
+<p><code>printcap name = cups</code></p>
+<p>说明：设置共享打印机的配置文件。</p>
+<p><code>printing = cups</code></p>
+<p>说明：设置 <code>Samba</code> 共享打印机的类型。现在支持的打印系统有：<code>bsd, sysv, plp, lprng, aix, hpux, qnx</code></p>
+<hr>
+<h1 id="共享参数"><a href="#共享参数" class="headerlink" title="共享参数"></a>共享参数</h1><p><code>[共享名]</code></p>
+<p><code>comment =</code> 任意字符</p>
+<p>说明：<code>comment</code> 是对该共享的描述，可以是任意字符串。</p>
+<p><code>path = </code> 共享目录路径</p>
+<p>说明：<code>path</code> 用来指定共享目录的路劲。可以用 <code>%u、%m</code> 这样的宏来代替路径里的 <code>unix</code> 用户和客户机的 <code>Netbios</code> 名，用宏表示主要用于 <code>[homes]</code> 共享域。例如：如果我们不打算用 <code>home</code> 段做为客户的共享，而是在 <code>/home/share</code> 下为每个 <code>Linux</code> 用户以他的共享目录，这样 <code>path</code> 就要写成 <code>path= /home/share/%u</code> 。用户在连接到这共享时具体的路径会被他的用户名代替，要注意这个用户名路径一定要存在。否则，客户机在访问时会找不到网络路径。同样，如果我们不是以用户来划分目录，而是以客户机来划分目录，为网络上每台可以访问 <code>samba</code> 的机器都各自建个以它的 <code>netbios</code> 名的路径，作为不同机器的共享资源，就可以这样写：<code>path = /home/share/%m</code> 。</p>
+<p><code>browseable = yes/no</code></p>
+<p>说明：<code>browseable</code> 用来指定该共享是否可以浏览。</p>
+<p><code>writable = yes/no</code></p>
+<p>说明：<code>writable</code> 用来指定该共享路径是否可写。</p>
+<p><code>available = yes/no</code></p>
+<p>说明：<code>available</code> 用来指定该共享资源是否可用。</p>
+<p><code>admin users = 该共享的管理者</code></p>
+<p>说明：<code>admin users</code> 用来指定该共享的管理员（对该共享具有完全控制权限）。在 <code>Samba 3.0</code> 中，如果用户验证方式设置成 <code>&quot;security=share&quot;</code> 时。此项无效。</p>
+<p>例如：<code>admin users =zhangsan,lisi</code>（多个用户中间用逗号隔开）。</p>
+<p><code>valid users =</code> 允许访问该共享的用户</p>
+<p>说明：<code>valid users</code> 用来指定允许访问该共享资源的用户。</p>
+<p>例如：<code>valid users = zhangsan,@bob,@tech</code> （多个用户或者组中间用逗号隔开，如果要继而一个组就用 <code>&quot;@+组名&quot;</code> 表示）</p>
+<p><code>invalid users =</code> 禁止访问该共享的用户</p>
+<p>说明：<code>invalid users</code> 用来指定不允许访问该共享资源的用户。</p>
+<p>例如：<code>invalid users = root,@bob</code></p>
+<p><code>write list =</code> 允许写入该共享的用户</p>
+<p>说明：<code>write list</code> 用来指定可以在该共享下写入文件的用户。</p>
+<p>例如：<code>write list = zhangsan,@bob</code></p>
+<p><code>public = yes/no</code></p>
+<p>说明：<code>public</code> 用来指定该共享是否允许 <code>guest</code> 用户访问。</p>
+<p><code>guest ok = yes/no</code></p>
+<p>说明：意义同 <code>&quot;public&quot;</code>。</p>
+<p>几个特殊共享：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs nix">[homes]<br><span class="hljs-attr">comment</span> = Home Directories<br><span class="hljs-attr">browseable</span> = no<br><span class="hljs-attr">writable</span> = yes<br>valid <span class="hljs-attr">users</span> = %S<br>; valid <span class="hljs-attr">users</span> = MYDOMAIN\%S<br><br>[printers]<br><span class="hljs-attr">comment</span> = All Printers<br><span class="hljs-attr">path</span> = /var/spool/samba<br><span class="hljs-attr">browseable</span> = no<br>guest <span class="hljs-attr">ok</span> = no<br><span class="hljs-attr">writable</span> = no<br><span class="hljs-attr">printable</span> = yes<br><br>[netlogon]<br><span class="hljs-attr">comment</span> = Network Logon Service<br><span class="hljs-attr">path</span> = /var/lib/samba/netlogon<br>guest <span class="hljs-attr">ok</span> = yes<br><span class="hljs-attr">writable</span> = no<br>share <span class="hljs-attr">modes</span> = no<br><br>[Profiles]<br><span class="hljs-attr">path</span> = /var/lib/samba/profiles<br><span class="hljs-attr">browseable</span> = no<br>guest <span class="hljs-attr">ok</span> = yes<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/ad80e28c/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux-企业邮件部署</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/93debf63/">
+                        <span class="hidden-mobile">Linux-VSFTP部署(贰)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "Mwdu7VOQpQQD3cKW6SsRSt4f-gzGzoHsz",
+          app_key: "XAg4RThXdR3JX0BNAF0axveE",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "mp",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            <b>"总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次"</b>
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            <b>"总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人"</b>
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        豫ICP备2021006301号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

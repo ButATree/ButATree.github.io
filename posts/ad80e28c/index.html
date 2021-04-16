@@ -1,0 +1,729 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="ButATree">
+  <meta name="keywords" content="">
+  <title>Linux-企业邮件部署 - ButATree&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"butatree.site","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>ButATree</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-notebook"></i>
+                关于
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/about/">
+                    <i class="iconfont icon-user-fill"></i>
+                    个人
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://download.butatree.site">
+                    
+                    下载
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                相关链接
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4l2p20.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux-企业邮件部署">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      ButATree
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-27 13:16" pubdate>
+        2021年3月27日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux-企业邮件部署</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年3月27日 晚上
+                
+              </p>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p><a id="前提">前提</a></p>
+<p>部署 <code>DNS</code> </p>
+<blockquote>
+<p>关闭防火墙以及 <code>SELinux</code>，部署 以下<code>DNS</code> 配置文件，为了和一些包相结合，不要换成其他的 <code>DNS</code> 域 </p>
+</blockquote>
+<p>安装 <code>DNS</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yum -y install <span class="hljs-built_in">bind</span><br></code></pre></td></tr></table></figure>
+
+<p>配置 <code>DNS</code> 配置文件</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs gradle">vi <span class="hljs-regexp">/etc/</span>named.conf<br># 修改监听地址和访问控制为 <span class="hljs-keyword">any</span><br><span class="hljs-keyword">options</span> &#123;<br>         listen-on port <span class="hljs-number">53</span> &#123; <span class="hljs-keyword">any</span>; &#125;;<br>         directory       <span class="hljs-string">&quot;/var/named&quot;</span>;<br>         <span class="hljs-keyword">dump</span>-<span class="hljs-keyword">file</span>       <span class="hljs-string">&quot;/var/named/data/cache_dump.db&quot;</span>;<br>         statistics-<span class="hljs-keyword">file</span> <span class="hljs-string">&quot;/var/named/data/named_stats.txt&quot;</span>;<br>         memstatistics-<span class="hljs-keyword">file</span> <span class="hljs-string">&quot;/var/named/data/named_mem_stats.txt&quot;</span>;<br>         recursing-<span class="hljs-keyword">file</span>  <span class="hljs-string">&quot;/var/named/data/named.recursing&quot;</span>;<br>         secroots-<span class="hljs-keyword">file</span>   <span class="hljs-string">&quot;/var/named/data/named.secroots&quot;</span>;<br>         allow-query     &#123; <span class="hljs-keyword">any</span>; &#125;;<br>         ...<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dts">vi <span class="hljs-meta-keyword">/etc/</span>named.rfc1912.zones <br><span class="hljs-meta"># 正向解析即可</span><br>zone <span class="hljs-string">&quot;extmail.org&quot;</span> <span class="hljs-class">IN </span>&#123;<br>	type master;<br>	file <span class="hljs-string">&quot;extmail.localhost&quot;</span>;<br>	allow-<span class="hljs-class">update </span>&#123; none; &#125;;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs dns">cd /var/named<br>vi host.localhost <br>#修改如下数据<br><span class="hljs-meta">$TTL</span> <span class="hljs-number">1</span>D<br>@	<span class="hljs-keyword">IN</span> <span class="hljs-keyword">SOA</span>	extmail.org. admin.extmail.org. (<br>				       <span class="hljs-number">202002102</span><span class="hljs-comment">; serial</span><br>					<span class="hljs-number">1</span>D	<span class="hljs-comment">; refresh</span><br>					<span class="hljs-number">1</span>H	<span class="hljs-comment">; retry</span><br>					<span class="hljs-number">1</span>W	<span class="hljs-comment">; expire</span><br>					<span class="hljs-number">3</span>H )	<span class="hljs-comment">; minimum</span><br>	<span class="hljs-keyword">NS</span>	dns.extmail.org.<br>	<span class="hljs-keyword">MX</span> <span class="hljs-number">3</span>    mail.extmail.org.<br>mail      <span class="hljs-keyword">A</span>     <span class="hljs-number">10.4.7.100</span> # ←<br>dns    <span class="hljs-keyword">IN</span> <span class="hljs-keyword">A</span>		<span class="hljs-number">10.4.7.100</span> # ←<br>a      <span class="hljs-keyword">IN</span> <span class="hljs-keyword">A</span>		<span class="hljs-number">10.4.7.100</span><br>b      <span class="hljs-keyword">IN</span> <span class="hljs-keyword">A</span>		<span class="hljs-number">10.4.7.101</span><br>c      <span class="hljs-keyword">IN</span> <span class="hljs-keyword">A</span>     <span class="hljs-number">10.4.7.102</span><br></code></pre></td></tr></table></figure>
+
+<p>重启 <code>DNS</code> 服务</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">systemctl restart named</span><br></code></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs yaml">[<span class="hljs-string">root@b</span> <span class="hljs-string">~</span>]<span class="hljs-comment"># nslookup mail.extmail.org</span><br><span class="hljs-attr">Server:</span>		<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><br><span class="hljs-attr">Address:</span>	<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><span class="hljs-comment">#53</span><br><br><span class="hljs-attr">Non-authoritative answer:</span><br><span class="hljs-attr">Name:</span>	<span class="hljs-string">mail.extmail.org</span><br><span class="hljs-attr">Address:</span> <span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.100</span><br><br>[<span class="hljs-string">root@b</span> <span class="hljs-string">~</span>]<span class="hljs-comment"># nslookup a.extmail.org</span><br><span class="hljs-attr">Server:</span>		<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><br><span class="hljs-attr">Address:</span>	<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><span class="hljs-comment">#53</span><br><br><span class="hljs-attr">Non-authoritative answer:</span><br><span class="hljs-attr">Name:</span>	<span class="hljs-string">a.extmail.org</span><br><span class="hljs-attr">Address:</span> <span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.100</span><br><br>[<span class="hljs-string">root@b</span> <span class="hljs-string">~</span>]<span class="hljs-comment"># nslookup b.extmail.org</span><br><span class="hljs-attr">Server:</span>		<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><br><span class="hljs-attr">Address:</span>	<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><span class="hljs-comment">#53</span><br><br><span class="hljs-attr">Non-authoritative answer:</span><br><span class="hljs-attr">Name:</span>	<span class="hljs-string">b.extmail.org</span><br><span class="hljs-attr">Address:</span> <span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.101</span><br><br>[<span class="hljs-string">root@b</span> <span class="hljs-string">~</span>]<span class="hljs-comment"># nslookup c.extmail.org</span><br><span class="hljs-attr">Server:</span>		<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><br><span class="hljs-attr">Address:</span>	<span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.254</span><span class="hljs-comment">#53</span><br><br><span class="hljs-attr">Non-authoritative answer:</span><br><span class="hljs-attr">Name:</span>	<span class="hljs-string">c.extmail.org</span><br><span class="hljs-attr">Address:</span> <span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.102</span><br></code></pre></td></tr></table></figure>
+
+<p>测试成功后就可以做下一步了。</p>
+</blockquote>
+<hr>
+<h1 id="一、邮件概述"><a href="#一、邮件概述" class="headerlink" title="一、邮件概述"></a>一、邮件概述</h1><p>​    电子邮件服务器是处理邮件交换的软硬件设施的总称，包括电子邮件程序、电子邮箱等。为用户提供基于 <code>E-mail</code> 服务的电子邮件系统，人们通过访问服务器实现邮件的交换。</p>
+<p>常见的邮件服务器</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务器端</td>
+<td><code>Sendmail</code></td>
+<td>资格最古老，运行稳定，但安全性欠佳</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Postfix</code></td>
+<td>采用模块化设计，在投递效率、稳定性、性能<br />及安全性方面表现优秀，与 <code>sendmail</code> 保持<br />足够的兼容性。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Qmail</code></td>
+<td>采用模块化设计，速度快、执行效率高，配置<br />稍微复杂点。</td>
+</tr>
+<tr>
+<td>客户端</td>
+<td><code>Outlook</code></td>
+<td>以下都是用来接收邮件的客户端</td>
+</tr>
+<tr>
+<td></td>
+<td><code>foxmail</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>浏览器</td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="二、邮件应用协议"><a href="#二、邮件应用协议" class="headerlink" title="二、邮件应用协议"></a>二、邮件应用协议</h1><p><code>SMTP</code> 简单邮件传输协议（发邮件）<code>TCP 25</code> 端口，加密时使用 <code>TCP 465</code> 端口</p>
+<p><code>POP3</code> 第三版邮局协议（收邮件）<code>TCP 110</code> 端口，加密时使用 <code>TCP 995</code> 端口</p>
+<p><code>IMAP4</code> 第四版互联网邮件访问协议（收邮件）<code>TCP 143</code> 端口，加密时使用 <code>TCP 993</code> 端口</p>
+<hr>
+<h1 id="三、软件相关"><a href="#三、软件相关" class="headerlink" title="三、软件相关"></a>三、软件相关</h1><p>软件名：<code>Postfix</code></p>
+<p>主目录：<code>/etc/postfix</code></p>
+<p>主配置文件：<code>main.cf</code></p>
+<p>​            <code>myhostname</code>：邮件服务主机名</p>
+<p>​            <code>mydomain</code>：邮件域</p>
+<p>​            <code>myorigin</code>：设置允许发信的用户的邮件域</p>
+<p>​            <code>mydestination</code>：设置允许收信的用户的邮件域</p>
+<hr>
+<h1 id="四、企业级邮件服务"><a href="#四、企业级邮件服务" class="headerlink" title="四、企业级邮件服务"></a>四、企业级邮件服务</h1><blockquote>
+<p>前提条件：要有一个 <code>DNS</code> 服务器。</p>
+</blockquote>
+<h2 id="发送方配置"><a href="#发送方配置" class="headerlink" title="发送方配置"></a>发送方配置</h2><ol>
+<li><p><code>DNS</code> 搭建</p>
+<p>如上：<span class="label label-primary"><a href="#前提">前提</a></span></p>
+</li>
+<li><p>安装 <code>gcc</code> 以及其他依赖软件</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">yum -y install gcc* mysql mysql-<span class="hljs-keyword">server</span> httpd mailx<br><br> systemctl <span class="hljs-keyword">restart</span> httpd<br> systemctl <span class="hljs-keyword">enable</span> httpd<br> systemctl <span class="hljs-keyword">start</span> mariadb.service <br> systemctl <span class="hljs-keyword">enable</span> mariadb.service<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将 <code>web</code> 页面放到 <code>Apache</code> 的网页目录下</p>
+<blockquote>
+<p>下载地址 <a target="_blank" rel="noopener" href="https://github.com/xyoun/extmail">https://github.com/xyoun/extmail</a></p>
+</blockquote>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs gradle">mkdir -p <span class="hljs-regexp">/var/</span>www/extsuite<br><br>#tar -xf extmail-<span class="hljs-number">1.2</span>.tar.gz -C <span class="hljs-regexp">/var/</span>www/extsuite<br>#tar -xf extman-<span class="hljs-number">1.1</span>.tar.gz -C <span class="hljs-regexp">/var/</span>www/extsuite<br><br>cd <span class="hljs-regexp">/var/</span>www/extsuite<br>mv extmail-<span class="hljs-number">1.2</span> extmail<br>mv extman-<span class="hljs-number">1.1</span> extman<br>chown -R root.root *<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将数据库文件导入到 <code>Mysql</code> 中（没有设置密码，空密码登录）</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk">   cd <span class="hljs-regexp">/var/</span>www/extsuite<br>   mysql &lt;.<span class="hljs-regexp">/extman/</span>docs/extmail.sql<br>vi .<span class="hljs-regexp">/extman/</span>docs/init.sql<br>   INSERT INTO `manager` VALUES (<span class="hljs-string">&#x27;root@extmail.org&#x27;</span>,<span class="hljs-string">&#x27;123456&#x27;</span>,<span class="hljs-string">&#x27;admin&#x27;</span>,<span class="hljs-string">&#x27;root&#x27;</span>)<br>   <span class="hljs-comment"># 将此文件先把密码修改为 123456，再导入</span><br>   mysql &lt;.<span class="hljs-regexp">/extman/</span>docs/init.sql<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将邮件模板拷贝到邮件服务器的主目录下</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/extsuite/</span>extman/docs<br>cp -a mysql_virtual_alias_maps.cf mysql_virtual_domains_maps.cf mysql_virtual_mailbox_maps.cf <span class="hljs-regexp">/etc/</span>postfix/<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>创建映射用户 <code>&amp;</code> 修改配置文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs awk">useradd -s <span class="hljs-regexp">/sbin/</span>nologin vmail<br><br>vim <span class="hljs-regexp">/etc/</span>postfix/main.cf<br>inet_interfaces = all         <span class="hljs-comment"># 取消注释</span><br><span class="hljs-comment">#inet_interfaces = localhost  # 添加注释</span><br><span class="hljs-comment">#在尾部添加以下内容</span><br>virtual_mailbox_base = <span class="hljs-regexp">/home/</span>vmail <span class="hljs-comment">#虚拟邮箱存储目录</span><br>virtual_uid_maps = static:<span class="hljs-number">1008</span>     <span class="hljs-comment">#你创建用户的UID</span><br>virtual_gid_maps = static:<span class="hljs-number">1008</span>     <span class="hljs-comment">#你创建用户的GID</span><br>virtual_alias_maps = mysql:<span class="hljs-regexp">/etc/</span>postfix/mysql_virtual_alias_maps.cf <span class="hljs-comment">#虚拟邮件用户对应别名</span><br>virtual_mailbox_domains = mysql:<span class="hljs-regexp">/etc/</span>postfix/mysql_virtual_domains_maps.cf <span class="hljs-comment">#Postfix服务器可以接收的虚拟邮件域域名</span><br>virtual_mailbox_maps = mysql:<span class="hljs-regexp">/etc/</span>postfix/mysql_virtual_mailbox_maps.cf <span class="hljs-comment">#记录虚拟邮箱和存储位置的对应关系</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>重启服务 <code>&amp;</code> 发送邮件测试 <code>&amp;</code> 查看结果</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">systemctl</span> restart postfix<br><span class="hljs-attribute">echo</span> <span class="hljs-string">&quot;hello&quot;</span> | mail -s test support@host.com<br><span class="hljs-attribute">ls</span> /home/vmail/extmail.org/postmaster/Maildir/new<br><span class="hljs-attribute">1616848285</span>.Vfd<span class="hljs-number">00</span>I<span class="hljs-number">20442</span>baM<span class="hljs-number">750851</span>.a.extmail.org<br><br><span class="hljs-comment"># cat 1616848285.Vfd00I20442baM750851.a.extmail.org </span><br><span class="hljs-attribute">Return</span>-Path: &lt;root@a.extmail.org&gt;<br><span class="hljs-attribute">X</span>-Original-To: support@extmail.org<br><span class="hljs-attribute">Delivered</span>-To: postmaster@extmail.org<br><span class="hljs-attribute">Received</span>: by a.extmail.org (Postfix, from userid <span class="hljs-number">0</span>)<br>	<span class="hljs-attribute">id</span> <span class="hljs-number">97</span>BA<span class="hljs-number">3306</span>F<span class="hljs-number">44</span>F; Sat, <span class="hljs-number">27</span> Mar <span class="hljs-number">2021</span> <span class="hljs-number">20</span>:<span class="hljs-number">31</span>:<span class="hljs-number">25</span> +<span class="hljs-number">0800</span> (CST)<br><span class="hljs-attribute">Date</span>: Sat, <span class="hljs-number">27</span> Mar <span class="hljs-number">2021</span> <span class="hljs-number">20</span>:<span class="hljs-number">31</span>:<span class="hljs-number">25</span> +<span class="hljs-number">0800</span><br><span class="hljs-attribute">To</span>: support@extmail.org<br><span class="hljs-attribute">Subject</span>: test<br><span class="hljs-attribute">User</span>-Agent: Heirloom mailx <span class="hljs-number">12</span>.<span class="hljs-number">5</span> <span class="hljs-number">7</span>/<span class="hljs-number">5</span>/<span class="hljs-number">10</span><br><span class="hljs-attribute">MIME</span>-Version: <span class="hljs-number">1</span>.<span class="hljs-number">0</span><br><span class="hljs-attribute">Content</span>-Type: text/plain; charset=us-ascii<br><span class="hljs-attribute">Content</span>-Transfer-Encoding: <span class="hljs-number">7</span>bit<br><span class="hljs-attribute">Message</span>-Id: &lt;<span class="hljs-number">20210327123125</span>.<span class="hljs-number">97</span>BA<span class="hljs-number">3306</span>F<span class="hljs-number">44</span>F@a.extmail.org&gt;<br><span class="hljs-attribute">From</span>: root@a.extmail.org (root)<br><br><span class="hljs-attribute">niinininiiiin</span><br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<hr>
+<h2 id="接收方配置"><a href="#接收方配置" class="headerlink" title="接收方配置"></a>接收方配置</h2><ol>
+<li><p>安装 <code>dovecot</code> 相关软件</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">yum -y install dovecot dovecot-devel dovecot-mysql<br>systemctl <span class="hljs-keyword">start</span> dovecot<br>systemctl <span class="hljs-keyword">enable</span> dovecot<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>配置 <code>dovecot</code> 能够去数据库里读数据</p>
+<ul>
+<li><p>修改 <code>/etc/dovecot/conf.d/10-mail.conf</code></p>
+<p>在配置文件中添以下两行：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs gradle"># vi <span class="hljs-regexp">/etc/</span>dovecot<span class="hljs-regexp">/conf.d/</span><span class="hljs-number">10</span>-mail.conf<br># %d domain %n name 用户<br><br>mail_location = maildir:<span class="hljs-regexp">/home/</span>vmail<span class="hljs-regexp">/%d/</span>%n/Maildir<br>first_valid_uid=<span class="hljs-number">1008</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>修改 <code>/etc/dovecot/conf.d/10-auth.conf</code></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gradle"># vi <span class="hljs-regexp">/etc/</span>dovecot<span class="hljs-regexp">/conf.d/</span><span class="hljs-number">10</span>-auth.conf<br>!<span class="hljs-keyword">include</span> auth-system.conf.ext  #系统调用<br>!<span class="hljs-keyword">include</span> auth-sql.conf.ext     #数据库调用<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>修改数据库连接配置文件</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment"># cp -a /usr/share/doc/dovecot-2.2.36/example-config/dovecot-sql.conf.ext /etc/dovecot/</span><br><br><span class="hljs-comment"># vi /etc/dovecot/dovecot-sql.conf.ext</span><br><span class="hljs-attribute">driver</span>=mysql<br><span class="hljs-attribute">connect</span>=host=localhost <span class="hljs-attribute">dbname</span>=extmail <span class="hljs-attribute">user</span>=extmail <span class="hljs-attribute">password</span>=extmail<br><span class="hljs-attribute">default_pass_scheme</span>=MD5<br><span class="hljs-attribute">password_query</span>=\<br>SELECT username,domain,password\<br><span class="hljs-keyword">FROM</span> mailbox WHERE <span class="hljs-attribute">username</span>=<span class="hljs-string">&#x27;%u&#x27;</span> <span class="hljs-keyword">AND</span> <span class="hljs-attribute">domain</span>=<span class="hljs-string">&#x27;%d&#x27;</span><br><span class="hljs-comment"># 验证登录密码的查询命令</span><br><span class="hljs-attribute">user_query</span>=SELECT maildir,1008 AS uid,1008 AS gid <span class="hljs-keyword">FROM</span> mailbox WHERE <span class="hljs-attribute">username</span>=<span class="hljs-string">&#x27;%u&#x27;</span><br><span class="hljs-comment">#查询虚拟用户对应的邮件目录</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>重启 <code>dovecot</code> 验证是否能连接</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">systemctl restart dovecot</span><br></code></pre></td></tr></table></figure>
+
+<p>安装 <code>telnet</code> 客户端进行登录验证</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">yum</span> <span class="hljs-string">-y</span> <span class="hljs-string">install</span> <span class="hljs-string">telnet</span><br><br>[<span class="hljs-string">root@a</span> ]<span class="hljs-comment"># telnet mail.extmail.org 110 #110是 Dovecot的端口号</span><br><span class="hljs-string">Trying</span> <span class="hljs-number">10.4</span><span class="hljs-number">.7</span><span class="hljs-number">.100</span><span class="hljs-string">...</span><br><span class="hljs-string">Connected</span> <span class="hljs-string">to</span> <span class="hljs-string">mail.extmail.org.</span><br><span class="hljs-string">Escape</span> <span class="hljs-string">character</span> <span class="hljs-string">is</span> <span class="hljs-string">&#x27;^]&#x27;</span><span class="hljs-string">.</span><br><span class="hljs-string">+OK</span> <span class="hljs-string">Dovecot</span> <span class="hljs-string">ready.</span><br><span class="hljs-string">user</span> <span class="hljs-string">postmaster@extmail.org</span> <span class="hljs-comment">#登录 postmaster 用户</span><br><span class="hljs-string">+OK</span><br><span class="hljs-string">pass</span> <span class="hljs-string">extmail</span>                <span class="hljs-comment">#密码是 extmail</span><br><span class="hljs-string">+OK</span> <span class="hljs-string">Logged</span> <span class="hljs-string">in.</span><br><span class="hljs-string">retr</span> <span class="hljs-number">1</span>                      <span class="hljs-comment">#查看第一封邮件</span><br><span class="hljs-string">+OK</span> <span class="hljs-number">541</span> <span class="hljs-string">octets</span><br><span class="hljs-attr">Return-Path:</span> <span class="hljs-string">&lt;root@a.extmail.org&gt;</span><br><span class="hljs-attr">X-Original-To:</span> <span class="hljs-string">support@extmail.org</span><br><span class="hljs-attr">Delivered-To:</span> <span class="hljs-string">postmaster@extmail.org</span><br><span class="hljs-attr">Received:</span> <span class="hljs-string">by</span> <span class="hljs-string">a.extmail.org</span> <span class="hljs-string">(Postfix,</span> <span class="hljs-string">from</span> <span class="hljs-string">userid</span> <span class="hljs-number">0</span><span class="hljs-string">)</span><br>	<span class="hljs-string">id</span> <span class="hljs-string">97BA3306F44F;</span> <span class="hljs-string">Sat,</span> <span class="hljs-number">27</span> <span class="hljs-string">Mar</span> <span class="hljs-number">2021 20:31:25</span> <span class="hljs-string">+0800</span> <span class="hljs-string">(CST)</span><br><span class="hljs-attr">Date:</span> <span class="hljs-string">Sat,</span> <span class="hljs-number">27</span> <span class="hljs-string">Mar</span> <span class="hljs-number">2021 20:31:25</span> <span class="hljs-string">+0800</span><br><span class="hljs-attr">To:</span> <span class="hljs-string">support@extmail.org</span><br><span class="hljs-attr">Subject:</span> <span class="hljs-string">test</span><br><span class="hljs-attr">User-Agent:</span> <span class="hljs-string">Heirloom</span> <span class="hljs-string">mailx</span> <span class="hljs-number">12.5</span> <span class="hljs-number">7</span><span class="hljs-string">/5/10</span><br><span class="hljs-attr">MIME-Version:</span> <span class="hljs-number">1.0</span><br><span class="hljs-attr">Content-Type:</span> <span class="hljs-string">text/plain;</span> <span class="hljs-string">charset=us-ascii</span><br><span class="hljs-attr">Content-Transfer-Encoding:</span> <span class="hljs-string">7bit</span><br><span class="hljs-attr">Message-Id:</span> <span class="hljs-string">&lt;20210327123125.97BA3306F44F@a.extmail.org&gt;</span><br><span class="hljs-attr">From:</span> <span class="hljs-string">root@a.extmail.org</span> <span class="hljs-string">(root)</span><br><br><span class="hljs-string">niinininiiiin</span><br><span class="hljs-string">.</span><br><br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="MAIL-WEB-页面"><a href="#MAIL-WEB-页面" class="headerlink" title="MAIL+WEB 页面"></a><code>MAIL+WEB</code> 页面</h2><ol>
+<li><p>修改 <code>/etc/httpd/conf/httpd.conf</code> 配置文件，能加载邮件 <code>web</code> 页面</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs gradle"># vi <span class="hljs-regexp">/etc/</span>httpd<span class="hljs-regexp">/conf/</span>httpd.conf<br>NameVirtualHost *:<span class="hljs-number">80</span><br><br>&lt;VirtualHost *:<span class="hljs-number">80</span>&gt;<br>        DocumentRoot <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/extsuite/</span>extmail<span class="hljs-regexp">/html/</span><br>        ServerName mail.extmail.org<br>        scriptalias <span class="hljs-regexp">/extmail/</span>cgi <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/extsuite/</span>extmail<span class="hljs-regexp">/cgi/</span><br>        alias <span class="hljs-regexp">/extmail /</span>var<span class="hljs-regexp">/www/</span>extsuite<span class="hljs-regexp">/extmail/</span>html/<br>        scriptalias <span class="hljs-regexp">/extman/</span>cgi <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/extsuite/</span>extman<span class="hljs-regexp">/cgi/</span><br>        alias <span class="hljs-regexp">/extman /</span>var<span class="hljs-regexp">/www/</span>extsuite<span class="hljs-regexp">/extman/</span>html/<br>        suexecusergroup vmail vmail<br>&lt;/VirtualHost&gt;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>extmail</code> 目录中更改 <code>cgi</code> 的属主属组，让 <code>vmail</code> 有权限执行</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment"># chown -R vmail.vmail cgi/</span><br><span class="hljs-comment"># cp -a webmail.cf.default webmail.cf</span><br><span class="hljs-comment"># vi webmail.cf</span><br><span class="hljs-attr">SYS_MAILDIR_BASE</span> = /home/vmail  <span class="hljs-comment">#邮件存放目录</span><br><span class="hljs-attr">SYS_CRYPT_TYPE</span> = plain          <span class="hljs-comment">#加密类型</span><br><span class="hljs-attr">SYS_MYSQL_USER</span> = extmail        <span class="hljs-comment"># MYSQL用户名</span><br><span class="hljs-attr">SYS_MYSQL_PASS</span> = extmail        <span class="hljs-comment"># MYSQL密码</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><code>extman</code> 中 更改 <code>cgi</code> 的属主属组，让 <code>vmail</code> 有执行权限</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-comment"># chown -R vmail.vmail cgi/</span><br><span class="hljs-comment"># cp -a webman.cf.default webman.cf</span><br><span class="hljs-comment"># vi webman.cf</span><br><span class="hljs-attr">SYS_MAILDIR_BASE</span> = /home/vmail<br><span class="hljs-attr">SYS_SESS_DIR</span> =/tmp<br><span class="hljs-attr">SYS_CAPTCHA_ON</span> = <span class="hljs-number">0</span> <span class="hljs-comment">#生产环境中开启，用于校验</span><br><span class="hljs-attr">SYS_CRYPT_TYPE</span> = plain<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>安装 <code>Unix-Syslog</code> 软件</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs vala"><span class="hljs-meta"># 解压 Unix-syslog-1.1.tar.gz 软件</span><br><span class="hljs-meta"># cd Unix-syslog-1.1</span><br><span class="hljs-meta"># perl Makefile.PL</span><br><span class="hljs-meta"># make</span><br><span class="hljs-meta"># make install</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在浏览器上访问，<code>windows</code> 测试需要手动指向 <code>dns</code> 服务器，修改 <code>hosts</code> 文件即可。</p>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Mail/">Mail</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2e07183a/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux-网络服务RSYNC(壹)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/7b285b86/">
+                        <span class="hidden-mobile">Linux-SAMBA服务(贰)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "Mwdu7VOQpQQD3cKW6SsRSt4f-gzGzoHsz",
+          app_key: "XAg4RThXdR3JX0BNAF0axveE",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "mp",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            <b>"总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次"</b>
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            <b>"总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人"</b>
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        豫ICP备2021006301号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

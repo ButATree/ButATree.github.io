@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="ButATree">
+  <meta name="keywords" content="">
+  <title>Linux-LVS实战(壹) - ButATree&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"butatree.site","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>ButATree</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-notebook"></i>
+                关于
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/about/">
+                    <i class="iconfont icon-user-fill"></i>
+                    个人
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://download.butatree.site">
+                    
+                    下载
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                相关链接
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4l2p20.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux-LVS实战(壹)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      ButATree
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-14 15:39" pubdate>
+        2021年4月14日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      49
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux-LVS实战(壹)</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年4月14日 下午
+                
+              </p>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p><strong>架构：</strong></p>
+<p><code>RS</code>：<code>Apache</code></p>
+<p><img src="http://butatree.site:8888/images/2021/04/14/LVS_DR-Keepalived.png" srcset="/img/loading.gif"></p>
+</blockquote>
+<p>案例环境专为 <code>LVS</code> 和 <code>HA</code> 设计的一款健康检查工具</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.keepalive.org/">官网</a></p>
+</blockquote>
+<ul>
+<li>支持故障自动切换（<code>Failover</code>）</li>
+<li>支持节点健康状态检查（<code>Health Checking</code>）</li>
+</ul>
+<blockquote>
+<p><code>VRRP(Virtual Router Redundancy Protocol)</code> ：虚拟路由冗余协议</p>
+<p><strong>一主+多备，共用同一个 <code>IP</code> 地址，但优先级不同</strong></p>
+<p><font color=red><strong>关闭防火墙和 SELinux</strong></font></p>
+<p>或者进行放行</p>
+<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs hsp"><span class="hljs-meta">#firewall-<span class="hljs-meta-keyword">cmd</span> --add-rich-rule=&#x27;rule protocol value=<span class="hljs-meta-string">&quot;vrrp&quot;</span> accept&#x27; --permanent</span><br><span class="hljs-meta">#firewall-<span class="hljs-meta-keyword">cmd</span> --reload</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="一、LVS-DR-构建"><a href="#一、LVS-DR-构建" class="headerlink" title="一、LVS-DR 构建"></a>一、<code>LVS-DR</code> 构建</h1><blockquote>
+<p><strong>所需主机：</strong><code>LVS-M</code>、<code>RS1</code>、<code>RS2</code></p>
+</blockquote>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs pf">[root@master ~]<span class="hljs-comment"># ifconfig </span><br>ens32: <span class="hljs-keyword">flags</span>=<span class="hljs-number">4163</span><span class="hljs-variable">&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span>  mtu <span class="hljs-number">1500</span><br>        <span class="hljs-keyword">inet</span> <span class="hljs-number">10.10</span>.<span class="hljs-number">10.11</span>  netmask <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>  broadcast <span class="hljs-number">10.10</span>.<span class="hljs-number">10.255</span><br>		...<br>[root@master3 ~]<span class="hljs-comment"># ifconfig </span><br>ens32: <span class="hljs-keyword">flags</span>=<span class="hljs-number">4163</span><span class="hljs-variable">&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span>  mtu <span class="hljs-number">1500</span><br>        <span class="hljs-keyword">inet</span> <span class="hljs-number">10.10</span>.<span class="hljs-number">10.13</span>  netmask <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>  broadcast <span class="hljs-number">10.10</span>.<span class="hljs-number">10.255</span><br>        ...<br>[root@master4 ~]<span class="hljs-comment"># ifconfig </span><br>ens32: <span class="hljs-keyword">flags</span>=<span class="hljs-number">4163</span><span class="hljs-variable">&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span>  mtu <span class="hljs-number">1500</span><br>        <span class="hljs-keyword">inet</span> <span class="hljs-number">10.10</span>.<span class="hljs-number">10.14</span>  netmask <span class="hljs-number">255.255</span>.<span class="hljs-number">255.0</span>  broadcast <span class="hljs-number">10.10</span>.<span class="hljs-number">10.255</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="1）关闭守护进程"><a href="#1）关闭守护进程" class="headerlink" title="1）关闭守护进程"></a>1）关闭守护进程</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@master</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager &amp;&amp; systemctl disable NetworkManager</span><br>[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager &amp;&amp; systemctl disable NetworkManager</span><br>[root<span class="hljs-symbol">@master4</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager &amp;&amp; systemctl disable NetworkManager</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2）LVS-M-开启子接口"><a href="#2）LVS-M-开启子接口" class="headerlink" title="2）LVS-M 开启子接口"></a>2）<code>LVS-M</code> 开启子接口</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@master ~]</span><span class="hljs-comment"># cd /etc/sysconfig/network-scripts/</span><br><span class="hljs-section">[root@master network-scripts]</span><span class="hljs-comment"># cp -a ifcfg-ens32 ifcfg-ens32:0</span><br><span class="hljs-section">[root@master network-scripts]</span><span class="hljs-comment"># vi !$</span><br><span class="hljs-attr">TYPE</span>=<span class="hljs-string">&quot;Ethernet&quot;</span><br><span class="hljs-attr">BOOTPROTO</span>=<span class="hljs-string">&quot;static&quot;</span><br><span class="hljs-attr">DEVICE</span>=<span class="hljs-string">&quot;ens32:0&quot;</span><br><span class="hljs-attr">ONBOOT</span>=<span class="hljs-string">&quot;yes&quot;</span><br><span class="hljs-attr">IPADDR</span>=<span class="hljs-string">&quot;10.10.10.100&quot;</span><br><span class="hljs-attr">PREFIX</span>=<span class="hljs-string">&quot;24&quot;</span><br><span class="hljs-section">[root@master network-scripts]</span><span class="hljs-comment"># ifup ens32:0</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3）关闭广播功能"><a href="#3）关闭广播功能" class="headerlink" title="3）关闭广播功能"></a>3）关闭广播功能</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@master ~]</span><span class="hljs-comment"># vi /etc/sysctl.conf</span><br><span class="hljs-attr">net.ipv4.conf.all.send_redirects</span> = <span class="hljs-number">0</span><br><span class="hljs-attr">net.ipv4.conf.default.send_redirects</span> = <span class="hljs-number">0</span><br><span class="hljs-attr">net.ipv4.conf.ens32.send_redirects</span> = <span class="hljs-number">0</span><br><span class="hljs-section">[root@master ~]</span><span class="hljs-comment"># sysctl -p</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="4）安装-ipvsadm"><a href="#4）安装-ipvsadm" class="headerlink" title="4）安装 ipvsadm"></a>4）安装 <code>ipvsadm</code></h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# modprobe</span> ip_vs<br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# yum</span> -y install ipvsadm<br></code></pre></td></tr></table></figure>
+
+<h2 id="5）配置-RS1-、RS2"><a href="#5）配置-RS1-、RS2" class="headerlink" title="5）配置 RS1 、RS2"></a>5）配置 <code>RS1</code> 、<code>RS2</code></h2><p><strong><code>RS1</code></strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># yum -y install httpd</span><br>[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># systemctl start httpd</span><br>[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># systemctl enable httpd</span><br>[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># echo <span class="hljs-string">&quot;This is RS1&quot;</span> &gt; /var/www/html/index.html </span><br>[root<span class="hljs-symbol">@master3</span> ~]<span class="hljs-meta"># curl localhost</span><br>This is RS1<br></code></pre></td></tr></table></figure>
+
+<p><strong><code>RS2</code></strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@master4</span> ~]<span class="hljs-meta"># yum -y install httpd</span><br>[root<span class="hljs-symbol">@master4</span> ~]<span class="hljs-meta"># systemctl start httpd</span><br>[root<span class="hljs-symbol">@master4</span> ~]<span class="hljs-meta"># systemctl enable httpd</span><br>[root<span class="hljs-symbol">@master4</span> ~]<span class="hljs-meta"># echo <span class="hljs-string">&quot;This is RS2&quot;</span> &gt; /var/www/html/index.html</span><br>[root<span class="hljs-symbol">@master4</span> ~]<span class="hljs-meta"># curl localhost</span><br>This is RS2<br></code></pre></td></tr></table></figure>
+
+<h2 id="6）开启-RS1-、RS2-的子接口并配置通讯行为"><a href="#6）开启-RS1-、RS2-的子接口并配置通讯行为" class="headerlink" title="6）开启 RS1 、RS2 的子接口并配置通讯行为"></a>6）开启 <code>RS1</code> 、<code>RS2</code> 的子接口并配置通讯行为</h2><p><strong><code>RS1</code></strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@master3 ~]</span><span class="hljs-comment"># cd /etc/sysconfig/network-scripts/</span><br><span class="hljs-section">[root@master3 network-scripts]</span><span class="hljs-comment"># cp -a ifcfg-lo ifcfg-lo:0</span><br><span class="hljs-section">[root@master3 network-scripts]</span><span class="hljs-comment"># vi !$</span><br><span class="hljs-attr">DEVICE</span>=lo:<span class="hljs-number">0</span><br><span class="hljs-attr">IPADDR</span>=<span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br><span class="hljs-attr">NETMASK</span>=<span class="hljs-number">255.255</span>.<span class="hljs-number">255.255</span><br><span class="hljs-attr">NETWORK</span>=<span class="hljs-number">127.0</span>.<span class="hljs-number">0.0</span><br><span class="hljs-comment"># If you&#x27;re having problems with gated making 127.0.0.0/8 a martian,</span><br><span class="hljs-comment"># you can change this to something else (255.255.255.255, for example)</span><br><span class="hljs-attr">BROADCAST</span>=<span class="hljs-number">127.255</span>.<span class="hljs-number">255.255</span><br><span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span><br><span class="hljs-attr">NAME</span>=loopback<br><span class="hljs-section">[root@master3 ~]</span><span class="hljs-comment"># ifup lo:0</span><br><span class="hljs-section">[root@master3 ~]</span><span class="hljs-comment"># vi /etc/sysctl.conf</span><br><span class="hljs-attr">net.ipv4.conf.all.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.all.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-attr">net.ipv4.conf.default.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.default.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-attr">net.ipv4.conf.lo.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.lo.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-attr">net.ipv4.conf.ens32.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.ens32.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-section">[root@master3 ~]</span><span class="hljs-comment"># sysctl -p</span><br><br><span class="hljs-comment"># 添加网关并开机自启</span><br><span class="hljs-section">[root@master3 ~]</span><span class="hljs-comment"># route add -host 10.10.10.100 dev lo:0</span><br><span class="hljs-section">[root@master3 ~]</span><span class="hljs-comment"># echo &quot;route add -host 10.10.10.100 dev lo:0&quot; &gt;&gt; /etc/rc.local</span><br></code></pre></td></tr></table></figure>
+
+<p><strong><code>RS2</code></strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@master4 ~]</span><span class="hljs-comment"># cd /etc/sysconfig/network-scripts/</span><br><span class="hljs-section">[root@master4 network-scripts]</span><span class="hljs-comment"># cp -a ifcfg-lo ifcfg-lo:0</span><br><span class="hljs-section">[root@master4 network-scripts]</span><span class="hljs-comment"># vi !$</span><br><span class="hljs-attr">DEVICE</span>=lo:<span class="hljs-number">0</span><br><span class="hljs-attr">IPADDR</span>=<span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br><span class="hljs-attr">NETMASK</span>=<span class="hljs-number">255.255</span>.<span class="hljs-number">255.255</span><br><span class="hljs-attr">NETWORK</span>=<span class="hljs-number">127.0</span>.<span class="hljs-number">0.0</span><br><span class="hljs-comment"># If you&#x27;re having problems with gated making 127.0.0.0/8 a martian,</span><br><span class="hljs-comment"># you can change this to something else (255.255.255.255, for example)</span><br><span class="hljs-attr">BROADCAST</span>=<span class="hljs-number">127.255</span>.<span class="hljs-number">255.255</span><br><span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span><br><span class="hljs-attr">NAME</span>=loopback<br><span class="hljs-section">[root@master4 ~]</span><span class="hljs-comment"># ifup lo:0</span><br><span class="hljs-section">[root@master4 ~]</span><span class="hljs-comment"># vi /etc/sysctl.conf</span><br><span class="hljs-attr">net.ipv4.conf.all.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.all.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-attr">net.ipv4.conf.default.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.default.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-attr">net.ipv4.conf.lo.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.lo.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-attr">net.ipv4.conf.ens32.arp_ignore</span> = <span class="hljs-number">1</span><br><span class="hljs-attr">net.ipv4.conf.ens32.arp_announce</span> = <span class="hljs-number">2</span><br><span class="hljs-section">[root@master4 ~]</span><span class="hljs-comment"># sysctl -p</span><br><br><span class="hljs-comment"># 添加网关并开机自启</span><br><span class="hljs-section">[root@master4 ~]</span><span class="hljs-comment"># route add -host 10.10.10.100 dev lo:0</span><br><span class="hljs-section">[root@master4 ~]</span><span class="hljs-comment"># echo &quot;route add -host 10.10.10.100 dev lo:0&quot; &gt;&gt; /etc/rc.local</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="7）LVS-M-添加规则"><a href="#7）LVS-M-添加规则" class="headerlink" title="7）LVS-M 添加规则"></a>7）<code>LVS-M</code> 添加规则</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# ipvsadm</span> -A -t <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span>:<span class="hljs-number">80</span> -s rr<br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# ipvsadm</span> -a -t <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span>:<span class="hljs-number">80</span> -r <span class="hljs-number">10.10</span>.<span class="hljs-number">10.13</span>:<span class="hljs-number">80</span> -g<br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# ipvsadm</span> -a -t <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span>:<span class="hljs-number">80</span> -r <span class="hljs-number">10.10</span>.<span class="hljs-number">10.14</span>:<span class="hljs-number">80</span> -g<br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# ipvsadm</span> --save &gt;&gt; /etc/sysconfig/ipvsadm<br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# systemctl</span> <span class="hljs-literal">start</span> ipvsadm<br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# ipvsadm</span> -Ln<br>IP Virtual Server <span class="hljs-keyword">version</span> <span class="hljs-number">1.2</span>.<span class="hljs-number">1</span> (<span class="hljs-attr">size=</span><span class="hljs-number">4096</span>)<br>Prot LocalAddress:Port Scheduler Flags<br>  -&gt; RemoteAddress:Port           Forward Weight ActiveConn InActConn<br>TCP  <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span>:<span class="hljs-number">80</span> rr<br>  -&gt; <span class="hljs-number">10.10</span>.<span class="hljs-number">10.13</span>:<span class="hljs-number">80</span>               Route   <span class="hljs-number">1</span>      <span class="hljs-number">0</span>          <span class="hljs-number">0</span>         <br>  -&gt; <span class="hljs-number">10.10</span>.<span class="hljs-number">10.14</span>:<span class="hljs-number">80</span>               Route   <span class="hljs-number">1</span>      <span class="hljs-number">0</span>          <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在浏览器访问虚拟 <code>IP 10.10.10.100</code> </p>
+</blockquote>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@master ~]<span class="hljs-comment"># ipvsadm -Ln --stats</span><br>IP Virtual Server version 1.2.1 (size=4096)<br>Prot LocalAddress:Port               Conns   InPkts  OutPkts  InBytes OutBytes<br>  -&gt; RemoteAddress:Port<br>TCP  10.10.10.100:80                    <span class="hljs-number"> 4 </span>     <span class="hljs-number"> 50 </span>      <span class="hljs-number"> 0 </span>  <span class="hljs-number"> 11779 </span>       0<br>  -&gt; 10.10.10.13:80                     <span class="hljs-number"> 2 </span>     <span class="hljs-number"> 16 </span>      <span class="hljs-number"> 0 </span>   <span class="hljs-number"> 3369 </span>       0<br>  -&gt; 10.10.10.14:80                     <span class="hljs-number"> 2 </span>     <span class="hljs-number"> 34 </span>      <span class="hljs-number"> 0 </span>   <span class="hljs-number"> 8410 </span>       0<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="二、keepalived-构建"><a href="#二、keepalived-构建" class="headerlink" title="二、keepalived 构建"></a>二、<code>keepalived</code> 构建</h1><blockquote>
+<p> <strong>软件：</strong><code>keepalived-2.2.2.tar.gz</code></p>
+<p><strong>配置主机：</strong> <code>LVS-M</code> 、<code>LVS-S</code></p>
+<p><strong>因为源码安装所以需要一些依赖：</strong></p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# yum</span> -y install kernel-devel openssl-devel popt-devel gcc*<br></code></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="1）构建-LVS-M-的-keepalived"><a href="#1）构建-LVS-M-的-keepalived" class="headerlink" title="1）构建 LVS-M 的 keepalived"></a>1）构建 <code>LVS-M</code> 的 <code>keepalived</code></h2><h3 id="1-解压-keepalived-包并编译安装"><a href="#1-解压-keepalived-包并编译安装" class="headerlink" title="1. 解压 keepalived 包并编译安装"></a>1. 解压 <code>keepalived</code> 包并编译安装</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@<span class="hljs-keyword">master</span> <span class="hljs-title">download</span>]<span class="hljs-comment"># tar -xf keepalived-2.2.2.tar.gz -C /usr/local/</span><br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">download</span>]<span class="hljs-comment"># cd /usr/local/</span><br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">local</span>]<span class="hljs-comment"># mv keepalived-2.2.2/ keepalived</span><br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">local</span>]<span class="hljs-comment"># cd keepalived/</span><br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">keepalived</span>]<span class="hljs-comment"># ./configure</span><br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">keepalived</span>]<span class="hljs-comment"># make &amp;&amp; make install</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-拷贝启动脚本并设为开机自启"><a href="#2-拷贝启动脚本并设为开机自启" class="headerlink" title="2. 拷贝启动脚本并设为开机自启"></a>2. 拷贝启动脚本并设为开机自启</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs gradle"># 将配置文件放到默认路径下：<br>mkdir <span class="hljs-regexp">/etc/</span>keepalived<br>[root@master keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/keepalived/</span>keepalived<span class="hljs-regexp">/etc/</span>keepalived<span class="hljs-regexp">/keepalived.conf /</span>etc<span class="hljs-regexp">/keepalived/</span><br># 将keepalived启动脚本（源码目录下），放到<span class="hljs-regexp">/etc/i</span>nit.d/目录下：<br>[root@master keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/keepalived/</span>keepalived<span class="hljs-regexp">/etc/i</span>nit.d<span class="hljs-regexp">/keepalived  /</span>etc<span class="hljs-regexp">/rc.d/i</span>nit.d/<br># 将keepalived启动脚本变量引用文件放到<span class="hljs-regexp">/etc/</span>sysconfig/目录下：<br>[root@master keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/keepalived/</span>keepalived<span class="hljs-regexp">/etc/</span>sysconfig<span class="hljs-regexp">/keepalived  /</span>etc<span class="hljs-regexp">/sysconfig/</span><br># 将keepalived主程序加入到环境变量<span class="hljs-regexp">/usr/</span>sbin/目录下：<br>[root@master keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/sbin/</span>keepalived  <span class="hljs-regexp">/usr/</span>sbin/<br>[root@master keepalived]# systemctl enable keepalived<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-配置-keepalived-文件"><a href="#3-配置-keepalived-文件" class="headerlink" title="3. 配置 keepalived 文件"></a>3. 配置 <code>keepalived</code> 文件</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@<span class="hljs-keyword">master</span> <span class="hljs-title">etc</span>]<span class="hljs-comment"># cd /etc/keepalived/</span><br>! Configuration File for keepalived<br>global_defs &#123;<br>   <span class="hljs-comment"># 主机名，同一个组的名称不能一致</span><br>   router_id R1 <br>&#125;<br>vrrp_instance VI_1 &#123;<br>    <span class="hljs-comment"># 设置当前服务的状态，是主还是从</span><br>    state <span class="hljs-literal">MASTER</span><br>    <span class="hljs-comment"># 通过哪块网卡进行心跳检测</span><br>    interface ens32<br>    <span class="hljs-comment"># 只有在同一个组里，它才是同一个高可用环境；master1与master4 id是一样的</span><br>    virtual_router_id <span class="hljs-number">66</span><br>    <span class="hljs-comment"># 主和从中间最好差50，优先级，数值越大，获取处理请求的优先级越高</span><br>    priority <span class="hljs-number">80</span><br>    <span class="hljs-comment"># 检测间隔为1秒</span><br>    advert_int <span class="hljs-number">1</span><br>    <span class="hljs-comment"># 主和从进行身份认证，密码为1111</span><br>    authentication &#123;<br>        auth_type PASS<br>        auth_pass <span class="hljs-number">1111</span><br>    &#125;<br>    virtual_ipaddress &#123;<br>    	<span class="hljs-comment"># 集群的IP地址</span><br>        <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>    &#125;<br>&#125;<br><span class="hljs-comment"># 集群IP Port</span><br>virtual_server <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span> <span class="hljs-number">80</span> &#123;<br>    <span class="hljs-comment"># 检测循环的次数</span><br>    delay_loop <span class="hljs-number">6</span><br>    <span class="hljs-comment"># 当前使用的算法</span><br>    lb_algo rr<br>    <span class="hljs-comment"># 当前的模式</span><br>    lb_kind DR<br>    persistence_timeout <span class="hljs-number">50</span><br>    <span class="hljs-comment"># 检测方案为tcp协议检测</span><br>    protocol TCP<br>    	<span class="hljs-comment"># 真实服务器IP Port</span><br>        real_server <span class="hljs-number">10.10</span>.<span class="hljs-number">10.13</span> <span class="hljs-number">80</span> &#123;<br>        <span class="hljs-comment"># 权重</span><br>        weight <span class="hljs-number">1</span><br>        <span class="hljs-comment"># TCP检测方案</span><br>        TCP_CHECK &#123;<br>        	<span class="hljs-comment"># 检测的端口为80</span><br>            connect_port <span class="hljs-number">80</span><br>            <span class="hljs-comment"># 超时时间3秒</span><br>            connect_timeout <span class="hljs-number">3</span><br>            <span class="hljs-comment"># 重连次数</span><br>            nb_get_retry <span class="hljs-number">3</span><br>            <span class="hljs-comment"># 重连间隔时间</span><br>            delay_before_retry <span class="hljs-number">3</span><br>        &#125;<br>    &#125;<br>        real_server <span class="hljs-number">10.10</span>.<span class="hljs-number">10.14</span> <span class="hljs-number">80</span> &#123;<br>        weight <span class="hljs-number">1</span><br>          TCP_CHECK &#123;<br>            connect_port <span class="hljs-number">80</span><br>            connect_timeout <span class="hljs-number">3</span><br>            nb_get_retry <span class="hljs-number">3</span><br>            delay_before_retry <span class="hljs-number">3</span><br>        &#125;<br>    &#125;<br>&#125;<br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">keepalived</span>]<span class="hljs-comment"># systemctl start keepalived</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-查看日志文件"><a href="#4-查看日志文件" class="headerlink" title="4. 查看日志文件"></a>4. 查看日志文件</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">[root@<span class="hljs-keyword">master</span> <span class="hljs-title">keepalived</span>]<span class="hljs-comment"># tailf /var/log/messages</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">12</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: Sending gratuitous ARP on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">12</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: Sending gratuitous ARP on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">14</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_healthcheckers</span>[<span class="hljs-number">80874</span>]: TCP connection to [<span class="hljs-number">10.10</span>.<span class="hljs-number">10.14</span>]:tcp:<span class="hljs-number">80</span> success.<br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">14</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_healthcheckers</span>[<span class="hljs-number">80874</span>]: TCP connection to [<span class="hljs-number">10.10</span>.<span class="hljs-number">10.13</span>]:tcp:<span class="hljs-number">80</span> success.<br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">17</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: (VI_1) Sending/queueing gratuitous ARPs on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">17</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: Sending gratuitous ARP on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">17</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: Sending gratuitous ARP on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">17</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: Sending gratuitous ARP on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">17</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: Sending gratuitous ARP on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>Apr <span class="hljs-number">14</span> <span class="hljs-number">16</span>:<span class="hljs-number">44</span>:<span class="hljs-number">17</span> <span class="hljs-keyword">master</span> <span class="hljs-title">Keepalived_vrrp</span>[<span class="hljs-number">80875</span>]: Sending gratuitous ARP on ens32 for <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2）构建-LVS-S-的-keepalived"><a href="#2）构建-LVS-S-的-keepalived" class="headerlink" title="2）构建 LVS-S 的 keepalived"></a>2）构建 <code>LVS-S</code> 的 <code>keepalived</code></h2><blockquote>
+<p><strong>关闭守护进程</strong></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@master2</span> ~]<span class="hljs-meta"># systemctl stop NetworkManager &amp;&amp; systemctl disable NetworkManager</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>开启子接口</strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@master2 ~]</span><span class="hljs-comment"># cd /etc/sysconfig/network-scripts/</span><br><span class="hljs-section">[root@master2 network-scripts]</span><span class="hljs-comment"># cp -a ifcfg-ens32 ifcfg-ens32:0</span><br><span class="hljs-section">[root@master2 network-scripts]</span><span class="hljs-comment"># vi !$</span><br><span class="hljs-attr">BOOTPROTO</span>=<span class="hljs-string">&quot;static&quot;</span><br><span class="hljs-attr">DEVICE</span>=ens32:<span class="hljs-number">0</span><br><span class="hljs-attr">ONBOOT</span>=<span class="hljs-literal">yes</span><br><span class="hljs-attr">IPADDR</span>=<span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br><span class="hljs-attr">PREFIX</span>=<span class="hljs-number">24</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs subunit"># 发现开启子接口错误，原因在这个网段内有了这个IP地址<br>[root@master2 network-scripts]# ifup ens32:0<br><span class="hljs-keyword">ERROR     </span>: [/etc/sysconfig/network-scripts/ifup-eth] Error, some other host (00:0C:29:FB:B2:D0) already uses address 10.10.10.100.<br></code></pre></td></tr></table></figure>
+
+<p><strong>配置 <code>ifup-eth</code> 的相关文件，使之能够拥有 <code>10.10.10.100</code> 这个 <code>IP</code></strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs routeros">[root@master2 network-scripts]# vi ifup-eth<br><span class="hljs-comment"># 注释此行内容</span><br>274                # <span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;REALDEVICE&#125;</span>&quot;</span> != <span class="hljs-string">&quot;lo&quot;</span> ] &amp;&amp; [ <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;arpcheck[$idx]&#125;</span>&quot;</span> != <span class="hljs-string">&quot;no&quot;</span> ] ; then<br>275                #     <span class="hljs-attribute">ARPING</span>=$(/sbin/arping -c 2 -w <span class="hljs-variable">$&#123;ARPING_WAIT:-3&#125;</span> -D -I <span class="hljs-variable">$&#123;REALDEVICE&#125;</span> <span class="hljs-variable">$&#123;ipaddr[$idx]&#125;</span>)<br>276                #     <span class="hljs-keyword">if</span> [ $? = 1 ]; then<br>277                #         <span class="hljs-attribute">ARPINGMAC</span>=$(echo <span class="hljs-variable">$ARPING</span> |  sed -ne <span class="hljs-string">&#x27;s/.*\[\(.*\)\].*/\1/p&#x27;</span>)<br>278                #         net_log $<span class="hljs-string">&quot;Error, some other host (<span class="hljs-variable">$ARPINGMAC</span>) already uses address <span class="hljs-variable">$&#123;ipaddr[$idx]&#125;</span>.&quot;</span><br>279                #         exit 1<br>280                #     fi<br>281                # fi<br></code></pre></td></tr></table></figure>
+
+<p><strong>查看是否有 <code>10.10.10.100</code> 这个 <code>IP</code> 地址</strong></p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">[root<span class="hljs-meta">@master2</span> network-scripts]<span class="hljs-comment"># ifup ens32:0</span><br>[root<span class="hljs-meta">@master2</span> network-scripts]<span class="hljs-comment"># ifconfig</span><br>ens32:0: flags=4163<span class="hljs-variable">&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span>  mtu 1500<br>        inet 10.10.10.100  netmask 255.255.255.0  broadcast 10.10.10.255<br>        ether 00:0c:29:7d:a4:75  txqueuelen 1000  (Ethernet)<br></code></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="1-解压-keepalived-包并编译安装-1"><a href="#1-解压-keepalived-包并编译安装-1" class="headerlink" title="1. 解压 keepalived 包并编译安装"></a>1. 解压 <code>keepalived</code> 包并编译安装</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@master2</span> ~]<span class="hljs-meta"># yum -y install kernel-devel openssl-devel popt-devel gcc*</span><br>[root<span class="hljs-symbol">@master2</span> download]<span class="hljs-meta"># tar -xf keepalived-2.2.2.tar.gz  -C /usr/local/</span><br>[root<span class="hljs-symbol">@master2</span> download]<span class="hljs-meta"># cd /usr/local/</span><br>[root<span class="hljs-symbol">@master2</span> <span class="hljs-keyword">local</span>]<span class="hljs-meta"># mv keepalived-2.2.2/ keepalived</span><br>[root<span class="hljs-symbol">@master2</span> keepalived]<span class="hljs-meta"># ./configure</span><br>[root<span class="hljs-symbol">@master2</span> keepalived]<span class="hljs-meta"># make &amp;&amp; make install</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-拷贝启动脚本并设为开机自启-1"><a href="#2-拷贝启动脚本并设为开机自启-1" class="headerlink" title="2. 拷贝启动脚本并设为开机自启"></a>2. 拷贝启动脚本并设为开机自启</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs gradle"># 将配置文件放到默认路径下：<br>mkdir <span class="hljs-regexp">/etc/</span>keepalived<br>[root@master2 keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/keepalived/</span>keepalived<span class="hljs-regexp">/etc/</span>keepalived<span class="hljs-regexp">/keepalived.conf /</span>etc<span class="hljs-regexp">/keepalived/</span><br># 将keepalived启动脚本（源码目录下），放到<span class="hljs-regexp">/etc/i</span>nit.d/目录下：<br>[root@master2 keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/keepalived/</span>keepalived<span class="hljs-regexp">/etc/i</span>nit.d<span class="hljs-regexp">/keepalived  /</span>etc<span class="hljs-regexp">/rc.d/i</span>nit.d/<br># 将keepalived启动脚本变量引用文件放到<span class="hljs-regexp">/etc/</span>sysconfig/目录下：<br>[root@master2 keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/keepalived/</span>keepalived<span class="hljs-regexp">/etc/</span>sysconfig<span class="hljs-regexp">/keepalived  /</span>etc<span class="hljs-regexp">/sysconfig/</span><br># 将keepalived主程序加入到环境变量<span class="hljs-regexp">/usr/</span>sbin/目录下：<br>[root@master2 keepalived]# cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/sbin/</span>keepalived  <span class="hljs-regexp">/usr/</span>sbin/<br>[root@master2 keepalived]# systemctl enable keepalived<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-配置-keepalived-文件-1"><a href="#3-配置-keepalived-文件-1" class="headerlink" title="3. 配置 keepalived 文件"></a>3. 配置 <code>keepalived</code> 文件</h3><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs puppet">[root@master2 etc]<span class="hljs-comment"># cd /etc/keepalived/</span><br>[root@master2 keepalived]<span class="hljs-comment"># vi keepalived.conf</span><br>! Configuration File for keepalived<br><span class="hljs-keyword">global_defs</span> &#123;<br>   <span class="hljs-comment"># 主机名，同一个组的名称不能一致</span><br>   router_id R2<br>&#125;<br><span class="hljs-keyword">vrrp_instance</span> <span class="hljs-keyword">VI_1</span> &#123;<br>    <span class="hljs-comment"># 设置当前服务的状态，是主还是从</span><br>    state SLAVE<br>    <span class="hljs-comment"># 通过哪块网卡进行心跳检测</span><br>    interface ens32<br>    <span class="hljs-comment"># 只有在同一个组里，它才是同一个高可用环境；master1与master4 id是一样的</span><br>    virtual_router_id <span class="hljs-number">66</span><br>    <span class="hljs-comment"># 主和从中间最好差50，优先级，数值越大，获取处理请求的优先级越高</span><br>    <span class="hljs-literal">priority</span> <span class="hljs-number">20</span><br>    <span class="hljs-comment"># 检测间隔为1秒</span><br>    advert_int <span class="hljs-number">1</span><br>    <span class="hljs-comment"># 主和从进行身份认证，密码为1111</span><br>    authentication &#123;<br>        <span class="hljs-literal">auth_type</span> PASS<br>        auth_pass <span class="hljs-number">1111</span><br>    &#125;<br>    <span class="hljs-keyword">virtual_ipaddress</span> &#123;<br>    	<span class="hljs-comment"># 集群的IP地址</span><br>        <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><br>    &#125;<br>&#125;<br><span class="hljs-comment"># 集群IP Port</span><br>virtual_server 10.10.10.100 80 &#123;<br>    <span class="hljs-comment"># 检测循环的次数</span><br>    delay_loop 6<br>    <span class="hljs-comment"># 当前使用的算法</span><br>    lb_algo rr<br>    <span class="hljs-comment"># 当前的模式</span><br>    lb_kind DR<br>    persistence_timeout 50<br>    <span class="hljs-comment"># 检测方案为tcp协议检测</span><br>    protocol TCP<br>    	<span class="hljs-comment"># 真实服务器IP Port</span><br>        real_server 10.10.10.13 80 &#123;<br>        <span class="hljs-comment"># 权重</span><br>        weight 1<br>        <span class="hljs-comment"># TCP检测方案</span><br>        <span class="hljs-keyword">TCP_CHECK</span> &#123;<br>        	<span class="hljs-comment"># 检测的端口为80</span><br>            connect_port <span class="hljs-number">80</span><br>            <span class="hljs-comment"># 超时时间3秒</span><br>            connect_timeout <span class="hljs-number">3</span><br>            <span class="hljs-comment"># 重连次数</span><br>            nb_get_retry <span class="hljs-number">3</span><br>            <span class="hljs-comment"># 重连间隔时间</span><br>            delay_before_retry <span class="hljs-number">3</span><br>        &#125;<br>    &#125;<br>        real_server 10.10.10.14 80 &#123;<br>        weight 1<br>          <span class="hljs-keyword">TCP_CHECK</span> &#123;<br>            connect_port <span class="hljs-number">80</span><br>            connect_timeout <span class="hljs-number">3</span><br>            nb_get_retry <span class="hljs-number">3</span><br>            delay_before_retry <span class="hljs-number">3</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-安装-ipvsadm-并配置相关文件"><a href="#4-安装-ipvsadm-并配置相关文件" class="headerlink" title="4. 安装 ipvsadm 并配置相关文件"></a>4. 安装 <code>ipvsadm</code> 并配置相关文件</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@master2 ~]</span><span class="hljs-comment"># yum -y install ipvsadm</span><br><span class="hljs-comment"># 关闭广播功能</span><br><span class="hljs-section">[root@master2 ~]</span><span class="hljs-comment"># vi /etc/sysctl.conf</span><br><span class="hljs-attr">net.ipv4.conf.all.send_redirects</span> = <span class="hljs-number">0</span><br><span class="hljs-attr">net.ipv4.conf.default.send_redirects</span> = <span class="hljs-number">0</span><br><span class="hljs-attr">net.ipv4.conf.ens32.send_redirects</span> = <span class="hljs-number">0</span><br><span class="hljs-section">[root@master2 ~]</span><span class="hljs-comment"># sysctl -p</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-启动-keepalived"><a href="#5-启动-keepalived" class="headerlink" title="5. 启动 keepalived"></a>5. 启动 <code>keepalived</code></h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[root<span class="hljs-variable">@master2</span> ~]<span class="hljs-comment"># systemctl start keepalived.service </span><br>[root<span class="hljs-variable">@master2</span> ~]<span class="hljs-comment"># ipvsadm -Ln</span><br>IP Virtual Server version <span class="hljs-number">1.2</span>.<span class="hljs-number">1</span> (size=<span class="hljs-number">4096</span>)<br>Prot <span class="hljs-symbol">LocalAddress:</span>Port Scheduler Flags<br>  -&gt; <span class="hljs-symbol">RemoteAddress:</span>Port           Forward Weight ActiveConn InActConn<br>TCP  <span class="hljs-number">10.10</span>.<span class="hljs-number">10.100</span><span class="hljs-symbol">:</span><span class="hljs-number">80</span> rr persistent <span class="hljs-number">50</span><br>  -&gt; <span class="hljs-number">10.10</span>.<span class="hljs-number">10.13</span><span class="hljs-symbol">:</span><span class="hljs-number">80</span>               Route   <span class="hljs-number">1</span>      0          0         <br>  -&gt; <span class="hljs-number">10.10</span>.<span class="hljs-number">10.14</span><span class="hljs-symbol">:</span><span class="hljs-number">80</span>               Route   <span class="hljs-number">1</span>      0          0<br></code></pre></td></tr></table></figure>
+
+<p><strong>测试：</strong>关闭 <code>RS2</code> 的 <code>APACHE</code> 服务，再开启。</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@master4 network-scripts]<span class="hljs-comment"># systemctl stop httpd</span><br><span class="hljs-comment"># 浏览器访问，查看LVS-M/LVS-S</span><br>[root@master keepalived]<span class="hljs-comment"># ipvsadm -Ln --stats</span><br>IP Virtual Server version 1.2.1 (size=4096)<br>Prot LocalAddress:Port               Conns   InPkts  OutPkts  InBytes OutBytes<br>  -&gt; RemoteAddress:Port<br>TCP  10.10.10.100:80                    <span class="hljs-number"> 6 </span>     <span class="hljs-number"> 70 </span>      <span class="hljs-number"> 0 </span>  <span class="hljs-number"> 15856 </span>       0<br>  -&gt; 10.10.10.13:80                     <span class="hljs-number"> 1 </span>     <span class="hljs-number"> 10 </span>      <span class="hljs-number"> 0 </span>   <span class="hljs-number"> 2576 </span>       0<br><br>[root@master4 network-scripts]<span class="hljs-comment"># systemctl start  httpd</span><br>[root@master keepalived]<span class="hljs-comment"># ipvsadm -Ln --stats</span><br>IP Virtual Server version 1.2.1 (size=4096)<br>Prot LocalAddress:Port               Conns   InPkts  OutPkts  InBytes OutBytes<br>  -&gt; RemoteAddress:Port<br>TCP  10.10.10.100:80                    <span class="hljs-number"> 7 </span>     <span class="hljs-number"> 84 </span>      <span class="hljs-number"> 0 </span>  <span class="hljs-number"> 18592 </span>       0<br>  -&gt; 10.10.10.13:80                     <span class="hljs-number"> 2 </span>     <span class="hljs-number"> 24 </span>      <span class="hljs-number"> 0 </span>   <span class="hljs-number"> 5312 </span>       0<br>  -&gt; 10.10.10.14:80                     <span class="hljs-number"> 5 </span>     <span class="hljs-number"> 60 </span>      <span class="hljs-number"> 0 </span>  <span class="hljs-number"> 13280 </span>       0<br></code></pre></td></tr></table></figure>
+
+<p><strong>测试：</strong>关闭 <code>LVS-M</code> 进行测试是否可以访问</p>
+<p><img src="http://butatree.site:8888/images/2021/04/14/LVS_DR-Keepalived-test1.png" srcset="/img/loading.gif"></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@master2 keepalived]<span class="hljs-comment"># ipvsadm -Ln --stats</span><br>IP Virtual Server version 1.2.1 (size=4096)<br>Prot LocalAddress:Port               Conns   InPkts  OutPkts  InBytes OutBytes<br>  -&gt; RemoteAddress:Port<br>TCP  10.10.10.100:80                    <span class="hljs-number"> 2 </span>     <span class="hljs-number"> 24 </span>      <span class="hljs-number"> 0 </span>   <span class="hljs-number"> 5865 </span>       0<br>  -&gt; 10.10.10.13:80                     <span class="hljs-number"> 0 </span>      <span class="hljs-number"> 0 </span>      <span class="hljs-number"> 0 </span>      <span class="hljs-number"> 0 </span>       0<br>  -&gt; 10.10.10.14:80                     <span class="hljs-number"> 2 </span>     <span class="hljs-number"> 24 </span>      <span class="hljs-number"> 0 </span>   <span class="hljs-number"> 5865 </span>       0<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/LVS/">LVS</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LVS/">LVS</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/c5f1e618/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux-sudo</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/d9d032ee/">
+                        <span class="hidden-mobile">Linux-LVS(贰)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "Mwdu7VOQpQQD3cKW6SsRSt4f-gzGzoHsz",
+          app_key: "XAg4RThXdR3JX0BNAF0axveE",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "mp",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            <b>"总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次"</b>
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            <b>"总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人"</b>
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        豫ICP备2021006301号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
