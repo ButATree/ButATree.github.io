@@ -220,7 +220,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3k 字
+      3.2k 字
     </span>
   
 
@@ -230,7 +230,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      40
+      43
        分钟
     </span>
   
@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2021年3月25日 晚上
+                  本文最后更新于：2021年5月1日 下午
                 
               </p>
             
@@ -380,8 +380,25 @@
 <h2 id="2）创建-vsftpd-服务程序系统本地用户"><a href="#2）创建-vsftpd-服务程序系统本地用户" class="headerlink" title="2）创建 vsftpd 服务程序系统本地用户"></a>2）创建 <code>vsftpd</code> 服务程序系统本地用户</h2><blockquote>
 <p>创建 <code>vsftpd</code> 服务程序用于存储文件的根目录以及虚拟用户映射的系统本地用户</p>
 </blockquote>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@a vsftpd]# useradd -d <span class="hljs-regexp">/var/</span>vftp -s <span class="hljs-regexp">/sbin/</span>nologin vftp<br></code></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@a vsftpd]# useradd -d <span class="hljs-regexp">/var/</span>vftp -s <span class="hljs-regexp">/sbin/</span>nologin vftp<br>[root@a vsftpd]# chmod -Rf <span class="hljs-number">755</span> <span class="hljs-regexp">/var/</span>vftp<br></code></pre></td></tr></table></figure>
 
+<blockquote>
+<p>关于 <code>chroot</code>：</p>
+<ol>
+<li><p><code>chroot_local_user</code></p>
+</li>
+<li><p><code>chroot_list_enable</code></p>
+</li>
+<li><p><code>chroot_list_file</code></p>
+</li>
+</ol>
+<p>可以通过如下两种方法来设置 <code>chroot</code> ，从而杜绝上述不安全的情况发生：</p>
+<p>（1）设置所有的本地用户执行 <code>chroot</code>，只要将 <code>/etc/vsftpd/vsftpd.conf</code> 文件中的 <code>chroot_local_ user</code> 值置为 <code>YES</code> ，即       <code>chroot_local_user=YES</code>。</p>
+<p>（2）设置指定的用户执行 <code>chroot</code>，按照如下方法进行设置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">chroot_local_user</span>=<span class="hljs-literal">NO</span><br><span class="hljs-attr">chroot_list_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attr">chroot_list_file</span>=/etc/vsftpd.chroot_list<br></code></pre></td></tr></table></figure>
+
+<p>设置后，只有 <code>/etc/vsftpd.chroot_list</code> 文件中指定的用户才能够执行 <code>chroot</code> 命令。</p>
+</blockquote>
 <h2 id="3）设定策略文件"><a href="#3）设定策略文件" class="headerlink" title="3）设定策略文件"></a>3）设定策略文件</h2><blockquote>
 <p>进入 <code>/etc/pam.d/</code> 新建文件 <code>vmusersfile</code>（名字任意）写入 <code>pam</code> 服务的配置，<code>pam</code> 就是一种认证服务</p>
 </blockquote>
@@ -390,7 +407,7 @@
 <h2 id="4）修改配置"><a href="#4）修改配置" class="headerlink" title="4）修改配置"></a>4）修改配置</h2><blockquote>
 <p>在 <code>vsftpd.conf</code> 中修改 <code>vstpd</code> 服务的配置</p>
 </blockquote>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-attribute">anonymous_enable</span>=<span class="hljs-literal">NO</span> <br><span class="hljs-attribute">local_enable</span>=<span class="hljs-literal">YES</span>    <br><span class="hljs-attribute">guest_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">guest_username</span>=vftp<br><span class="hljs-attribute">pam_service_name</span>=vftp.vu  #存放pam服务的策略文件<br><span class="hljs-attribute">allow_writeable_chroot</span>=<span class="hljs-literal">YES</span> #允许对禁锢的FTP根目录执行写入操作，而且不拒绝用户的登录请求<br><br><span class="hljs-comment"># 创建虚拟用户目录</span><br>mkdir /etc/vsftpd/vuser_dir<br><span class="hljs-attribute">user_config_dir</span>=/etc/vsftpd/vuser_dir<br></code></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-attribute">anonymous_enable</span>=<span class="hljs-literal">NO</span> <br><span class="hljs-attribute">local_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">write_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">local_umask</span>=022<br><br><span class="hljs-attribute">chroot_list_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">guest_enable</span>=<span class="hljs-literal">YES</span> #表示是否开启vsftpd虚拟用户的功能，<span class="hljs-literal">yes</span>表示开启，<span class="hljs-literal">no</span>表示不开启。<br><span class="hljs-attribute">guest_username</span>=vftp<br><span class="hljs-attribute">user_config_dir</span>=/etc/vsftpd/vuser_dir  #指定每个虚拟用户账号配置目录<br><br><span class="hljs-attribute">chroot_local_user</span>=<span class="hljs-literal">NO</span><br><span class="hljs-attribute">chroot_list_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">chroot_list_file</span>=/etc/vsftpd.chroot_list<br><br><span class="hljs-attribute">dirmessage_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">xferlog_enable</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">connect_from_port_20</span>=<span class="hljs-literal">YES</span><br><br><span class="hljs-attribute">chown_uploads</span>=<span class="hljs-literal">YES</span><br><span class="hljs-attribute">chown_username</span>=vftp<br><span class="hljs-attribute">xferlog_std_format</span>=<span class="hljs-literal">YES</span><br><br><span class="hljs-attribute">ftpd_banner</span>=Welcome <span class="hljs-keyword">to</span> ButATree FTP service.<br><span class="hljs-attribute">pam_service_name</span>=vftp  #设置PAM使用的名称,该名称就是/etc/pam.d/目录下vsfptd文件的文件名，在配置文件最后面<br><span class="hljs-attribute">allow_writeable_chroot</span>=<span class="hljs-literal">YES</span> #允许对禁锢的FTP根目录执行写入操作，而且不拒绝用户的登录请求<br><span class="hljs-attribute">userlist_enable</span>=<span class="hljs-literal">YES</span><br><br><br><span class="hljs-comment"># 创建虚拟用户目录</span><br>mkdir /etc/vsftpd/vuser_dir<br><span class="hljs-attribute">user_config_dir</span>=/etc/vsftpd/vuser_dir<br><br></code></pre></td></tr></table></figure>
 
 <h5>在指定的文件夹下创建虚拟用户配置文件：</h5>
 
