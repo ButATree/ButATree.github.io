@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="ButATree">
+  <meta name="keywords" content="">
+  <title>Linux-Crontab - ButATree&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"butatree.site","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>ButATree</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-notebook"></i>
+                关于
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/about/">
+                    <i class="iconfont icon-user-fill"></i>
+                    个人
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" target="_blank" rel="noopener" href="https://download.butatree.site">
+                    
+                    下载
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                相关链接
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/4l2p20.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux-Crontab">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      ButATree
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-05-15 14:20" pubdate>
+        2021年5月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      74
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux-Crontab</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2021年5月15日 下午
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="一、什么是定时工作调度"><a href="#一、什么是定时工作调度" class="headerlink" title="一、什么是定时工作调度"></a>一、什么是定时工作调度</h1><p>​    比如：上下班的打开、每周的工作报告…</p>
+<p>​    那么 <code>Linux</code> 的例行性工作是如何进行调度的呢？所谓的调度就是将这些工作安排执行的流程之意！ 咱们的 <code>Linux</code> 调度就是通过 <code>crontab</code> 与 <code>at</code> 这两个命令！</p>
+<h2 id="1-Linux-工作调度的种类：at、cron"><a href="#1-Linux-工作调度的种类：at、cron" class="headerlink" title="1. Linux 工作调度的种类：at、cron"></a>1. <code>Linux</code> 工作调度的种类：<code>at</code>、<code>cron</code></h2><ul>
+<li>一种是突发性，只有工作一次。</li>
+<li>一种是例行性，按照周期进行工作。</li>
+</ul>
+<p><code>at</code> ：<code>at</code> 是个可以处理仅执行一次就结束调度的指令，不过要执行 <code>at</code> 时， 必须要有 <code>atd</code> 这 个服务的支持才行。</p>
+<p><code>crontab</code> ：<code>crontab</code> 这个指令所设置的工作将会循环的一直进行下去！ 可循环的时间为 分 钟、小时、每周、每月或每年等。<code>crontab</code> 除了可以使用指令执行外，也可编辑 <code>/etc/crontab</code> 来支持。至于让 <code>crontab</code> 可以生效的服务则是 <code>crond</code> 这个服务。</p>
+<h2 id="2-Linux-系统上常见的定时工作"><a href="#2-Linux-系统上常见的定时工作" class="headerlink" title="2. Linux 系统上常见的定时工作"></a>2. Linux 系统上常见的定时工作</h2><p>​    比如：线上更新、自动更新、更新文件名数据库…</p>
+<p>​    基本上 <code>Linux</code> 系统常见的定时任务有：</p>
+<ul>
+<li><strong>登录文件的轮替（<code>log rotate</code>）</strong>： <code>Linux</code> 会主动的将系统所发生的各种信息都记录下来，这就是登录文件。 由于系统会一直记录登录信息，所以登录文件将会越来越大！我们知道大型文件不但占容量还会造成读写性能的困扰， 因此适时的将登录文件数据挪一挪，让旧的数据与新的数据分别存放，则比较可以有效的记录登录信息。 这就是<code> log rotate</code> 的任务！这也是系统必要的例行任务；</li>
+<li><strong>登录文件分析 <code>logwatch</code> 的任务</strong>： 如果系统发生了软件问题、硬件错误、资源安全问题等，绝大部分的错误信息都会被记录到登录文件中， 因此系统管理员的重要任务之一就是分析登录文件。但你不可能手动通过 <code>vim</code> 等软件去检视登录文件，因为数据太复杂了！<code>CentOS</code> 提供了一只程序 <code>“ logwatch ”</code> 来主动分析登录信息，所以你会发现，你的 <code>root</code> 老是会收到标题为 <code>logwatch</code> 的信件，那是正常的！你最好也能够看看该信件的内容！</li>
+<li><strong>创建 <code>locate</code> 的数据库</strong>：<code>locate</code> 指令：该指令是通过已经存在的文件名数据库来进行系统上文件名的查询。我们的文件名数据库是放置到 <code>/var/lib/mlocate/</code> 中。 问题是，这个数据库怎么会自动更新？这就是系统的定时工作所产生的效果，系统会主动的进行 <code>updatedb</code> ！</li>
+<li><strong><code>man page</code> 查询数据库的创建</strong>： 与 <code>locate</code> 数据库类似的，可提供快速查询的 <code>man page db</code> 也是个数据库，但如果要使用 <code>man page</code> 数据库时，就得要执行 <code>mandb</code> 才能够创建好啊！ 而这个 <code>man page</code> 数据库也是通过系统的定时工作调度来自动执行的！</li>
+<li>…</li>
+</ul>
+<h2 id="3、at"><a href="#3、at" class="headerlink" title="3、at"></a>3、<code>at</code></h2><blockquote>
+<p><code>at</code> 是个可以处理仅执行一次就结束调度的指令</p>
+</blockquote>
+<h3 id="1）-atd-的启动与-at-运行的方式"><a href="#1）-atd-的启动与-at-运行的方式" class="headerlink" title="1）. atd 的启动与 at 运行的方式"></a>1）. <code>atd</code> 的启动与 <code>at</code> 运行的方式</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@localhost ~]<span class="hljs-comment"># systemctl restart atd </span><br>[root@localhost ~]<span class="hljs-comment"># systemctl enable atd </span><br>[root@localhost ~]<span class="hljs-comment"># systemctl status atd  </span><br>atd.service - Job spooling tools<br>Loaded: loaded （<span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/systemd/</span>system/atd.service; enabled） <span class="hljs-comment"># 是否开机启动</span><br>Active: active （running） since Fri <span class="hljs-number">2021</span>-<span class="hljs-number">05</span>-<span class="hljs-number">14</span> <span class="hljs-number">04</span>:<span class="hljs-number">43</span>:<span class="hljs-number">22</span> EDT; <span class="hljs-number">22</span>h ago <span class="hljs-comment"># 是否正在运行中</span><br>Main PID: <span class="hljs-number">26503</span> （atd）<br>CGroup: <span class="hljs-regexp">/system.slice/</span>atd.service<br>└─<span class="hljs-number">26503</span> <span class="hljs-regexp">/usr/</span>sbin/atd -f<br>May <span class="hljs-number">15</span> <span class="hljs-number">01</span>:<span class="hljs-number">22</span>:<span class="hljs-number">02</span> localhost.centos.vbird systemd[<span class="hljs-number">1</span>]: Starting Job spooling tools...<br>May <span class="hljs-number">15</span> <span class="hljs-number">01</span>:<span class="hljs-number">22</span>:<span class="hljs-number">02</span> localhost.centos.vbird systemd[<span class="hljs-number">1</span>]: Started Job spooling tools.<br></code></pre></td></tr></table></figure>
+
+<h4 id="at-的运行方式"><a href="#at-的运行方式" class="headerlink" title="at 的运行方式"></a><code>at</code> 的运行方式</h4><p>​    使用 <code>at</code> 这个指令来产生所要运行的工作，并将这个工作以文本文件的方式写入 <code>/var/spool/at/</code> 目录内，该工作便能等待 <code>atd</code> 这个服务的取用与执行了。</p>
+<p>​    我们可以利用 <code>/etc/at.allow</code> 与 <code>/etc/at.deny</code> 这两个文件来进行 <code>at</code> 的使用限制呢！ 加上这两个文件后， <code>at</code> 的工作情况其实是这样的：</p>
+<ol>
+<li>先找寻 <code>/etc/at.allow</code> 这个文件，写在这个文件中的使用者才能使用 <code>at</code> ，没有在这个文件 中的使用者则不能使用 <code>at</code> （即使没有写在 <code>at.deny</code> 当中）；</li>
+<li>如果 <code>/etc/at.allow</code> 不存在，就寻找 <code>/etc/at.deny</code> 这个文件，若写在这个 <code>at.deny</code> 的使用者 则不能使用 <code>at</code> ，而没有在这个 <code>at.deny</code> 文件中的使用者，就可以使用 <code>at</code> ； </li>
+<li>如果两个文件都不存在，那么只有 <code>root</code> 可以使用 <code>at</code> 这个指令。</li>
+</ol>
+<h3 id="2）-at-详解"><a href="#2）-at-详解" class="headerlink" title="2） at 详解"></a>2） <code>at</code> 详解</h3><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs coq">[root@localhost ~]# <span class="hljs-built_in">at</span> [-mldv] TIME<br>[root@localhost ~]# <span class="hljs-built_in">at</span> -c 工作号码<br>选项与参数：<br>-m ：当 <span class="hljs-built_in">at</span> 的工作完成后，即使没有输出信息，亦以 email 通知使用者该工作已完成。<br>-l ：<span class="hljs-built_in">at</span> -l 相当于 atq，列出目前系统上面的所有该使用者的 <span class="hljs-built_in">at</span> 调度；<br>-d ：<span class="hljs-built_in">at</span> -d 相当于 atrm ，可以取消一个在 <span class="hljs-built_in">at</span> 调度中的工作；<br>-v ：可以使用较明显的时间格式列出 <span class="hljs-built_in">at</span> 调度中的工作列表；<br>-c ：可以列出后面接的该项工作的实际指令内容。<br>TIME：时间格式，这里可以定义出“什么时候要进行 <span class="hljs-built_in">at</span> 这项工作”的时间，格式有：<br>HH:MM  ex&gt; <span class="hljs-number">04</span>:<span class="hljs-number">00</span><br>在今日的 HH:MM 时刻进行，若该时刻已超过，则明天的 HH:MM 进行此工作。<br>HH:MM YYYY-MM-DD ex&gt; <span class="hljs-number">04</span>:<span class="hljs-number">00</span> <span class="hljs-number">2015</span><span class="hljs-number">-07</span><span class="hljs-number">-30</span><br>强制规定在某年某月的某一天的特殊时刻进行该工作！<br>HH:MM[am|<span class="hljs-type">pm</span>] [Month] [Date] ex&gt; <span class="hljs-number">04</span>pm July <span class="hljs-number">30</span><br>也是一样，强制在某年某月某日的某时刻进行！<br>HH:MM[am|<span class="hljs-type">pm</span>] + number [minutes|<span class="hljs-type">hours</span>|<span class="hljs-type">days</span>|<span class="hljs-type">weeks</span>]<br>ex&gt; now + <span class="hljs-number">5</span> minutes <br>ex&gt; <span class="hljs-number">04</span>pm + <span class="hljs-number">3</span> days<br>就是说，在某个时间点“再加几个时间后”才进行。<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 范例一：再过五分钟后，将 /root/.bashrc 寄给 root 自己</span><br>[root@localhost ~]<span class="hljs-comment"># at now + 5 minutes # 记得单位要加 s</span><br><span class="hljs-regexp">/bin/m</span>ail -s <span class="hljs-string">&quot;testing at job&quot;</span> root &lt; <span class="hljs-regexp">/root/</span>.bashrc<br>at&gt;&lt;EOT&gt; <span class="hljs-comment"># 这里输入 [ctrl] + d 就会出现 &lt;EOF&gt; 代表结束！</span><br>job <span class="hljs-number">2</span> at Sat May <span class="hljs-number">15</span> <span class="hljs-number">03</span>:<span class="hljs-number">13</span>:<span class="hljs-number">00</span> <span class="hljs-number">2021</span><br><br><span class="hljs-comment"># 范例二：将上述的第 2 项工作内容列出来查阅</span><br>[root@localhost ~]<span class="hljs-comment"># at -c 2</span><br><span class="hljs-comment">#!/bin/sh</span><br><span class="hljs-comment"># atrun uid=0 gid=0</span><br><span class="hljs-comment"># mail root 0</span><br>umask <span class="hljs-number">22</span><br>...<br>cd /root || &#123;<br>	 echo <span class="hljs-string">&#x27;Execution directory inaccessible&#x27;</span> &gt;&amp;<span class="hljs-number">2</span><br>	 <span class="hljs-keyword">exit</span> <span class="hljs-number">1</span><br>&#125;<br><span class="hljs-variable">$&#123;SHELL:-/bin/sh&#125;</span> &lt;&lt; <span class="hljs-string">&#x27;marcinDELIMITER65849f3f&#x27;</span><br><span class="hljs-regexp">/bin/m</span>ail -s <span class="hljs-string">&quot;testing at job&quot;</span> root &lt; <span class="hljs-regexp">/root/</span>.bashrc<br>marcinDELIMITER65849f3f<br><br>范例三：由于机房预计于 <span class="hljs-number">2021</span><span class="hljs-regexp">/05/</span><span class="hljs-number">15</span> 停电，我想要在 <span class="hljs-number">2021</span><span class="hljs-regexp">/05/</span><span class="hljs-number">15</span> <span class="hljs-number">23</span>:<span class="hljs-number">00</span> 关机？<br>[root@localhost ~]<span class="hljs-comment"># at 23:00 2021-05-15</span><br>at&gt; <span class="hljs-regexp">/bin/</span>sync<br>at&gt; <span class="hljs-regexp">/bin/</span>sync<br>at&gt; <span class="hljs-regexp">/sbin/</span>shutdown -h now<br>at&gt; &lt;EOT&gt;<br>job <span class="hljs-number">3</span> at Sat May <span class="hljs-number">15</span> <span class="hljs-number">23</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> <span class="hljs-number">2021</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs tap"><span class="hljs-comment"># at 工作原理</span><br><span class="hljs-comment"># 如果输入有误，我们就使用 atrm 进行删除操作</span><br>[root@localhost ~]<span class="hljs-comment"># atq</span><br>2	Sat May<span class="hljs-number"> 15 </span>03:13:00<span class="hljs-number"> 2021 </span>a root<br>3	Sat May<span class="hljs-number"> 15 </span>23:00:00<span class="hljs-number"> 2021 </span>a root<br>[root@localhost ~]<span class="hljs-comment"># atrm 3 # 删除3号任务</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="4-cron"><a href="#4-cron" class="headerlink" title="4. cron"></a>4. <code>cron</code></h2><blockquote>
+<p>相对于 <code>at</code> 是仅执行一次的工作，循环执行的例行性工作调度则是由 <code>cron</code> （<code>crond</code>） 这个系统服务来控制的。</p>
+</blockquote>
+<ul>
+<li><code>/etc/cron.allow</code>： 将可以使用 <code>crontab</code> 的帐号写入其中，若不在这个文件内的使用者则不可使用 <code>crontab</code>； </li>
+<li><code>/etc/cron.deny</code>： 将不可以使用 <code>crontab</code> 的帐号写入其中，若未记录到这个文件当中的使 用者，就可以使用 <code>crontab</code>。</li>
+</ul>
+<p><strong><code>crontab</code> 语法</strong> </p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">[root@localhost ~]<span class="hljs-comment"># crontab [-u username] [-l|-e|-r]</span><br>选项与参数：<br>-u ：只有 root 才能进行这个任务，亦即帮其他使用者创建/移除 crontab 工作调度；<br>-e ：编辑 crontab 的工作内容<br>-l ：查阅 crontab 的工作内容<br>-r ：移除所有的 crontab 的工作内容，若仅要移除一项，请用 -e 去编辑。<br><br>范例一：用 lisi 的身份在每天的 <span class="hljs-number">12</span>:<span class="hljs-number">00</span> 发信给自己<br>[lisi@localhost ~]$ crontab -e<br>[lisi@localhost ~]$ crontab  -l<br><span class="hljs-number">0</span> <span class="hljs-number">12</span> * * * mail -s <span class="hljs-string">&quot;at 12:00&quot;</span> dmtsai &lt; <span class="hljs-regexp">/home/dmtsai/</span>.bashrc<br><span class="hljs-comment"># 分、时、日、月、星期 命令</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>日期格式</strong> </p>
+<table>
+<thead>
+<tr>
+<th>含义</th>
+<th>分</th>
+<th>时</th>
+<th>日</th>
+<th>月</th>
+<th>星期</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>范围</td>
+<td><code>0-59</code></td>
+<td><code>0-23</code></td>
+<td><code>1-31</code></td>
+<td><code>1-12</code></td>
+<td><code>0-7</code></td>
+<td><code>sh</code> 等指令</td>
+</tr>
+</tbody></table>
+<p><strong>特殊符号</strong> </p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>*</code></td>
+<td>代表任何时刻都接受</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>代表分隔时段</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>代表一段时间范围内</td>
+</tr>
+<tr>
+<td><code>/n</code></td>
+<td>那个 <code>n</code> 代表数字，比如每 <code>5</code> 分钟 <code>*/5</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>假如每五分钟需要执行 <code>/root/test.sh</code> 一次</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">*<span class="hljs-regexp">/5 * * * * /</span>root/test.sh<br></code></pre></td></tr></table></figure>
+
+<p>假如你每星期六都与朋友有约，那么想要每个星期五下午 <code>4:30</code> 告诉你朋友星期六的约会不要忘记</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">30 </span><span class="hljs-number">16</span> * * <span class="hljs-number">5</span> mail friend@his.server.<span class="hljs-keyword">name</span> &lt; /root/friend.txt<br></code></pre></td></tr></table></figure>
+
+<p>查询</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@localhost ~]<span class="hljs-comment"># crontab -l</span><br>*<span class="hljs-regexp">/5 * * * * /</span>root/test.sh<br><span class="hljs-number">30</span> <span class="hljs-number">16</span> * * <span class="hljs-number">5</span> mail friend@his.server.name &lt; <span class="hljs-regexp">/root/</span>friend.txt<br></code></pre></td></tr></table></figure>
+
+<p>移除</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">[root@localhost ~]<span class="hljs-comment"># crontab -r</span><br>[root@localhost ~]<span class="hljs-comment"># crontab -l</span><br><span class="hljs-literal">no</span> crontab <span class="hljs-keyword">for</span> root<br></code></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="1）-系统的配置文件：-etc-crontab-etc-cron-d"><a href="#1）-系统的配置文件：-etc-crontab-etc-cron-d" class="headerlink" title="1） 系统的配置文件：/etc/crontab, /etc/cron.d/*"></a>1） 系统的配置文件：<code>/etc/crontab</code>, <code>/etc/cron.d/*</code></h4><blockquote>
+<p>基本上，<code>cron</code> 这个服务的最低侦测限制是“分钟”，所以“ <code>cron</code> 会每分钟去读取一次 <code>/etc/crontab</code> 与 <code>/var/spool/cron</code> 里面的数据内容 ”，因此，只要你编辑完 <code>/etc/crontab</code> 这个文件，并且将他储存之后，那么 <code>cron</code> 的设置就自动的会来执行了！</p>
+<p><strong>改完 <code>/etc/crontab</code> 之后，记得重启</strong> </p>
+</blockquote>
+<p><strong>查看 <code>/etc/crontab</code></strong> </p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[root<span class="hljs-variable">@localhost</span> ~]<span class="hljs-comment"># cat /etc/crontab </span><br>SHELL=<span class="hljs-regexp">/bin/bash</span>						<span class="hljs-comment"># 使用 /bin/bash</span><br>PATH=<span class="hljs-regexp">/sbin:/bin</span><span class="hljs-symbol">:/usr/sbin</span><span class="hljs-symbol">:/usr/bin</span>  <span class="hljs-comment"># 可执行文件搜寻路径</span><br>MAILTO=root							<span class="hljs-comment"># 若有额外的STDOUT（标准），以email将数据传给谁</span><br><br><span class="hljs-comment"># Example of job definition:</span><br><span class="hljs-comment"># .---------------- minute (0 - 59)</span><br><span class="hljs-comment"># |  .------------- hour (0 - 23)</span><br><span class="hljs-comment"># |  |  .---------- day of month (1 - 31)</span><br><span class="hljs-comment"># |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span><br><span class="hljs-comment"># |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span><br><span class="hljs-comment"># |  |  |  |  |</span><br><span class="hljs-comment"># *  *  *  *  * user-name  command to be executed</span><br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><p><code>MAILTO=root</code> ：当 <code>/etc/crontab</code> 这个文件中的定时工作的命令发生错误时，或者是该工作的执行结果有 <code>STDOUT/STDERR</code> 时，会将错误信息或者是屏幕显示的信息传给谁？默认是由系统直接寄发一封 <code>mail</code> 给 <code>root</code> 不过， 由于 <code>root</code> 并无法在用户端中以 <code>POP3</code> 之类的软件收信，因此，通常都将这个 <code>e-mail</code> 改成自己的帐号，随时了解系统的状况！</p>
+</li>
+<li><p><code>PATH=...</code> ：可执行文件路径</p>
+</li>
+<li><p>“分 时 日 月 周 身份 指令”七个字段的设置。<br>由于使用者自己的 <code>crontab</code> 并不需要指定身份，但 <code>/etc/crontab</code> 里面当然要指定身份，以上表的内容来说，系统默认的定时工作是以 <code>root</code> 的身份来进行的。</p>
+</li>
+<li><p><code>crond</code> 服务读取配置文件的位置<br>一般来说，<code>crond</code> 默认有三个地方会有执行脚本配置文件，他们分别是：</p>
+<ul>
+<li><code>/etc/crontab</code> </li>
+<li><code>/etc/cron.d/*</code> </li>
+<li><code>/var/spool/cron/*</code> </li>
+</ul>
+<p>这三个地方中，跟系统的运行比较有关系的两个配置文件是放在 <code>/etc/crontab</code> 文件内以及 <code>/etc/cron.d/*</code> 目录内的文件， 另外一个是跟用户自己的工作比较有关的配置文件，就是放在 <code>/var/spool/cron/</code> 里面的文件群。 </p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[root<span class="hljs-variable">@localhost</span> ~]<span class="hljs-comment"># ls -l /etc/cron.d/</span><br>-rw-r--r--. <span class="hljs-number">1</span> root root <span class="hljs-number">128</span> Aug  <span class="hljs-number">8</span>  <span class="hljs-number">2019</span> 0hourly<br>-rw-r--r--. <span class="hljs-number">1</span> root root   0 May <span class="hljs-number">15</span> 01<span class="hljs-symbol">:</span><span class="hljs-number">21</span> checktime<br>-rw-r--r--. <span class="hljs-number">1</span> root root <span class="hljs-number">108</span> May <span class="hljs-number">15</span> 01<span class="hljs-symbol">:</span><span class="hljs-number">21</span> raid-check<br><br><span class="hljs-comment"># 查看下 0hourly</span><br>[root<span class="hljs-variable">@localhost</span> ~]<span class="hljs-comment"># cat /etc/cron.d/0hourly </span><br><span class="hljs-comment"># Run the hourly jobs</span><br>SHELL=<span class="hljs-regexp">/bin/bash</span><br>PATH=<span class="hljs-regexp">/sbin:/bin</span><span class="hljs-symbol">:/usr/sbin</span><span class="hljs-symbol">:/usr/bin</span><br>MAILTO=root<br>01 * * * * root run-parts /etc/cron.hourly<br></code></pre></td></tr></table></figure>
+
+<p>注意一下上面表格中提到的最后一行，每个整点的一分会执行“ <code>run-parts /etc/cron.hourly</code> ”</p>
+<p>​    那什么是 <code>run-parts</code> 呢？ 如果你有去分析一下这个可执行文件，会发现他就是 <code>shell script</code>，<code>run-parts</code> 脚本会在大约 <code>5</code> 分钟内随机选一个时间来执行 <code>/etc/cron.hourly</code> 目录内的所有可执行文件！因此，放在 <code>/etc/cron.hourly/</code> 的文件，必须是能被 <strong>直接执行</strong> 的指令脚本， 而不是分、时、日、月、周的设置值。</p>
+<p>​    也就是说，除了自己指定分、时、日、月、周加上指令路径的 <code>crond</code> 配置文件之外，你也可 以直接将指令放置到（或链接到）<code>/etc/cron.hourly/</code> 目录下， 则该指令就会被 <code>crond</code> 在每小时的 <code>1</code> 分开始后的 <code>5</code> 分钟内，随机取一个时间点来执行，你无须手动去指定分、时、日、 月、周就是了。</p>
+<p>​    除了可以直接将指令放到 <code>/etc/cron.hourly/</code> 让系统每小时定时执行之外，在 <code>/etc/</code> 下面其实还有 <code>/etc/cron.daily/</code>, <code>/etc/cron.weekly/</code>, <code>/etc/cron.monthly/</code>，那三个目录是代表每日、每周、每月各执行一次的意思，<strong>不过，跟 <code>/etc/cron.hourly/</code> 不太一样的是，那三个目录是由 <code>anacron</code> 所执行的，而 <code>anacron</code> 的执行方式则是放在 <code>/etc/cron.hourly/0anacron</code> 里面</strong></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@localhost ~]<span class="hljs-comment"># cat /etc/cron.hourly/0anacron </span><br><span class="hljs-comment">#!/bin/sh</span><br><span class="hljs-comment"># Check whether 0anacron was run today already</span><br><span class="hljs-keyword">if</span> test -r <span class="hljs-regexp">/var/</span>spool<span class="hljs-regexp">/anacron/</span>cron.daily; then<br>    day=`cat <span class="hljs-regexp">/var/</span>spool<span class="hljs-regexp">/anacron/</span>cron.daily`<br>fi<br><span class="hljs-keyword">if</span> [ `date +%Y%m%d` = <span class="hljs-string">&quot;$day&quot;</span> ]; then<br>    <span class="hljs-keyword">exit</span> <span class="hljs-number">0</span>;<br>fi<br><br><span class="hljs-comment"># Do not run jobs when on battery power</span><br><span class="hljs-keyword">if</span> test -x <span class="hljs-regexp">/usr/</span>bin/on_ac_power; then<br>    <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/on_ac_power &gt;/</span>dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span><br>    <span class="hljs-keyword">if</span> test $? -eq <span class="hljs-number">1</span>; then<br>    <span class="hljs-keyword">exit</span> <span class="hljs-number">0</span><br>    fi<br>fi<br><span class="hljs-regexp">/usr/</span>sbin/anacron -s<br></code></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>总结：</strong> </p>
+<ul>
+<li>**个人化的行为使用 <code>crontab -e</code> **：如果你是依据个人需求来创建的例行工作调度，建议直接使用 <code>crontab -e</code> 来创建你的工作调度较佳</li>
+<li><strong>系统维护管理使用“ <code>vim /etc/crontab</code> ”</strong> ：如果你这个例行工作调度是系统的重要工作，为了让自己管理方便，同时容易追踪，建议直接写入 <code>/etc/crontab</code> 较佳</li>
+<li><strong>自己开发软件使用“ <code>vim /etc/cron.d/newfile</code> ”</strong> ：如果你是想要自己开发软件，那当然最好就是使用全新的配置文件，并且放置于 <code>/etc/cron.d/</code> 目录内即可。</li>
+<li><strong>固定每小时、每日、每周、每天执行的特别工作</strong> ：如果与系统维护有关，还是建议放置到 <code>/etc/crontab</code> 中来集中管理较好。</li>
+</ul>
+</blockquote>
+<p><strong>一些注意事项</strong> </p>
+<ul>
+<li><p><strong>资源分配不均的问题</strong> </p>
+<p>​    当大量使用 <code>crontab</code> 的时候，总是会有问题发生的，最严重的问题就是“系统资源分配不均”的问题。比如：</p>
+<ul>
+<li><strong>流量</strong> </li>
+<li><strong>区域内其他 <code>PC</code> 的流量侦测</strong> </li>
+<li><strong><code>CPU</code> 使用率</strong> </li>
+<li><strong><code>RAM</code> 使用率</strong> </li>
+<li><strong>线上人数实时侦测</strong> </li>
+</ul>
+<p>​    如果每个流程都在同一个时间启动的话，那么在某个时段时，我的系统会变的相当的繁忙，所以，这个时候就必须要分别设置啦！我可以这样做：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dns">[root@localhost ~]# vim /etc/crontab<br><span class="hljs-number">1,6,11,16</span>,<span class="hljs-number">21,26,31,36</span>,<span class="hljs-number">41,46,51,56</span> * * * * root CMD1<br><span class="hljs-number">2,7,12,17</span>,<span class="hljs-number">22,27,32,37</span>,<span class="hljs-number">42,47,52,57</span> * * * * root CMD2<br><span class="hljs-number">3,8,13,18</span>,<span class="hljs-number">23,28,33,38</span>,<span class="hljs-number">43,48,53,58</span> * * * * root CMD3<br><span class="hljs-number">4,9,14,19</span>,<span class="hljs-number">24,29,34,39</span>,<span class="hljs-number">44,49,54,59</span> * * * * root CMD4<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>取消不要的输出项目</strong> </p>
+<p>​    当有执行成果或者是执行的项目中有输出的数据时，该数据将会 <code>mail</code> 给 <code>MAILTO</code> 设置的帐号，直接以“<strong>数据流重导向</strong>”将输出的结果输出到 <code>/dev/null</code> 这个垃圾桶。</p>
+</li>
+<li><p><strong>安全的检验</strong> </p>
+<p>​    很多时候被植入木马都是以例行命令的方式植入的，所以可以借由检查 <code>/var/log/cron</code> 的内容来视察是否有“非您设置的 <code>cron</code> 被执行了？”这个时候就需要小心一点啰！</p>
+</li>
+<li><p><strong><font color=green>周与日月不可同时并存</font></strong> </p>
+<p>​    另一个需要注意的地方在于：“你可以分别以周或者是日月为单位作为循环，但你不可使用 「<strong>几月几号且为星期几</strong>」的模式工作”。 这个意思是说，你不可以这样编写一个工作调度：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">30 </span><span class="hljs-number">12</span> <span class="hljs-number">11</span> <span class="hljs-number">9</span> <span class="hljs-number">5</span> root echo <span class="hljs-string">&quot;just test&quot;</span> # 这是错误的写法<br></code></pre></td></tr></table></figure>
+
+<p>本来你以为九月十一号且为星期五才会进行这项工作，无奈的是，系统可能会判定每个星期五作一次，或每年的 <code>9</code> 月 <code>11</code> 号分别进行，如此一来与你当初的规划就不一样了～所以啰，得要注意这个地方！</p>
+</li>
+</ul>
+<hr>
+<h1 id="二、可唤醒停机期间的工作任务"><a href="#二、可唤醒停机期间的工作任务" class="headerlink" title="二、可唤醒停机期间的工作任务"></a>二、可唤醒停机期间的工作任务</h1><blockquote>
+<p>​    试想一下，周日凌晨 <code>2</code> 点执行定时任务，但是不巧的是停电了。那么请问，这个周日的定时任务还要不要进行？因为你开机的时候已经是周一，所以周日的工作当然不会被进行，对吧！</p>
+<p>​    问题是，若是该工作非常重要 （例如例行备份）， 所以其实你还是希望在下个星期天之前的某天还是进行一下比较好，这时候就得要靠 <code>anacron</code> 这个指令 的功能了！可以主动帮你进行时间到了但却没有执行的调度。</p>
+</blockquote>
+<h2 id="1-什么是-anacron"><a href="#1-什么是-anacron" class="headerlink" title="1. 什么是 anacron"></a>1. 什么是 <code>anacron</code></h2><p>​    <code>anacron</code> 并不是用来取代 <code>crontab</code> 的，<code>anacron</code> 存在的目的就在于我们上头提到的，在处理非 <code>24</code> 小时一直启动的 <code>Linux</code> 系统的 <code>crontab</code> 的执行！ 以及因为某些原因导致的超过时间而没有被执行的调度工作。</p>
+<p>​    其实 <code>anacron</code> 也是每个小时被 <code>crond</code> 执行一次，然后 <code>anacron</code> 再去检测相关的调度任务有没有被执行，如果有超过期限的工作在， 就执行该调度任务，执行完毕或无须执行任何调度时，<code>anacron</code> 就停止了。</p>
+<p>​    由于 <code>anacron</code> 默认会以一天、七天、一个月为期去侦测系统未进行的 <code>crontab</code> 任务，因此对于某些特殊的使用环境非常有帮助。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@localhost ~]<span class="hljs-comment"># cat /etc/anacrontab </span><br>SHELL=<span class="hljs-regexp">/bin/</span>sh<br>PATH=<span class="hljs-regexp">/sbin:/</span>bin:<span class="hljs-regexp">/usr/</span>sbin:<span class="hljs-regexp">/usr/</span>bin<br>MAILTO=root<br>RANDOM_DELAY=<span class="hljs-number">45</span>			<span class="hljs-comment"># 随机给予最大延迟时间，单位是分钟</span><br>START_HOURS_RANGE=<span class="hljs-number">3</span>-<span class="hljs-number">22</span>  <span class="hljs-comment"># 延迟多少个小时内应该要执行的任务时间</span><br><br><span class="hljs-comment">#period in days   delay in minutes   job-identifier   command</span><br><span class="hljs-number">1</span>       <span class="hljs-number">5</span>       cron.daily              nice run-parts <span class="hljs-regexp">/etc/</span>cron.daily<br><span class="hljs-number">7</span>       <span class="hljs-number">25</span>      cron.weekly             nice run-parts <span class="hljs-regexp">/etc/</span>cron.weekly<br>@monthly <span class="hljs-number">45</span>     cron.monthly            nice run-parts <span class="hljs-regexp">/etc/</span>cron.monthly<br>天数(day) 延迟时间(min)  工作名称定义             实际要进行的指令串<br><span class="hljs-comment"># 天数单位为天；延迟时间单位为分钟；工作名称定义可自订，指令串则通常与 crontab 的设置相同！</span><br></code></pre></td></tr></table></figure>
+
+<p>​    那么 <code>anacron</code> 又是怎么知道我们的系统啥时关机的呢？这就得要使用 <code>anacron</code> 读取的时间记录文件 （<code>timestamps</code>） 了！ <code>anacron</code> 会去分析<strong>现在的时间</strong>与<strong>时间记录文件</strong>所记载的上次执行 <code>anacron</code> 的时间，两者比较后若发现有差异， 那就是在某些时刻没有进行 <code>crontab</code> 啰！此时 <code>anacron</code> 就会开始执行未进行的 <code>crontab</code> 任务了！</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># anacron 其实是一支程序并非一个服务！这支程序在CentOS当中已经进入crontab的调度喔！同时anacron会每个小时被主动执行一次，所以anacron的配置文件应该放置在/etc/cron.hourly</span><br><br>[root@localhost ~]<span class="hljs-comment"># cat /etc/cron.hourly/0anacron </span><br><span class="hljs-comment">#!/bin/sh</span><br><span class="hljs-comment"># Check whether 0anacron was run today already</span><br><span class="hljs-keyword">if</span> test -r <span class="hljs-regexp">/var/</span>spool<span class="hljs-regexp">/anacron/</span>cron.daily; then<br>    day=`cat <span class="hljs-regexp">/var/</span>spool<span class="hljs-regexp">/anacron/</span>cron.daily`<br>fi<br><span class="hljs-keyword">if</span> [ `date +%Y%m%d` = <span class="hljs-string">&quot;$day&quot;</span> ]; then<br>    <span class="hljs-keyword">exit</span> <span class="hljs-number">0</span>;<br>fi<br><span class="hljs-comment"># 上面的语法在检验前一次执行 anacron 时的时间戳记！</span><br><br><span class="hljs-comment"># Do not run jobs when on battery power</span><br><span class="hljs-keyword">if</span> test -x <span class="hljs-regexp">/usr/</span>bin/on_ac_power; then<br>    <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/on_ac_power &gt;/</span>dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span><br>    <span class="hljs-keyword">if</span> test $? -eq <span class="hljs-number">1</span>; then<br>    <span class="hljs-keyword">exit</span> <span class="hljs-number">0</span><br>    fi<br>fi<br><span class="hljs-regexp">/usr/</span>sbin/anacron -s<br><span class="hljs-comment"># 所以其实也仅是执行 anacron -s 的指令！</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2-anacron-与-etc-anacrontab"><a href="#2-anacron-与-etc-anacrontab" class="headerlink" title="2. anacron 与 /etc/anacrontab"></a>2. <code>anacron</code> 与 <code>/etc/anacrontab</code></h2><p><strong>基本上，<code>anacron</code> 的语法如下：</strong> </p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs prolog">[root@localhost ~]# anacron [-sfn] [job]..<br>[root@localhost ~]# anacron -u [job]..<br>选项与参数：<br>-s ：开始一连续的执行各项工作 （job），会依据时间记录文件的数据判断是否进行；<br>-f ：强制进行，而不去判断时间记录文件的时间戳记；<br>-n ：立刻进行未进行的任务，而不延迟 （delay） 等待时间；<br>-u ：仅更新时间记录文件的时间戳记，不进行任何工作。<br>job ：由 /etc/anacrontab 定义的各项工作名称。<br></code></pre></td></tr></table></figure>
+
+<p>​    在 <code>CentOS</code> 中，<code>anacron</code> 的进行其实是在每个小时都会被抓出来执行一次，但是为了担心 <code>anacron</code> 误判时间参数，因此 <code>/etc/cron.hourly/</code> 里面的 <code>anacron</code> 才会在文件名之前加个 <code>0</code> （<code>0anacron</code>），让 <code>anacron</code> 最先进行！就是为了让时间戳记先更新！以避免 <code>anacron</code> 误判 <code>crontab</code> 尚未进行任何工作的意思。</p>
+<p>接下来我们看一下 <code>anacron</code> 的配置文件：<code>/etc/anacrontab</code> 的内容好了：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs elixir">[root<span class="hljs-variable">@localhost</span> ~]<span class="hljs-comment"># cat /etc/anacrontab </span><br>SHELL=<span class="hljs-regexp">/bin/sh</span><br>PATH=<span class="hljs-regexp">/sbin:/bin</span><span class="hljs-symbol">:/usr/sbin</span><span class="hljs-symbol">:/usr/bin</span><br>MAILTO=root<br>RANDOM_DELAY=<span class="hljs-number">45</span>			<span class="hljs-comment"># 随机给予最大延迟时间，单位是分钟</span><br>START_HOURS_RANGE=<span class="hljs-number">3</span><span class="hljs-number">-22</span>  <span class="hljs-comment"># 延迟多少个小时内应该要执行的任务时间</span><br><br><span class="hljs-comment">#period in days   delay in minutes   job-identifier   command</span><br><span class="hljs-number">1</span>       <span class="hljs-number">5</span>       cron.daily              nice run-parts /etc/cron.daily<br><span class="hljs-number">7</span>       <span class="hljs-number">25</span>      cron.weekly             nice run-parts /etc/cron.weekly<br><span class="hljs-variable">@monthly</span> <span class="hljs-number">45</span>     cron.monthly            nice run-parts /etc/cron.monthly<br>天数(day) 延迟时间(min)  工作名称定义             实际要进行的指令串<br><span class="hljs-comment"># 天数单位为天；延迟时间单位为分钟；工作名称定义可自订，指令串则通常与 crontab 的设置相同！</span><br><br>[root<span class="hljs-variable">@localhost</span> ~]<span class="hljs-comment"># more /var/spool/anacron/*</span><br>::::::::::::::<br>/var/spool/anacron/cron.daily<br>::::::::::::::<br><span class="hljs-number">20210515</span><br>::::::::::::::<br>/var/spool/anacron/cron.monthly<br>::::::::::::::<br><span class="hljs-number">20210512</span><br>::::::::::::::<br>/var/spool/anacron/cron.weekly<br>::::::::::::::<br><span class="hljs-number">20210512</span><br><span class="hljs-comment"># 上面则是三个工作名称的时间记录文件以及记录的时间戳记</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们拿 <code>/etc/cron.daily/</code> 那一行的设置来说明好了。那四个字段的意义分别是：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">1 </span>      <span class="hljs-number">5</span>       cron.daily              nice <span class="hljs-keyword">run</span>-parts /etc/cron.daily<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>天数</strong> ：<code>anacron</code> 执行当下与时间戳记 （<code>/var/spool/anacron/</code> 内的时间纪录档）相差的天数，若超过此天数，就准备开始执行，若没有超过此天数，则不予执行后续的指令。</p>
+</li>
+<li><p><strong>延迟时间</strong> ：若确定超过天数导致要执行调度工作了，那么请延迟执行的时间，因为担心立即启动会有其他资源冲突的问题吧！</p>
+</li>
+<li><p><strong>工作名称定义</strong> ：这个没啥意义，就只是会在 <code>/var/log/cron</code> 里头记载该项任务的名称这样！通常与后续的目录资源名称相同即可。</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># tailf /var/log/cron</span><br>May <span class="hljs-number">12</span> <span class="hljs-number">07</span>:<span class="hljs-number">56</span>:<span class="hljs-number">07</span> localhost anacron[<span class="hljs-number">2873</span>]: Job `cron.daily<span class="hljs-string">&#x27; started</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>实际要进行的指令串</strong> ：跟 <code>/etc/cron.d/0hourly</code> 类似！通过 <code>run-parts</code> 来处理的！</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">1 </span>      <span class="hljs-number">5</span>       cron.daily              nice <span class="hljs-keyword">run</span>-parts /etc/cron.daily<br><span class="hljs-symbol">01 </span>* * * * root <span class="hljs-keyword">run</span>-parts /etc/cron.hourly<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<p>根据上面的配置文件内容，我们大概知道 <code>anacron</code> 的执行流程应该是这样的 （以 <code>cron.daily</code> 为例）：</p>
+<ol>
+<li><p>由 <code>/etc/anacrontab</code> 分析到 <code>cron.daily</code> 这项工作名称的天数为 <code>1</code> 天； </p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>	<span class="hljs-number">5</span>	cron.daily		nice run-parts <span class="hljs-regexp">/etc/</span>cron.daily<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>由 <code>/var/spool/anacron/cron.daily</code> 取出最近一次执行 <code>anacron</code> 的时间戳记； </p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns"><span class="hljs-number">20210515</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>由上个步骤与目前的时间比较，若差异天数为 <code>1</code> 天以上 （含 <code>1</code> 天），就准备进行指令；</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>	<span class="hljs-number">5</span>	cron.daily		nice run-parts <span class="hljs-regexp">/etc/</span>cron.daily<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>若准备进行指令，根据 <code>/etc/anacrontab</code> 的设置，将延迟 <code>5</code> 分钟 + <code>3</code> 小时 （看 <code>/etc/anacrontab</code> 下的 <code>START_HOURS_RANGE</code> 的设置）； </p>
+</li>
+<li><p>延迟时间过后，开始执行后续指令，亦即 <code>run-parts /etc/cron.daily</code> 这串指令；</p>
+</li>
+<li><p>执行完毕后， <code>anacron</code> 程序结束。</p>
+</li>
+</ol>
+<p>​    如此一来，放置在 <code>/etc/cron.daily/</code> 内的任务就会在一天后一定会被执行的！因为 <code>anacron</code> 是每个小时被执行一次嘛！所以，现在你知道为什么隔了一阵子才将 <code>CentOS</code> 开机，开机过后约 1 小时左右系统会有一小段时间的忙碌！而且硬盘会跑个不停！那就是因为 <code>anacron</code> 正在执行过去 <code>/etc/cron.daily/</code>, <code>/etc/cron.weekly/</code>, <code>/etc/cron.monthly/</code> 里头的未进行的各项工作调度呢。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><ol>
+<li><code>crond</code> 会主动去读取 <code>/etc/crontab</code>, <code>/var/spool/cron/</code>, <code>/etc/cron.d/</code> 等配置文件，并依据“分、 时、日、月、周”的时间设置去各项工作调度；</li>
+<li>根据 <code>/etc/cron.d/0hourly</code> 的设置，主动去 <code>/etc/cron.hourly/</code> 目录下，执行所有在该目录下 的可执行文件； </li>
+<li>因为 <code>/etc/cron.hourly/0anacron</code> 这个指令档的缘故，主动的每小时执行 <code>anacron</code> ，并调用 <code>/etc/anacrontab</code> 的配置文件； </li>
+<li>根据 <code>/etc/anacrontab</code> 的设置，依据每天、每周、每月去分析 <code>/etc/cron.daily/</code>, <code>/etc/cron.weekly/</code>, <code>/etc/cron.monthly/</code> 内的可执行文件，以进行固定周期需要执行的指 令。</li>
+</ol>
+<p>​    也就是说，如果你每个周日的需要执行的动作是放置于 <code>/etc/crontab</code> 的话，那么该动作只要过期了就过期了，并不会被抓回来重新执行。但如果是放置在 <code>/etc/cron.weekly/</code> 目录下，那么该工作就会定期，几乎一定会在一周内执行一次，如果你关机超过一周，那么一开机后的数个小时内，该工作就会主动的被执行！因为 <code>/etc/anacrontab</code> 的定义了！</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Linux/">Linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Crontab/">Crontab</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/4582db22/">
+                        <span class="hidden-mobile">LFS6.3构建</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "Mwdu7VOQpQQD3cKW6SsRSt4f-gzGzoHsz",
+          app_key: "XAg4RThXdR3JX0BNAF0axveE",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "mp",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            <b>"总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次"</b>
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            <b>"总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人"</b>
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        豫ICP备2021006301号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
