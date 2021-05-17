@@ -284,15 +284,15 @@
 <p>​    登录文件可以帮助我们了解很多系统重要的事件，包括登陆者的部分信息，因此登录文件的权限通常是设置为仅有 <code>root</code> 能够读取而已。那么常见的几个登录文件有哪些呢？一般而言，有下面几个：</p>
 </blockquote>
 <ul>
-<li>**<code>/var/log/boot.log</code>**： 开机的时候系统核心会去检测与启动硬件，接下来开始各种核心支持的功能启动等。这些流程都会记录在 <code>/var/log/boot.log</code> 里面哩！ 不过这个文件只会存在这次开机启动的信息，前次开机的信息并不会被保留下来！</li>
-<li>**<code>/var/log/cron</code>**： 你的 <code>crontab</code> 调度有没有实际被进行？ 进行过程有没有发生错误？你的 <code>/etc/crontab</code> 是否撰写正确？在这个登录文件内查询看看。</li>
-<li><strong><code>/var/log/dmesg</code>**： 记录系统在开机的时候</strong>核心侦测过程所产生的各项信息**。由于 <code>CentOS</code> 默认将开机时核心的硬件侦测过程取消显示， 因此额外将数据记录一份在这个文件中；</li>
-<li><strong><code>/var/log/lastlog</code>**： 可以记录系统上面所有的帐号</strong>最近一次登陆系统时的相关信息**。<code>lastlog</code> 指令就是利用这个文件的记录信息来显示的。</li>
-<li>**<code>/var/log/maillog</code> 或 <code>/var/log/mail/</code>**： 记录邮件的往来信息，其实主要是记录 <code>postfix</code> （<code>SMTP</code> 协定提供者） 与 <code>dovecot</code> （<code>POP3</code> 协定提供者） 所产生的信息啦。 <code>SMTP</code> 是发信所使用的通讯协定， <code>POP3</code> 则是收信使用的通讯协定。 <code>postfix</code> 与 <code>dovecot</code> 则分别是两套达成通讯协定的软件。</li>
-<li>**<code>/var/log/messages</code>**： 这个文件相当的重要，几乎系统发生的错误信息 （或者是重要的信息） 都会记录在这个文件中； 如果系统发生莫名的错误时，这个文件是一定要查阅的登录文件之一。</li>
-<li>**<code>/var/log/secure</code>**： 基本上，只要牵涉到“需要输入帐号密码”的软件，那么当登陆时 （不管登陆正确或错误） 都会被记录在此文件中。 包括系统的 <code>login</code> 程序、图形接口登陆所使用的 <code>gdm</code> 程序、 <code>su</code>, <code>sudo</code> 等程序、还有网络连线的 <code>ssh</code>, <code>telnet</code> 等程序， 登陆信息都会 被记载在这里；</li>
-<li>**<code>/var/log/wtmp</code>, <code>/var/log/faillog</code>**： 这两个文件可以记录正确登陆系统者的帐号信息 （<code>wtmp</code>） 与错误登陆时所使用的帐号信息 （<code>faillog</code>） <code>last</code> 就是读取 <code>wtmp</code> 来显示的， 这对于追踪一般帐号者的使用行为很有帮助！</li>
-<li>**<code>/var/log/httpd/</code>, <code>/var/log/samba/</code>**： 不同的网络服务会使用它们自己的登录文件来记载它们 自己产生的各项信息！上述的目录内则是个别服务所制订的登录文件。</li>
+<li><code>/var/log/boot.log： 开机的时候系统核心会去检测与启动硬件，接下来开始各种核心支持的功能启动等。这些流程都会记录在 </code>/var/log/boot.log` 里面哩！ 不过这个文件只会存在这次开机启动的信息，前次开机的信息并不会被保留下来！</li>
+<li><code>/var/log/cron</code>： 你的 <code>crontab</code> 调度有没有实际被进行？ 进行过程有没有发生错误？你的 <code>/etc/crontab</code> 是否撰写正确？在这个登录文件内查询看看。</li>
+<li><code>/var/log/dmesg</code>： 记录系统在开机的时候<strong>核心侦测过程所产生的各项信息</strong>。由于 <code>CentOS</code> 默认将开机时核心的硬件侦测过程取消显示， 因此额外将数据记录一份在这个文件中；</li>
+<li><code>/var/log/lastlog</code>： 可以记录系统上面所有的帐号<strong>最近一次登陆系统时的相关信息</strong>。<code>lastlog</code> 指令就是利用这个文件的记录信息来显示的。</li>
+<li><code>/var/log/maillog</code> 或 <code>/var/log/mail/</code>： 记录邮件的往来信息，其实主要是记录 <code>postfix</code> （<code>SMTP</code> 协定提供者） 与 <code>dovecot</code> （<code>POP3</code> 协定提供者） 所产生的信息啦。 <code>SMTP</code> 是发信所使用的通讯协定， <code>POP3</code> 则是收信使用的通讯协定。 <code>postfix</code> 与 <code>dovecot</code> 则分别是两套达成通讯协定的软件。</li>
+<li><code>/var/log/messages</code>： 这个文件相当的重要，几乎系统发生的错误信息 （或者是重要的信息） 都会记录在这个文件中； 如果系统发生莫名的错误时，这个文件是一定要查阅的登录文件之一。</li>
+<li><code>/var/log/secure</code>： 基本上，只要牵涉到“需要输入帐号密码”的软件，那么当登陆时 （不管登陆正确或错误） 都会被记录在此文件中。 包括系统的 <code>login</code> 程序、图形接口登陆所使用的 <code>gdm</code> 程序、 <code>su</code>, <code>sudo</code> 等程序、还有网络连线的 <code>ssh</code>, <code>telnet</code> 等程序， 登陆信息都会 被记载在这里；</li>
+<li><code>/var/log/wtmp</code>, <code>/var/log/faillog</code>： 这两个文件可以记录正确登陆系统者的帐号信息 （<code>wtmp</code>） 与错误登陆时所使用的帐号信息 （<code>faillog</code>） <code>last</code> 就是读取 <code>wtmp</code> 来显示的， 这对于追踪一般帐号者的使用行为很有帮助！</li>
+<li><code>/var/log/httpd/</code>, <code>/var/log/samba/</code>： 不同的网络服务会使用它们自己的登录文件来记载它们 自己产生的各项信息！上述的目录内则是个别服务所制订的登录文件。</li>
 </ul>
 <p>常见的登录文件就是这几个，但是不同的 <code>Linux distributions</code> ，通常登录文件的文件名不会相同 （除了 <code>/var/log/messages</code> 之外）。所以说，你还是得要查阅你 <code>Linux</code> 主机上面的登录文件设置数据， 才能知道你的登录文件主要文件名！</p>
 <ul>
@@ -307,7 +307,7 @@
 <li><code>logrotate</code>：主要在进行登录文件的轮替功能。</li>
 </ul>
 </li>
-<li><p><strong><code>CentOS 7.x</code> 使用 <code>systemd</code> 提供的 <code>journalctl</code> 日志管理</strong></p>
+<li><p><code>CentOS 7.x</code> 使用 <code>systemd</code> 提供的 <code>journalctl</code> 日志管理**</p>
 <p>​    <code>CentOS 7</code> 除了保有既有的 <code>rsyslog.service</code> 之外，其实最上游还使用了 <code>systemd</code> 自己的登录文件日志管理功能！他使用的是 <code>systemd-journald.service</code> 这个服务来支持的。基本上，系统由 <code>systemd</code> 所管理，那所有经由 <code>systemd</code> 启动的服务，如果再启动或结束的过程中发生一 些问题或者是正常的信息， 就会将该信息由 <code>systemd-journald.service</code> 以二进制的方式记录下 来，之后再将这个信息发送给 <code>rsyslog.service</code> 作进一步的记载。</p>
 <p>​    <code>systemd-journald.service</code> 的记录主要都放置于内存中，因此在存取方面性能比较好～我们也能够通过 <code>journalctl</code> 以及 <code>systemctl status unit.service</code> 来查看各个不同服务的登录文件！ 这有个好处，就是登录文件可以随着个别服务让你查阅，在单一服务的处理上面，要比跑到 <code>/var/log/messages</code> 去大海捞针来的简易很多！ 不过，因为 <code>system-journald.service</code> 里面的很多观念还是沿用 <code>rsyslog.service</code> 相关的信息，先从 <code>rsyslog.service</code> 先谈起， 谈完之后再以 <code>journalctl</code> 进一步了解 <code>systemd</code> 是怎么去记录登录文件日志功能的。</p>
 </li>
@@ -467,9 +467,9 @@
 </tbody></table>
 <p><strong>特别留意一下在信息等级之前还有 <code>[.=!]</code> 的链接符号喔！他代表的意思是这样的：</strong> </p>
 <ul>
-<li>**<code>. </code>**：代表“比后面还要严重的等级 （含该等级） 都被记录下来”的意思，例如： <code>mail.info</code> 代表只要是 <code>mail</code> 的信息，而且该信息等级严重于 <code>info</code> （含 <code>info</code> 本身）时，就会被记录下 来的意思。</li>
-<li>**<code>.=</code>**：代表所需要的等级就是后面所写的等级。</li>
-<li>**<code>.!</code>**：代表不等于， 亦即是除了该等级外的其他等级都记录。</li>
+<li><code>. </code>：代表“比后面还要严重的等级 （含该等级） 都被记录下来”的意思，例如： <code>mail.info</code> 代表只要是 <code>mail</code> 的信息，而且该信息等级严重于 <code>info</code> （含 <code>info</code> 本身）时，就会被记录下 来的意思。</li>
+<li><code>.=</code>：代表所需要的等级就是后面所写的等级。</li>
+<li><code>.!</code>：代表不等于， 亦即是除了该等级外的其他等级都记录。</li>
 </ul>
 <p><strong>一般来说，我们比较常使用的是“<code>.</code>”这个链接符号</strong> </p>
 <ul>
@@ -485,7 +485,7 @@
 </li>
 <li><p><strong>远端主机</strong>：例如 <code>@com.host.www</code> 当然，要对方主机也能支持才行</p>
 </li>
-<li><p>**<code>*</code>**：代表“目前在线上的所有人”，类似 <code>wall</code> 这个指令的意义</p>
+<li><p><code>*</code>：代表“目前在线上的所有人”，类似 <code>wall</code> 这个指令的意义</p>
 </li>
 <li><p>服务、<code>daemon</code> 与函数名称</p>
 <table>
@@ -511,7 +511,7 @@
 </ul>
 </li>
 </ul>
-<p><strong><code>rsyslog.conf</code> 练习</strong> </p>
+<p><code>rsyslog.conf</code> 练习** </p>
 <p>​    ① 如果我要将我的 <code>mail</code> 相关的数据给他写入 <code>/var/log/maillog</code> 当中，那么在 <code>/etc/rsyslog.conf</code> 的语法如何配置？</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">mail.info 	<span class="hljs-regexp">/var/</span>log/maillog<br></code></pre></td></tr></table></figure>
 
@@ -527,7 +527,7 @@
 <blockquote>
 <p>使用“<code>,</code>”分隔时，那么等级只要接在最后一个即可，如果是以“<code>;</code>”来分的话， 那么就需要将服务与等级都写上去！这样会设置了吧！</p>
 </blockquote>
-<p><strong><code>CentOS 7.x</code> 默认的 <code>rsyslog.conf</code> 内容</strong> </p>
+<p><code>CentOS 7.x</code> 默认的 <code>rsyslog.conf</code> 内容** </p>
 <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs lasso">#kern.*													/dev/console<br>*.info;mail.<span class="hljs-literal">none</span>;authpriv.<span class="hljs-literal">none</span>;cron.<span class="hljs-literal">none</span>                /<span class="hljs-built_in">var</span>/<span class="hljs-keyword">log</span>/messages<br>authpriv.*                                              /<span class="hljs-built_in">var</span>/<span class="hljs-keyword">log</span>/secure<br>mail.*                                                  -/<span class="hljs-built_in">var</span>/<span class="hljs-keyword">log</span>/maillog<br>cron.*                                                  /<span class="hljs-built_in">var</span>/<span class="hljs-keyword">log</span>/cron<br>*.emerg                                                 :omusrmsg:*<br>uucp,news.crit                                          /<span class="hljs-built_in">var</span>/<span class="hljs-keyword">log</span>/spooler<br>local7.*                                                /<span class="hljs-built_in">var</span>/<span class="hljs-keyword">log</span>/boot.<span class="hljs-keyword">log</span><br></code></pre></td></tr></table></figure>
 
 <ol>
@@ -589,8 +589,8 @@
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@a ~]<span class="hljs-comment"># vim /etc/logrotate.conf</span><br>weekly		<span class="hljs-comment"># 默认每周对登录文件进行一次 rotate 的工作</span><br>rotate <span class="hljs-number">4</span>	<span class="hljs-comment"># 默认是保留四个</span><br>create		<span class="hljs-comment"># 由于登录文件被更名，因此创建一个新的来继续储存</span><br>dateext		<span class="hljs-comment"># 可以让被轮替的文件名称加上日期做为文件名</span><br><span class="hljs-comment">#compress	# 被更动的登录文件是否需要压缩？如果登录文件太大则可考虑此参数启动</span><br><br>include <span class="hljs-regexp">/etc/</span>logrotate.d<br><span class="hljs-comment"># 将 /etc/logrotate.d/ 这个目录中的所有文件都读进来执行 rotate 的工作！</span><br><br><span class="hljs-comment"># wtmp 可记录登陆者与系统重新开机时的时间与来源主机及登陆期间的时间。</span><br><span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/wtmp &#123;				# 仅针对 /</span>var<span class="hljs-regexp">/log/</span>wtmp 所设置的参数<br>    monthly					<span class="hljs-comment"># 每个月一次，取代每周</span><br>    create <span class="hljs-number">0664</span> root utmp	<span class="hljs-comment"># 指定新建文件的权限与所属帐号/群组</span><br>	minsize <span class="hljs-number">1</span>M				<span class="hljs-comment"># 文件大小一定要超过 1M 后才进行 rotate （略过时间参数）</span><br>    rotate <span class="hljs-number">1</span>				<span class="hljs-comment"># 仅保留一个，亦即仅有 wtmp.1 保留而已</span><br>&#125;<br><br><span class="hljs-comment"># 记录错误登录的日志，就是说有很多人试图使用密码字典登录ssh服务，此日志需要使用lastb程序打开。</span><br><span class="hljs-comment"># 通过此文件发现有几个ip总是试图登录，可以使用防火墙把它屏蔽掉。</span><br><span class="hljs-comment"># 查看恶意ip试图登录次数 lastb | awk ‘&#123; print $3&#125;’ | sort | uniq -c | sort -n</span><br><span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/btmp &#123;				# 仅针对 /</span>var<span class="hljs-regexp">/log/</span>btmp 所设置的参数<br>    missingok				<span class="hljs-comment"># 在日志轮循期间，任何错误将被忽略</span><br>    monthly					<span class="hljs-comment"># 每个月一次，取代每周</span><br>    create <span class="hljs-number">0600</span> root utmp	<span class="hljs-comment"># 指定新建文件的权限与所属帐号/群组</span><br>    rotate <span class="hljs-number">1</span>				<span class="hljs-comment"># 仅保留一个，亦即仅有 btmp.1 保留而已</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <blockquote>
-<p><strong><code>notifempty</code></strong> ： 如果日志文件为空，轮循不会进行。</p>
-<p><strong><code>missingok</code></strong> ： 在日志轮循期间，任何错误将被忽略</p>
+<p><code>notifempty</code> ： 如果日志文件为空，轮循不会进行。</p>
+<p><code>missingok</code> ： 在日志轮循期间，任何错误将被忽略</p>
 </blockquote>
 <p><strong>语法</strong> </p>
 <figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="xml">登录文件的绝对路径文件名 ... </span><span class="hljs-template-variable">&#123;</span><br><span class="hljs-template-variable">个别的参数设置值，如 monthly, compress 等等</span><br><span class="hljs-template-variable">&#125;</span><br></code></pre></td></tr></table></figure>
