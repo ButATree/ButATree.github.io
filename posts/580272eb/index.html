@@ -284,7 +284,7 @@
 <p>​    登录文件可以帮助我们了解很多系统重要的事件，包括登陆者的部分信息，因此登录文件的权限通常是设置为仅有 <code>root</code> 能够读取而已。那么常见的几个登录文件有哪些呢？一般而言，有下面几个：</p>
 </blockquote>
 <ul>
-<li><code>/var/log/boot.log： 开机的时候系统核心会去检测与启动硬件，接下来开始各种核心支持的功能启动等。这些流程都会记录在 </code>/var/log/boot.log` 里面哩！ 不过这个文件只会存在这次开机启动的信息，前次开机的信息并不会被保留下来！</li>
+<li><code>/var/log/boot.log</code>： 开机的时候系统核心会去检测与启动硬件，接下来开始各种核心支持的功能启动等。这些流程都会记录在 <code>/var/log/boot.log</code> 里面哩！ 不过这个文件只会存在这次开机启动的信息，前次开机的信息并不会被保留下来！</li>
 <li><code>/var/log/cron</code>： 你的 <code>crontab</code> 调度有没有实际被进行？ 进行过程有没有发生错误？你的 <code>/etc/crontab</code> 是否撰写正确？在这个登录文件内查询看看。</li>
 <li><code>/var/log/dmesg</code>： 记录系统在开机的时候<strong>核心侦测过程所产生的各项信息</strong>。由于 <code>CentOS</code> 默认将开机时核心的硬件侦测过程取消显示， 因此额外将数据记录一份在这个文件中；</li>
 <li><code>/var/log/lastlog</code>： 可以记录系统上面所有的帐号<strong>最近一次登陆系统时的相关信息</strong>。<code>lastlog</code> 指令就是利用这个文件的记录信息来显示的。</li>
